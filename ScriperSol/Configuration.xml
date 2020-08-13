@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Configuration>
   <Scriper>
     <ScriptManager>
       <Script
@@ -10,6 +9,13 @@
         <TimeSchedule>
         </TimeSchedule>
       </Script>
+	        <Script
+        name =""
+        description=""
+        path=""
+        inSystemTray="">
+        <TimeSchedule>
+        </TimeSchedule>
+      </Script>
     </ScriptManager>
   </Scriper> 
-</Configuration>

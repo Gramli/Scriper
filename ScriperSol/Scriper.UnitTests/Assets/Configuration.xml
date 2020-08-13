@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+  <Scriper>
+    <ScriptManager>
+      <Script
+        name ="***"
+        description="***"
+        path="***"
+        inSystemTray="true">
+        <TimeSchedule>
+        </TimeSchedule>
+      </Script>
+    </ScriptManager>
+  </Scriper> 

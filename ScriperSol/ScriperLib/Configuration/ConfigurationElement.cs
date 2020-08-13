@@ -1,51 +1,94 @@
-﻿using System;
-using System.Globalization;
+﻿using ScriperLib.Configuration.Attributes;
+using ScriperLib.Exceptions;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 
 namespace ScriperLib.Configuration
 {
-    public abstract class ConfigurationElement : IConfigurationElement
+    internal abstract class ConfigurationElement : IConfigurationElement
     {
-        public ConfigurationElement(string rawElement)
-        {
-            var element = XElement.Parse(rawElement);
-            Parse(element);
-        }
-
         public ConfigurationElement(XElement element)
         {
             Parse(element);
         }
 
-        public virtual void Parse(XElement element)
+        public void Parse(XElement element)
         {
-            var properties = this.GetType().GetProperties();
+            var properties = GetType().GetProperties();
             foreach (var property in properties)
             {
                 var attribute = GetAttribute(property);
-                if (attribute.IsElement)
+
+                switch(attribute)
                 {
-                    SetObjectProperty(property, attribute, element);
-                }
-                else
-                {
-                    SetSimpleProperty(property, attribute, element);
+                    case XmlAttributeAttribute attributeAttribute:
+                        SetAttributeProperty(property, attributeAttribute.Name, element);
+                        break;
+                    case XmlElementAttribute elementAttribute:
+                        SetElementProperty(property, elementAttribute.Name, element);
+                        break;
+                    case XmlCollectionAttribute collectionAttribute:
+                        SetCollectionProperty(property, collectionAttribute, element);
+                        break;
                 }
             }
         }
 
-        public virtual XElement Save()
+        public void Save(XElement element)
         {
+            var properties = GetType().GetProperties();
+            foreach (var property in properties)
+            {
+                var attribute = GetAttribute(property);
+                switch (attribute)
+                {
+                    case XmlAttributeAttribute attributeAttribute:
+                        SetElementAttribute(property, attributeAttribute.Name, element);
+                        break;
+                    case XmlElementAttribute elementAttribute:
+                        SetElementElement(property, elementAttribute.Name, element);
+                        break;
+                    case XmlCollectionAttribute collectionAttribute:
+                        SetElementCollection(property, collectionAttribute, element);
+                        break;
+                }
+            }
+        }
 
+        private void SetElementCollection(PropertyInfo property, XmlCollectionAttribute collectionAttribute, XElement element)
+        {
+            var value = property.GetValue(this);
+            var iEnumerable = value as IEnumerable ?? throw new ConfigurationException($"Property {property.Name} is not IEnumerable");
+
+            foreach(var item in iEnumerable)
+            {
+                var xmlItem = item as IConfigurationElement ?? throw new ConfigurationException($"Item in {property.Name} collection is not ConfigurationElement");
+                var itemElement = new XElement(collectionAttribute.CollectionItemName);
+                xmlItem.Save(itemElement);
+                element.Add(itemElement);
+            }
+        }
+
+        private void SetElementElement(PropertyInfo property, string name, XElement element)
+        {
+            var value = property.GetValue(this);
+            element.Add(new XElement(name, value));
+        }
+
+        private void SetElementAttribute(PropertyInfo property, string name, XElement element)
+        {
+           var value = property.GetValue(this);
+            element.Add(new XAttribute(name, value));
         }
 
         private Type GetImplementedType(Type parrentType)
         {
-            return GetType().Assembly.GetTypes().Single(t => parrentType.IsAssignableFrom(t) 
-            && !t.IsInterface 
-            && t.IsAssignableFrom(typeof(ConfigurationElement)));
+            return GetType().Assembly.GetTypes().Single(t => parrentType.IsAssignableFrom(t)
+            && !t.IsInterface);
         }
 
         private XmlRepresentationAttribute GetAttribute(PropertyInfo property)
@@ -53,29 +96,69 @@ namespace ScriperLib.Configuration
             return (XmlRepresentationAttribute)property.GetCustomAttributes(typeof(XmlRepresentationAttribute), false).Single();
         }
 
-        private void SetSimpleProperty(PropertyInfo property, XmlRepresentationAttribute attribute, XElement element)
+        private void SetAttributeProperty(PropertyInfo property, string attributeName, XElement element)
         {
-            if (attribute.IsElement) return;
-            property.SetValue(this, Convert.ChangeType(element.Attribute(attribute.Name).Value, property.PropertyType));
+            property.SetValue(this, Convert.ChangeType(element.Attribute(attributeName).Value, property.PropertyType));
 
         }
 
-        private void SetObjectProperty(PropertyInfo property, XmlRepresentationAttribute attribute, XElement element)
+        private void SetElementProperty(PropertyInfo property, string attributeName, XElement element)
         {
-            if (!attribute.IsElement) throw new ArgumentException("XmlRepresentationAttribute is not element!");
+            var propertyValue = CreateInstanceOfProperty(property.PropertyType, attributeName, element);
+            property.SetValue(this, propertyValue);
+        }
 
-            var flags = BindingFlags.NonPublic | BindingFlags.Instance;
-            var childElement = element.Element(attribute.Name);
+        private object CreateInstanceOfProperty(Type propertyType, string attributeName, XElement element)
+        {
+            var childElement = element.Element(attributeName);
 
-            var instanceType = property.PropertyType;
+            var instanceType = propertyType;
 
-            if(property.PropertyType.IsInterface || property.PropertyType.IsAbstract)
+            if (propertyType.IsInterface || propertyType.IsAbstract)
             {
-                instanceType = GetImplementedType(property.PropertyType);
+                instanceType = GetImplementedType(propertyType);
             }
 
-            var propertyValue = Activator.CreateInstance(instanceType, flags, null, childElement, CultureInfo.InvariantCulture);
+            return Activator.CreateInstance(instanceType, childElement);
+
+        }
+
+        private void SetCollectionProperty(PropertyInfo property, XmlCollectionAttribute attribute, XElement element)
+        {
+            var childElements = element.Elements(attribute.Name);
+
+            if(!typeof(ICollection).IsAssignableFrom(property.PropertyType))
+            {
+                throw new ConfigurationException($"Property {property.Name} do not inherit from ICollection.");
+            }
+
+            var argumentType = property.PropertyType.GetGenericArguments().SingleOrDefault() ?? throw new ConfigurationException("Configuration support one generic arguments collection.");
+
+
+            object propertyValue;
+            var addMethodType = property.PropertyType;
+            if (property.PropertyType.IsInterface)
+            {
+                var constructed = typeof(List<>).MakeGenericType(argumentType);
+                propertyValue = Activator.CreateInstance(constructed);
+                addMethodType = constructed;
+            }
+            else
+            {
+                propertyValue = Activator.CreateInstance(property.PropertyType);
+            }
+
+
             property.SetValue(this, propertyValue);
+
+            var addMethod = addMethodType.GetMethod("Add") ?? throw new ConfigurationException($"Cant find Add method in {property.PropertyType} collection.");
+
+            foreach(var childElement in childElements)
+            {
+                var childItemInstance = CreateInstanceOfProperty(argumentType, attribute.CollectionItemName, childElement);
+                addMethod.Invoke(propertyValue, new[] { childItemInstance });
+            }
+
         }
     }
 }

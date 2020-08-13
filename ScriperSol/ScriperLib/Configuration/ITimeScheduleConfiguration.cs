@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ScriperLib.Configuration
+﻿namespace ScriperLib.Configuration
 {
     public interface ITimeScheduleConfiguration : IConfigurationElement
     {

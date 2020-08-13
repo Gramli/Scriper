@@ -1,40 +1,30 @@
-﻿using System;
+﻿using ScriperLib.Configuration.Attributes;
+using System;
 using System.Xml.Linq;
 
 namespace ScriperLib.Configuration
 {
     internal class ScriptConfiguration : ConfigurationElement, IScriptConfiguration
     {
-        [XmlRepresentation("name")]
+        [XmlAttribute("name")]
         public string Name { get; private set; }
 
-        [XmlRepresentation("description")]
+        [XmlAttribute("description")]
         public string Description { get; private set; }
 
-        [XmlRepresentation("path")]
+        [XmlAttribute("path")]
         public string Path { get; private set; }
 
-        [XmlRepresentation("inSystemTray")]
+        [XmlAttribute("inSystemTray")]
         public bool InSystemTray { get; private set; }
 
-        [XmlRepresentation("TimeSchedule", true)]
+        [XmlElement("TimeSchedule")]
         public ITimeScheduleConfiguration TimeScheduleConfiguration { get; private set; }
-
-        public ScriptConfiguration(string rawElement)
-            : base(rawElement)
-        {
-
-        }
 
         public ScriptConfiguration(XElement element)
             : base(element)
         {
 
-        }
-
-        public override XElement Save()
-        {
-            throw new NotImplementedException();
         }
     }
 }

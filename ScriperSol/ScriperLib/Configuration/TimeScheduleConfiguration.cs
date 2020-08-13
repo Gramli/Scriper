@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace ScriperLib.Configuration
 {
-    internal class TimeScheduleConfiguration : ITimeScheduleConfiguration
+    internal class TimeScheduleConfiguration : ConfigurationElement, ITimeScheduleConfiguration
     {
-        public void Parse(XElement timeScheduleElement)
+        public TimeScheduleConfiguration(XElement element) : base(element)
         {
-            throw new NotImplementedException();
-        }
-
-        public XElement Save()
-        {
-            throw new NotImplementedException();
         }
     }
 }

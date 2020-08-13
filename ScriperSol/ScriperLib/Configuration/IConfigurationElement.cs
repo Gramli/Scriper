@@ -4,6 +4,7 @@ namespace ScriperLib.Configuration
 {
     public interface IConfigurationElement
     {
-        XElement Save();
+        public void Parse(XElement element);
+        public void Save(XElement element);
     }
 }

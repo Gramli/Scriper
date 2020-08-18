@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using ScriperLib.Configuration;
+using System.Linq;
 
 namespace Scriper.UnitTests
 {
@@ -14,9 +15,18 @@ namespace Scriper.UnitTests
         }
 
         [Test]
-        public void ParseConfiguration()
+        public void LoadConfiguration()
         {
             var config = ScriperConfiguration.Load(filePath);
+            Assert.AreEqual(2, config.ScriptManagerConfiguration.ScriptsConfigurations.Count);
+            Assert.AreEqual(2, config.ScriptManagerConfiguration.ScriptsConfigurations.First().TimeScheduleConfigurations.Count);
+        }
+
+        [Test]
+        public void SaveConfiguration()
+        {
+            var config = ScriperConfiguration.Load(filePath);
+            config.Save();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace ScriperLib.Configuration
+﻿using System.Collections.Generic;
+
+namespace ScriperLib.Configuration
 {
     public interface IScriptConfiguration : IConfigurationElement
     {
@@ -6,7 +8,7 @@
         string Description { get; }
         string Path { get; }
         bool InSystemTray { get; }
-        ITimeScheduleConfiguration TimeScheduleConfiguration { get; }
+        ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 
     }
 }

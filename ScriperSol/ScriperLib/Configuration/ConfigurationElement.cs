@@ -3,6 +3,7 @@ using ScriperLib.Exceptions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
@@ -23,15 +24,15 @@ namespace ScriperLib.Configuration
             {
                 var attribute = GetAttribute(property);
 
-                switch(attribute)
+                switch (attribute)
                 {
-                    case XmlAttributeAttribute attributeAttribute:
+                    case ConfigurationAttributeAttribute attributeAttribute:
                         SetAttributeProperty(property, attributeAttribute.Name, element);
                         break;
-                    case XmlElementAttribute elementAttribute:
+                    case ConfigurationElementAttribute elementAttribute:
                         SetElementProperty(property, elementAttribute.Name, element);
                         break;
-                    case XmlCollectionAttribute collectionAttribute:
+                    case ConfigurationCollectionAttribute collectionAttribute:
                         SetCollectionProperty(property, collectionAttribute, element);
                         break;
                 }
@@ -46,42 +47,65 @@ namespace ScriperLib.Configuration
                 var attribute = GetAttribute(property);
                 switch (attribute)
                 {
-                    case XmlAttributeAttribute attributeAttribute:
-                        SetElementAttribute(property, attributeAttribute.Name, element);
+                    case ConfigurationAttributeAttribute attributeAttribute:
+                        AddElementAttribute(property, attributeAttribute.Name, element);
                         break;
-                    case XmlElementAttribute elementAttribute:
-                        SetElementElement(property, elementAttribute.Name, element);
+                    case ConfigurationElementAttribute elementAttribute:
+                        AddElementElement(property, elementAttribute.Name, element);
                         break;
-                    case XmlCollectionAttribute collectionAttribute:
-                        SetElementCollection(property, collectionAttribute, element);
+                    case ConfigurationCollectionAttribute collectionAttribute:
+                        AddElementCollection(property, collectionAttribute, element);
                         break;
                 }
             }
         }
 
-        private void SetElementCollection(PropertyInfo property, XmlCollectionAttribute collectionAttribute, XElement element)
+        private void AddElementCollection(PropertyInfo property, ConfigurationCollectionAttribute collectionAttribute, XElement element)
         {
             var value = property.GetValue(this);
             var iEnumerable = value as IEnumerable ?? throw new ConfigurationException($"Property {property.Name} is not IEnumerable");
 
-            foreach(var item in iEnumerable)
+            var collectionElement = new XElement(collectionAttribute.Name);
+            foreach (var item in iEnumerable)
             {
-                var xmlItem = item as IConfigurationElement ?? throw new ConfigurationException($"Item in {property.Name} collection is not ConfigurationElement");
-                var itemElement = new XElement(collectionAttribute.CollectionItemName);
-                xmlItem.Save(itemElement);
-                element.Add(itemElement);
+                var itemType = item.GetType();
+                if (itemType.IsValueType)
+                {
+                    collectionElement.Add(new XElement(collectionAttribute.CollectionItemName, item));
+                }
+                else
+                {
+                    AddConfigurationElement(item, collectionAttribute.CollectionItemName, collectionElement);
+                }
+            }
+
+            element.Add(collectionElement);
+        }
+
+        private void AddElementElement(PropertyInfo property, string name, XElement element)
+        {
+            var value = property.GetValue(this);
+            if (property.PropertyType.IsValueType)
+            {
+                element.Add(new XElement(name, value));
+            }
+            else
+            {
+                AddConfigurationElement(value, name, element);
             }
         }
 
-        private void SetElementElement(PropertyInfo property, string name, XElement element)
+        private void AddConfigurationElement(object value, string elementName, XElement parrent)
         {
-            var value = property.GetValue(this);
-            element.Add(new XElement(name, value));
+            var xmlItem = value as IConfigurationElement ?? throw new ConfigurationException($"Item in {value} is not ConfigurationElement");
+            var itemElement = new XElement(elementName);
+            xmlItem.Save(itemElement);
+            parrent.Add(itemElement);
         }
 
-        private void SetElementAttribute(PropertyInfo property, string name, XElement element)
+        private void AddElementAttribute(PropertyInfo property, string name, XElement element)
         {
-           var value = property.GetValue(this);
+            var value = property.GetValue(this);
             element.Add(new XAttribute(name, value));
         }
 
@@ -91,9 +115,9 @@ namespace ScriperLib.Configuration
             && !t.IsInterface);
         }
 
-        private XmlRepresentationAttribute GetAttribute(PropertyInfo property)
+        private ConfigurationBaseAttribute GetAttribute(PropertyInfo property)
         {
-            return (XmlRepresentationAttribute)property.GetCustomAttributes(typeof(XmlRepresentationAttribute), false).Single();
+            return (ConfigurationBaseAttribute)property.GetCustomAttributes(typeof(ConfigurationBaseAttribute), false).Single();
         }
 
         private void SetAttributeProperty(PropertyInfo property, string attributeName, XElement element)
@@ -104,13 +128,17 @@ namespace ScriperLib.Configuration
 
         private void SetElementProperty(PropertyInfo property, string attributeName, XElement element)
         {
-            var propertyValue = CreateInstanceOfProperty(property.PropertyType, attributeName, element);
+            var childElement = element.Element(attributeName);
+            var propertyValue = CreateInstanceOfProperty(property.PropertyType, childElement);
             property.SetValue(this, propertyValue);
         }
 
-        private object CreateInstanceOfProperty(Type propertyType, string attributeName, XElement element)
+        private object CreateInstanceOfProperty(Type propertyType, XElement element)
         {
-            var childElement = element.Element(attributeName);
+            if (propertyType.IsValueType)
+            {
+                return propertyType.IsEnum ? Enum.Parse(propertyType, element.Value) : Convert.ChangeType(element.Value, propertyType, CultureInfo.InvariantCulture);
+            }
 
             var instanceType = propertyType;
 
@@ -119,22 +147,23 @@ namespace ScriperLib.Configuration
                 instanceType = GetImplementedType(propertyType);
             }
 
-            return Activator.CreateInstance(instanceType, childElement);
+            return Activator.CreateInstance(instanceType, element);
+
 
         }
 
-        private void SetCollectionProperty(PropertyInfo property, XmlCollectionAttribute attribute, XElement element)
+        private void SetCollectionProperty(PropertyInfo property, ConfigurationCollectionAttribute attribute, XElement element)
         {
-            var childElements = element.Elements(attribute.Name);
+            var childElements = element.Descendants(attribute.Name);
 
-            if(!typeof(ICollection).IsAssignableFrom(property.PropertyType))
+            if (!typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
             {
                 throw new ConfigurationException($"Property {property.Name} do not inherit from ICollection.");
             }
 
             var argumentType = property.PropertyType.GetGenericArguments().SingleOrDefault() ?? throw new ConfigurationException("Configuration support one generic arguments collection.");
 
-
+            //create collection instance
             object propertyValue;
             var addMethodType = property.PropertyType;
             if (property.PropertyType.IsInterface)
@@ -148,14 +177,13 @@ namespace ScriperLib.Configuration
                 propertyValue = Activator.CreateInstance(property.PropertyType);
             }
 
-
             property.SetValue(this, propertyValue);
 
             var addMethod = addMethodType.GetMethod("Add") ?? throw new ConfigurationException($"Cant find Add method in {property.PropertyType} collection.");
 
-            foreach(var childElement in childElements)
+            foreach (var childElement in childElements.Descendants(attribute.CollectionItemName))
             {
-                var childItemInstance = CreateInstanceOfProperty(argumentType, attribute.CollectionItemName, childElement);
+                var childItemInstance = CreateInstanceOfProperty(argumentType, childElement);
                 addMethod.Invoke(propertyValue, new[] { childItemInstance });
             }
 

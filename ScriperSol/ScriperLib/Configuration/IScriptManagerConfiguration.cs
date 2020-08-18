@@ -4,6 +4,6 @@ namespace ScriperLib.Configuration
 {
     public interface IScriptManagerConfiguration : IConfigurationElement
     {
-        IReadOnlyCollection<IScriptConfiguration> ScriptsConfigurations { get; }
+        ICollection<IScriptConfiguration> ScriptsConfigurations { get; }
     }
 }

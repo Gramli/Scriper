@@ -1,13 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-  <Scriper>
-    <ScriptManager>
-      <Script
-        name ="***"
-        description="***"
-        path="***"
-        inSystemTray="true">
+<Scriper>
+  <ScriptManager>
+    <Script
+      name ="***"
+      description="***"
+      path="***"
+      inSystemTray="true">
+      <TimeSchedules>
         <TimeSchedule>
+          <Time>08/18/2020 8:49</Time>
+          <RepeatInDays>
+            <DayOfWeek>Monday</DayOfWeek>
+          </RepeatInDays>
         </TimeSchedule>
-      </Script>
-    </ScriptManager>
-  </Scriper> 
+        <TimeSchedule>
+          <Time>08/18/2020 8:49</Time>
+          <RepeatInDays>
+            <DayOfWeek>Sunday</DayOfWeek>
+          </RepeatInDays>
+        </TimeSchedule>
+      </TimeSchedules>
+    </Script>
+    <Script
+      name ="***"
+      description="***"
+      path="***"
+      inSystemTray="true">
+    </Script>
+  </ScriptManager>
+</Scriper>

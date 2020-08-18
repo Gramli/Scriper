@@ -2,11 +2,11 @@
 
 namespace ScriperLib.Configuration.Attributes
 {
-    internal abstract class XmlRepresentationAttribute : Attribute
+    internal abstract class ConfigurationBaseAttribute : Attribute
     {
         public string Name { get; private set; }
 
-        public XmlRepresentationAttribute(string name)
+        public ConfigurationBaseAttribute(string name)
         {
             Name = name;
         }

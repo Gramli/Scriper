@@ -10,6 +10,10 @@ using System.Xml.Linq;
 
 namespace ScriperLib.Configuration
 {
+    /// <summary>
+    /// Base element for configuration
+    /// Use reflection and Attributes to regognize what to parse or save
+    /// </summary>
     internal abstract class ConfigurationElement : IConfigurationElement
     {
         public ConfigurationElement(XElement element)
@@ -45,22 +49,29 @@ namespace ScriperLib.Configuration
             foreach (var property in properties)
             {
                 var attribute = GetAttribute(property);
+                XObject childElement;
                 switch (attribute)
                 {
                     case ConfigurationAttributeAttribute attributeAttribute:
-                        AddElementAttribute(property, attributeAttribute.Name, element);
+                        childElement = CreateElementAttribute(property, attributeAttribute.Name);
                         break;
                     case ConfigurationElementAttribute elementAttribute:
-                        AddElementElement(property, elementAttribute.Name, element);
+                        childElement = CreateElementElement(property, elementAttribute.Name);
                         break;
                     case ConfigurationCollectionAttribute collectionAttribute:
-                        AddElementCollection(property, collectionAttribute, element);
+                        childElement = CreateElementCollection(property, collectionAttribute);
                         break;
+                    default:
+                        throw new ConfigurationException("Can't recoginze attribute.");
                 }
+                element.Add(childElement);
             }
         }
 
-        private void AddElementCollection(PropertyInfo property, ConfigurationCollectionAttribute collectionAttribute, XElement element)
+        /// <summary>
+        /// Create new collection element with items
+        /// </summary>
+        private XElement CreateElementCollection(PropertyInfo property, ConfigurationCollectionAttribute collectionAttribute)
         {
             var value = property.GetValue(this);
             var iEnumerable = value as IEnumerable ?? throw new ConfigurationException($"Property {property.Name} is not IEnumerable");
@@ -75,38 +86,46 @@ namespace ScriperLib.Configuration
                 }
                 else
                 {
-                    AddConfigurationElement(item, collectionAttribute.CollectionItemName, collectionElement);
+                    var childElement = CreateConfigurationElement(item, collectionAttribute.CollectionItemName);
+                    collectionElement.Add(childElement);
                 }
             }
 
-            element.Add(collectionElement);
+            return collectionElement;
         }
 
-        private void AddElementElement(PropertyInfo property, string name, XElement element)
+        /// <summary>
+        /// Create XElement from property value
+        /// </summary>
+        private XElement CreateElementElement(PropertyInfo property, string name)
         {
             var value = property.GetValue(this);
             if (property.PropertyType.IsValueType)
             {
-                element.Add(new XElement(name, value));
+                return new XElement(name, value);
             }
-            else
-            {
-                AddConfigurationElement(value, name, element);
-            }
+
+            return CreateConfigurationElement(value, name);
         }
 
-        private void AddConfigurationElement(object value, string elementName, XElement parrent)
+        /// <summary>
+        /// Create new XElement from value. Expects that value is IConfigurationElement ann call Save method in it, otherwise throws exception
+        /// </summary>
+        private XElement CreateConfigurationElement(object value, string elementName)
         {
             var xmlItem = value as IConfigurationElement ?? throw new ConfigurationException($"Item in {value} is not ConfigurationElement");
             var itemElement = new XElement(elementName);
             xmlItem.Save(itemElement);
-            parrent.Add(itemElement);
+            return itemElement;
         }
 
-        private void AddElementAttribute(PropertyInfo property, string name, XElement element)
+        /// <summary>
+        /// Create XAttribute from property value
+        /// </summary>
+        private XAttribute CreateElementAttribute(PropertyInfo property, string name)
         {
             var value = property.GetValue(this);
-            element.Add(new XAttribute(name, value));
+            return new XAttribute(name, value);
         }
 
         private Type GetImplementedType(Type parrentType)
@@ -117,7 +136,8 @@ namespace ScriperLib.Configuration
 
         private ConfigurationBaseAttribute GetAttribute(PropertyInfo property)
         {
-            return (ConfigurationBaseAttribute)property.GetCustomAttributes(typeof(ConfigurationBaseAttribute), false).Single();
+            return (ConfigurationBaseAttribute)property.GetCustomAttributes(typeof(ConfigurationBaseAttribute), false).SingleOrDefault() ??
+                throw new ConfigurationException("Expects only one ConfigurationBaseAttribute");
         }
 
         private void SetAttributeProperty(PropertyInfo property, string attributeName, XElement element)
@@ -178,7 +198,7 @@ namespace ScriperLib.Configuration
             }
 
             property.SetValue(this, propertyValue);
-
+            
             var addMethod = addMethodType.GetMethod("Add") ?? throw new ConfigurationException($"Cant find Add method in {property.PropertyType} collection.");
 
             foreach (var childElement in childElements.Descendants(attribute.CollectionItemName))

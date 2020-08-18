@@ -1,13 +1,16 @@
 ﻿using ScriperLib.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ScriperLib.Scripts
 {
     internal class PowerShellScript : IScript
     {
-        public IScriptConfiguration Configuration => throw new NotImplementedException();
+        public IScriptConfiguration Configuration { get; private set; }
+
+        public PowerShellScript(IScriptConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         public void Run()
         {

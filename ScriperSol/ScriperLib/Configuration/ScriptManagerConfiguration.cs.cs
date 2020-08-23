@@ -1,6 +1,7 @@
 ﻿using ScriperLib.Configuration.Attributes;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using ScriperLib.Configuration.Base;
 
 namespace ScriperLib.Configuration
 {

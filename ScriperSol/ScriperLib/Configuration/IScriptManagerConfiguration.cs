@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ScriperLib.Configuration.Base;
+using System.Collections.Generic;
 
 namespace ScriperLib.Configuration
 {

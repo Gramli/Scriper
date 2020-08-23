@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using ScriperLib.Configuration.Base;
 
 namespace ScriperLib.Configuration
 {

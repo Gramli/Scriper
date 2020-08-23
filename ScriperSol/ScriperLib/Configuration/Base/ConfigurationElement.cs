@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace ScriperLib.Configuration
+namespace ScriperLib.Configuration.Base
 {
     /// <summary>
     /// Base element for configuration

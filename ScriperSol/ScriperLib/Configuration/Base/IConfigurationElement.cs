@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace ScriperLib.Configuration
+namespace ScriperLib.Configuration.Base
 {
     public interface IConfigurationElement
     {

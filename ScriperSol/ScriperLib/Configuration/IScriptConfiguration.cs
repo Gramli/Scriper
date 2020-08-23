@@ -1,4 +1,5 @@
-﻿using ScriperLib.Enums;
+﻿using ScriperLib.Configuration.Base;
+using ScriperLib.Configuration.Outputs;
 using System.Collections.Generic;
 
 namespace ScriperLib.Configuration
@@ -10,7 +11,8 @@ namespace ScriperLib.Configuration
         string Path { get; }
         bool InSystemTray { get; }
         bool RunInNewWindow { get; }
-        ICollection<IOutputConfiguration> OutputTypes { get; }
+        IConsoleOutputConfiguration ConsoleOutputConfiguration { get; }
+        IFileOutputConfiguration IFileOutputConfiguration { get; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 
     }

@@ -5,8 +5,8 @@ namespace ScriperLib.Core
 {
     internal class ProcessRunner : IScriptRunner
     {
-        private IOutputManager outputManager;
-        public ProcessRunner(IOutputManager outputManager)
+        private IOutput outputManager;
+        public ProcessRunner(IOutput outputManager)
         {
             this.outputManager = outputManager;
         }

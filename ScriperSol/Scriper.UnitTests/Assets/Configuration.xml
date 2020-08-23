@@ -18,6 +18,8 @@
       </TimeSchedules>
     </Script>
     <Script name ="***" description="***" path="***" inSystemTray="true">
+      <FileOuput path=""/>
+      <ConsoleOutput />
     </Script>
   </ScriptManager>
 </Scriper>

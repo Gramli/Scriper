@@ -14,14 +14,9 @@ namespace ScriperLib.Scripts
 
         public void Run()
         {
-            throw new NotImplementedException();
+            
         }
         public void Load(IScriptConfiguration configuration)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IScriptConfiguration Save()
         {
             throw new NotImplementedException();
         }

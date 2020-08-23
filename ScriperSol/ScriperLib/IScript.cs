@@ -6,6 +6,5 @@ namespace ScriperLib
     {
         IScriptConfiguration Configuration { get; }
         public void Run();
-        IScriptConfiguration Save();
     }
 }

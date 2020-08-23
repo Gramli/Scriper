@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Scriper>
   <ScriptManager>
-    <Script
-      name ="***"
-      description="***"
-      path="***"
-      inSystemTray="true">
+    <Script name ="***" description="***" path="***" inSystemTray="true">
       <TimeSchedules>
         <TimeSchedule>
           <Time>08/18/2020 8:49</Time>
@@ -21,11 +17,7 @@
         </TimeSchedule>
       </TimeSchedules>
     </Script>
-    <Script
-      name ="***"
-      description="***"
-      path="***"
-      inSystemTray="true">
+    <Script name ="***" description="***" path="***" inSystemTray="true">
     </Script>
   </ScriptManager>
 </Scriper>

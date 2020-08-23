@@ -20,10 +20,5 @@ namespace ScriperLib.Scripts
         {
             throw new NotImplementedException();
         }
-
-        public IScriptConfiguration Save()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

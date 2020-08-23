@@ -1,4 +1,4 @@
-﻿namespace ScriperLib.Core
+﻿namespace ScriperLib
 {
     internal interface IScriptRunner
     {

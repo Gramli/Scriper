@@ -19,6 +19,12 @@ namespace ScriperLib.Configuration
         [ConfigurationAttribute("inSystemTray")]
         public bool InSystemTray { get; private set; }
 
+        [ConfigurationAttribute("createLog")]
+        public bool CreateLog { get; private set; }
+
+        [ConfigurationAttribute("runInNewWindow")]
+        public bool RunInNewWindow { get; private set; }
+
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
 

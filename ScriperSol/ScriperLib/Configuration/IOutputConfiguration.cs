@@ -4,6 +4,6 @@ namespace ScriperLib.Configuration
 {
     public interface IOutputConfiguration
     {
-        OutputType Type { get; }
+        OutputType Type { get; set; }
     }
 }

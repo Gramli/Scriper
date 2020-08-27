@@ -6,6 +6,10 @@ namespace ScriperLib
     public interface IScriptManager
     {
         IScriptManagerConfiguration Configuration { get; }
-        List<IScript> Scripts { get; }
+        IReadOnlyCollection<IScript> Scripts { get; }
+
+        void AddScript(IScriptConfiguration scriptConfiguration);
+
+        void RemoveScript(IScript script);
     }
 }

@@ -6,13 +6,13 @@ namespace ScriperLib.Configuration
 {
     public interface IScriptConfiguration : IConfigurationElement
     {
-        string Name { get; }
-        string Description { get; }
-        string Path { get; }
-        bool InSystemTray { get; }
-        bool RunInNewWindow { get; }
-        IConsoleOutputConfiguration ConsoleOutputConfiguration { get; }
-        IFileOutputConfiguration IFileOutputConfiguration { get; }
+        string Name { get; set; }
+        string Description { get; set; }
+        string Path { get; set; }
+        bool InSystemTray { get; set; }
+        bool RunInNewWindow { get; set; }
+        IConsoleOutputConfiguration ConsoleOutputConfiguration { get; set; }
+        IFileOutputConfiguration IFileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 
     }

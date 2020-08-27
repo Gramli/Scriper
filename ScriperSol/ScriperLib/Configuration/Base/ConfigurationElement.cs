@@ -21,6 +21,11 @@ namespace ScriperLib.Configuration.Base
             Parse(element);
         }
 
+        protected internal ConfigurationElement()
+        {
+
+        }
+
         public void Parse(XElement element)
         {
             var properties = GetType().GetProperties();

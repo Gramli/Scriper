@@ -9,30 +9,35 @@ namespace ScriperLib.Configuration
     internal class ScriptConfiguration : ConfigurationElement, IScriptConfiguration
     {
         [ConfigurationAttribute("name")]
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
         [ConfigurationAttribute("description")]
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
         [ConfigurationAttribute("path")]
-        public string Path { get; private set; }
+        public string Path { get; set; }
 
         [ConfigurationAttribute("inSystemTray")]
-        public bool InSystemTray { get; private set; }
+        public bool InSystemTray { get; set; }
 
         [ConfigurationAttribute("createLog")]
-        public bool CreateLog { get; private set; }
+        public bool CreateLog { get; set; }
 
         [ConfigurationAttribute("runInNewWindow")]
-        public bool RunInNewWindow { get; private set; }
+        public bool RunInNewWindow { get; set; }
 
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
 
-        public ScriptConfiguration(XElement element)
+        internal ScriptConfiguration(XElement element)
             : base(element)
         {
 
+        }
+
+        public ScriptConfiguration()
+        {
+            TimeScheduleConfigurations = new List<ITimeScheduleConfiguration>();
         }
     }
 }

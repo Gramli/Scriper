@@ -6,7 +6,7 @@ namespace ScriperLib.Configuration
 {
     public interface ITimeScheduleConfiguration : IConfigurationElement
     {
-        DateTime Time { get; }
+        DateTime Time { get; set; }
 
         ICollection<DayOfWeek> RepeatInDays { get; }
     }

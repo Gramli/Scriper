@@ -1,6 +1,6 @@
 ﻿using ScriperLib.Enums;
 
-namespace ScriperLib
+namespace ScriperLib.Core
 {
     public interface IOutput
     {

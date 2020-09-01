@@ -5,12 +5,10 @@ namespace ScriperLib.Core
 {
     internal class ProcessRunner : IScriptRunner
     {
-        private IOutput outputManager;
-        public ProcessRunner(IOutput outputManager)
+        public ProcessRunner()
         {
-            this.outputManager = outputManager;
         }
-        public void Run(IScript script)
+        public void Run(IScript script, IOutput[] outputs)
         {
             var process = new Process
             {

@@ -1,7 +1,9 @@
-﻿namespace ScriperLib
+﻿using ScriperLib.Core;
+
+namespace ScriperLib
 {
     internal interface IScriptRunner
     {
-        void Run(IScript script);
+        void Run(IScript script, IOutput[] outputs);
     }
 }

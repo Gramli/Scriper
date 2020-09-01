@@ -5,6 +5,6 @@ namespace ScriperLib.Configuration.Outputs
 {
     public interface IConsoleOutputConfiguration : IConfigurationElement
     {
-        ConsoleColor? Color { get; }
+        ConsoleColor Color { get; set; }
     }
 }

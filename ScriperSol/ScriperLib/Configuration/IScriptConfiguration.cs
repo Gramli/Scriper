@@ -12,7 +12,7 @@ namespace ScriperLib.Configuration
         bool InSystemTray { get; set; }
         bool RunInNewWindow { get; set; }
         IConsoleOutputConfiguration ConsoleOutputConfiguration { get; set; }
-        IFileOutputConfiguration IFileOutputConfiguration { get; set; }
+        IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 
     }

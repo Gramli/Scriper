@@ -3,25 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using ScriperLib.Configuration.Base;
+using ScriperLib.Configuration.Outputs;
 
 namespace ScriperLib.Configuration
 {
     internal class ScriptConfiguration : ConfigurationElement, IScriptConfiguration
     {
-        [ConfigurationAttribute("name")]
+        [ConfigurationAttribute("name", true)]
         public string Name { get; set; }
 
         [ConfigurationAttribute("description")]
         public string Description { get; set; }
 
-        [ConfigurationAttribute("path")]
+        [ConfigurationAttribute("path", true)]
         public string Path { get; set; }
 
         [ConfigurationAttribute("inSystemTray")]
         public bool InSystemTray { get; set; }
-
-        [ConfigurationAttribute("createLog")]
-        public bool CreateLog { get; set; }
 
         [ConfigurationAttribute("runInNewWindow")]
         public bool RunInNewWindow { get; set; }
@@ -29,7 +27,13 @@ namespace ScriperLib.Configuration
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
 
-        internal ScriptConfiguration(XElement element)
+        [ConfigurationElement("ConsoleOutput")]
+        public IConsoleOutputConfiguration ConsoleOutputConfiguration { get; set; }
+
+        [ConfigurationElement("FileOuput")]
+        public IFileOutputConfiguration FileOutputConfiguration { get; set; }
+
+        public ScriptConfiguration(XElement element)
             : base(element)
         {
 

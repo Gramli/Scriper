@@ -10,6 +10,6 @@ namespace ScriperLib
 
         void AddScript(IScriptConfiguration scriptConfiguration);
 
-        void RemoveScript(IScript script);
+        bool RemoveScript(IScript script);
     }
 }

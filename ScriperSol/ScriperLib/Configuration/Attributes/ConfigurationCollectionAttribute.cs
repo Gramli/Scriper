@@ -10,5 +10,10 @@ namespace ScriperLib.Configuration.Attributes
         {
             CollectionItemName = collectionItemName;
         }
+
+        public ConfigurationCollectionAttribute(string name, bool mandatory)
+            : base(name, mandatory)
+        {
+        }
     }
 }

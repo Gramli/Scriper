@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Scriper>
   <ScriptManager>
-    <Script name ="***" description="***" path="***" inSystemTray="true">
+    <Script name ="***" description="***" path="***" inSystemTray="true" runInNewWindow="true">
       <TimeSchedules>
         <TimeSchedule>
           <Time>08/18/2020 8:49</Time>
@@ -19,7 +19,7 @@
     </Script>
     <Script name ="***" description="***" path="***" inSystemTray="true">
       <FileOuput path=""/>
-      <ConsoleOutput />
+      <ConsoleOutput color="Black"/>
     </Script>
   </ScriptManager>
 </Scriper>

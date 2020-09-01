@@ -8,13 +8,18 @@ namespace ScriperLib.Configuration
 {
     internal class TimeScheduleConfiguration : ConfigurationElement, ITimeScheduleConfiguration
     {
-        [ConfigurationElement("Time")]
-        public DateTime Time { get; private set; }
+        [ConfigurationElement("Time", true)]
+        public DateTime Time { get; set; }
 
         [ConfigurationCollection("RepeatInDays", "DayOfWeek")]
         public ICollection<DayOfWeek> RepeatInDays { get; private set; }
-        public TimeScheduleConfiguration(XElement element) : base(element)
+        public TimeScheduleConfiguration(XElement element) 
+            : base(element)
         {
+        }
+        public TimeScheduleConfiguration()
+        {
+
         }
     }
 }

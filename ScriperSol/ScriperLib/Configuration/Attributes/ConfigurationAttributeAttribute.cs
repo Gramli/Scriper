@@ -6,5 +6,10 @@
             : base(name)
         {
         }
+
+        public ConfigurationAttributeAttribute(string name, bool mandatory)
+            : base(name, mandatory)
+        {
+        }
     }
 }

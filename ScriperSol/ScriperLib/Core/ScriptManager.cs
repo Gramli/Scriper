@@ -19,6 +19,8 @@ namespace ScriperLib.Core
 
         public List<IScript> Scripts { get; private set; }
 
+        IReadOnlyCollection<IScript> IScriptManager.Scripts => throw new NotImplementedException();
+
         public ScriptManager(IScriptManagerConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,16 +31,26 @@ namespace ScriperLib.Core
             Scripts = new List<IScript>(Configuration.ScriptsConfigurations.Count);
             foreach(var scriptConfiguration in Configuration.ScriptsConfigurations)
             {
-                var extension = Path.GetExtension(scriptConfiguration.Path);
-                if(scriptInicializer.TryGetValue(extension, out var inicializationFunc))
-                {
-                    var script = inicializationFunc.Invoke(scriptConfiguration);
-                    Scripts.Add(script);
-                    continue;
-                }
-
-                throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");
+                AddScript(scriptConfiguration);
             }
+        }
+
+        public void AddScript(IScriptConfiguration scriptConfiguration)
+        {
+            var extension = Path.GetExtension(scriptConfiguration.Path);
+            if (scriptInicializer.TryGetValue(extension, out var inicializationFunc))
+            {
+                var script = inicializationFunc.Invoke(scriptConfiguration);
+                Scripts.Add(script);
+                return;
+            }
+
+            throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");
+        }
+
+        public bool RemoveScript(IScript script)
+        {
+            return Scripts.Remove(script);
         }
     }
 }

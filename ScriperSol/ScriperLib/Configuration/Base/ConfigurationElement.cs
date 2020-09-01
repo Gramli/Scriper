@@ -36,13 +36,13 @@ namespace ScriperLib.Configuration.Base
                 switch (attribute)
                 {
                     case ConfigurationAttributeAttribute attributeAttribute:
-                        SetAttributeProperty(property, attributeAttribute.Name, element);
+                        SetAttributeProperty(property, attributeAttribute.Name, attributeAttribute.Mandatory, element);
                         break;
                     case ConfigurationElementAttribute elementAttribute:
-                        SetElementProperty(property, elementAttribute.Name, element);
+                        SetElementProperty(property, elementAttribute.Name, elementAttribute.Mandatory, element);
                         break;
                     case ConfigurationCollectionAttribute collectionAttribute:
-                        SetCollectionProperty(property, collectionAttribute, element);
+                        SetCollectionProperty(property, collectionAttribute, collectionAttribute.Mandatory, element);
                         break;
                 }
             }
@@ -145,15 +145,50 @@ namespace ScriperLib.Configuration.Base
                 throw new ConfigurationException("Expects only one ConfigurationBaseAttribute");
         }
 
-        private void SetAttributeProperty(PropertyInfo property, string attributeName, XElement element)
+        private void SetAttributeProperty(PropertyInfo property, string attributeName, bool mandatory, XElement element)
         {
-            property.SetValue(this, Convert.ChangeType(element.Attribute(attributeName).Value, property.PropertyType));
+            if(element is null)
+            {
+                return;
+            }
+
+            var value = element.Attribute(attributeName)?.Value;
+
+            if(string.IsNullOrEmpty(value) && !mandatory)
+            {
+                return;
+            }
+
+            var propertyType = property.PropertyType;
+
+            if (propertyType.IsEnum)
+            {
+                if (Enum.TryParse(propertyType, value, out var enumValue))
+                {
+                    property.SetValue(this, enumValue);
+                    return;
+                }
+            }
+
+            if (propertyType.IsValueType || propertyType == typeof(string))
+            {
+                property.SetValue(this, Convert.ChangeType(value, propertyType));
+                return;
+            }
+
+            throw new ConfigurationException("Attribut is not enum or value type");
 
         }
 
-        private void SetElementProperty(PropertyInfo property, string attributeName, XElement element)
+        private void SetElementProperty(PropertyInfo property, string attributeName,bool mandatory, XElement element)
         {
             var childElement = element.Element(attributeName);
+
+            if (childElement is null && !mandatory)
+            {
+                return;
+            }
+
             var propertyValue = CreateInstanceOfProperty(property.PropertyType, childElement);
             property.SetValue(this, propertyValue);
         }
@@ -177,9 +212,14 @@ namespace ScriperLib.Configuration.Base
 
         }
 
-        private void SetCollectionProperty(PropertyInfo property, ConfigurationCollectionAttribute attribute, XElement element)
+        private void SetCollectionProperty(PropertyInfo property, ConfigurationCollectionAttribute attribute, bool mandatory, XElement element)
         {
             var childElements = element.Descendants(attribute.Name);
+
+            if (childElements is null && !mandatory)
+            {
+                return;
+            }
 
             if (!typeof(IEnumerable).IsAssignableFrom(property.PropertyType))
             {

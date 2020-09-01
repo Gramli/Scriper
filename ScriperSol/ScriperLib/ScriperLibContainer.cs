@@ -1,4 +1,5 @@
 ﻿using ScriperLib.Configuration;
+using ScriperLib.Configuration.Outputs;
 using ScriperLib.Core;
 using SimpleInjector;
 
@@ -20,6 +21,9 @@ namespace ScriperLib
             _container.RegisterSingleton(() => configuration.ScriptManagerConfiguration);
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
+            _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());
+            _container.Register<IConsoleOutputConfiguration>(() => new ConsoleOutputConfiguration());
+            _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
         }
     }
 }

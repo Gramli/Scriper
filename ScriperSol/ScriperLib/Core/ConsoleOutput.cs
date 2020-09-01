@@ -12,9 +12,9 @@ namespace ScriperLib.Core
         public void WriteOutput(string outputText)
         {
             var temp = Console.ForegroundColor;
-            if (Configuration.Color.HasValue)
+            if (Configuration.Color != Console.ForegroundColor)
             {
-                Console.ForegroundColor = Configuration.Color.Value;
+                Console.ForegroundColor = Configuration.Color;
             }
 
             Console.WriteLine(outputText);

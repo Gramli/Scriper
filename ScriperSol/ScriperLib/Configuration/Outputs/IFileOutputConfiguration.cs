@@ -4,6 +4,6 @@ namespace ScriperLib.Configuration.Outputs
 {
     public interface IFileOutputConfiguration : IConfigurationElement
     {
-        string Path { get; }
+        string Path { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace ScriperLib.Core
                 }
             };
 
-            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => );
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine("output :: " + e.Data);
 
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine("error :: " + e.Data);
 

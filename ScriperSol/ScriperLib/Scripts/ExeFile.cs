@@ -5,7 +5,7 @@ using System;
 
 namespace ScriperLib.Scripts
 {
-    internal class BatchScript : IScript
+    internal class ExeFile : IScript
     {
         public IScriptConfiguration Configuration { get; private set; }
 
@@ -13,7 +13,7 @@ namespace ScriperLib.Scripts
 
         public IOutput[] Outputs => throw new NotImplementedException();
 
-        public BatchScript(IScriptConfiguration configuration)
+        public ExeFile(IScriptConfiguration configuration)
         {
             Configuration = configuration;
         }

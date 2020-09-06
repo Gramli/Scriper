@@ -1,14 +1,17 @@
-﻿using System;
+﻿using ScriperLib.Enums;
 using System.Diagnostics;
 
 namespace ScriperLib.Core
 {
     internal class ProcessRunner : IScriptRunner
     {
+        public ScriptType[] ScriptTypes => new[] { ScriptType.ExeFile, ScriptType.WindowsProcess };
+
         public ProcessRunner()
         {
         }
-        public void Run(IScript script, IOutput[] outputs)
+
+        public void Run(IScript script)
         {
             var process = new Process
             {
@@ -22,17 +25,24 @@ namespace ScriperLib.Core
                 }
             };
 
-            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine("output :: " + e.Data);
-
-            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => Console.WriteLine("error :: " + e.Data);
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, $"output:: {e.Data}");
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, $"error:: {e.Data}");
 
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            Console.WriteLine("ExitCode: {0}", process.ExitCode);
+            WriteOutputs(script.Outputs, $"exitcode:: {process.ExitCode}");
             process.Close();
+        }
+
+        private void WriteOutputs(IOutput[] outputs, string message)
+        {
+            foreach(var output in outputs)
+            {
+                output.WriteOutput(message);
+            }
         }
     }
 }

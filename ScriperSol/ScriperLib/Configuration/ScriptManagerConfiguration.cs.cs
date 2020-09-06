@@ -14,5 +14,10 @@ namespace ScriperLib.Configuration
             : base(element)
         {
         }
+
+        public ScriptManagerConfiguration()
+        {
+            ScriptsConfigurations = new List<IScriptConfiguration>();
+        }
     }
 }

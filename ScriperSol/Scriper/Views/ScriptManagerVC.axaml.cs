@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace Scriper.Views
 {
-    public class ScriptsVC : UserControl
+    public class ScriptManagerVC : UserControl
     {
-        public ScriptsVC()
+        public ScriptManagerVC()
         {
             this.InitializeComponent();
         }

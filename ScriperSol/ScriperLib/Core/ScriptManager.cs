@@ -1,34 +1,41 @@
 ﻿using ScriperLib.Configuration;
+using ScriperLib.Enums;
 using ScriperLib.Exceptions;
+using ScriperLib.Extensions;
 using ScriperLib.Scripts;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ScriperLib.Core
 {
-    public class ScriptManager : IScriptManager
+    internal class ScriptManager : IScriptManager
     {
-        private readonly Dictionary<string, Func<IScriptConfiguration, IScript>> scriptInicializer = new Dictionary<string, Func<IScriptConfiguration, IScript>>
-        {
-            {"bat", new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new BatchScript(scriptConfiguration)) },
-            {"ps1", new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript(scriptConfiguration)) },
-            {"ps2", new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript(scriptConfiguration)) },
-        };
         public IScriptManagerConfiguration Configuration { get; private set; }
+        public IReadOnlyCollection<IScript> Scripts => _scripts.Keys;
 
-        public List<IScript> Scripts { get; private set; }
+        private Dictionary<IScript, IScriptRunner> _scripts;
 
-        IReadOnlyCollection<IScript> IScriptManager.Scripts => throw new NotImplementedException();
+        private IEnumerable<IScriptRunner> _scriptRunners;
 
-        public ScriptManager(IScriptManagerConfiguration configuration)
+        private readonly Dictionary<ScriptType, Func<IScriptConfiguration, IScript>> scriptInicializer = new Dictionary<ScriptType, Func<IScriptConfiguration, IScript>>
+        {
+            {ScriptType.WindowsProcess, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new BatchScript(scriptConfiguration)) },
+            {ScriptType.ExeFile, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new ExeFile(scriptConfiguration)) },
+            {ScriptType.PowerShell1, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript_v1(scriptConfiguration)) },
+            {ScriptType.PowerShell2, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript_v2(scriptConfiguration)) },
+        };
+
+        public ScriptManager(IScriptManagerConfiguration configuration, IEnumerable<IScriptRunner> scriptRunners)
         {
             Configuration = configuration;
+            _scriptRunners = scriptRunners;
             LoadScripts();
         }
         private void LoadScripts()
         {
-            Scripts = new List<IScript>(Configuration.ScriptsConfigurations.Count);
+            _scripts = new Dictionary<IScript, IScriptRunner>(Configuration.ScriptsConfigurations.Count);
             foreach(var scriptConfiguration in Configuration.ScriptsConfigurations)
             {
                 AddScript(scriptConfiguration);
@@ -38,10 +45,12 @@ namespace ScriperLib.Core
         public void AddScript(IScriptConfiguration scriptConfiguration)
         {
             var extension = Path.GetExtension(scriptConfiguration.Path);
-            if (scriptInicializer.TryGetValue(extension, out var inicializationFunc))
+            var scriptType = extension.GetScriptType();
+            if (scriptInicializer.TryGetValue(scriptType, out var inicializationFunc))
             {
+                var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(scriptType));
                 var script = inicializationFunc.Invoke(scriptConfiguration);
-                Scripts.Add(script);
+                _scripts.Add(script, scriptRunner);
                 return;
             }
 
@@ -50,7 +59,12 @@ namespace ScriperLib.Core
 
         public bool RemoveScript(IScript script)
         {
-            return Scripts.Remove(script);
+            return _scripts.Remove(script);
+        }
+
+        public void RunScript(IScript script)
+        {
+            _scripts[script].Run(script);
         }
     }
 }

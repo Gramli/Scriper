@@ -8,11 +8,5 @@
         x:Class="Scriper.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Scriper">
-
-    <Design.DataContext>
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
-  <views:MainVC/>
-
+  <views:MainVC DataContext="{Binding MainVM}"/>
 </Window>

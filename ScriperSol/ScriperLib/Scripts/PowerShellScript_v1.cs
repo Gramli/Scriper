@@ -5,15 +5,14 @@ using System;
 
 namespace ScriperLib.Scripts
 {
-    internal class BatchScript : IScript
+    internal class PowerShellScript_v1 : IScript
     {
+        public ScriptType ScriptType => ScriptType.PowerShell1;
         public IScriptConfiguration Configuration { get; private set; }
-
-        public ScriptType ScriptType => ScriptType.WindowsProcess;
 
         public IOutput[] Outputs => throw new NotImplementedException();
 
-        public BatchScript(IScriptConfiguration configuration)
+        public PowerShellScript_v1(IScriptConfiguration configuration)
         {
             Configuration = configuration;
         }

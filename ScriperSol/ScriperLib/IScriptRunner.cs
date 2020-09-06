@@ -1,9 +1,10 @@
-﻿using ScriperLib.Core;
+﻿using ScriperLib.Enums;
 
 namespace ScriperLib
 {
     internal interface IScriptRunner
     {
-        void Run(IScript script, IOutput[] outputs);
+        public ScriptType[] ScriptTypes { get; }
+        void Run(IScript script);
     }
 }

@@ -11,5 +11,7 @@ namespace ScriperLib
         void AddScript(IScriptConfiguration scriptConfiguration);
 
         bool RemoveScript(IScript script);
+
+        void RunScript(IScript script);
     }
 }

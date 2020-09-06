@@ -14,6 +14,11 @@ namespace ScriperLib.Configuration
             ScriptManagerConfiguration = scriptManagerConfiguration;
         }
 
+        private ScriperConfiguration()
+        {
+            ScriptManagerConfiguration = new ScriptManagerConfiguration();
+        }
+
         public void Save()
         {
             var scriperEl = new XElement("Scriper");
@@ -23,10 +28,15 @@ namespace ScriperLib.Configuration
 
         public static ScriperConfiguration Load(string fileName)
         {
-            var fileInString = File.ReadAllText(fileName);
-            var element = XElement.Parse(fileInString);
-            var scriptManagerConfiguration = new ScriptManagerConfiguration(element);
-            return new ScriperConfiguration(fileName, scriptManagerConfiguration);
+            if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
+            {
+                var fileInString = File.ReadAllText(fileName);
+                var element = XElement.Parse(fileInString);
+                var scriptManagerConfiguration = new ScriptManagerConfiguration(element);
+                return new ScriperConfiguration(fileName, scriptManagerConfiguration);
+            }
+
+            return new ScriperConfiguration();
         }
     }
 }

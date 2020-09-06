@@ -18,6 +18,6 @@
         <MenuItem Header="_Update"/>
       </MenuItem>
     </Menu>
-  <views:ScriptsVC/>
+    <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}"/>
   </DockPanel>
 </UserControl>

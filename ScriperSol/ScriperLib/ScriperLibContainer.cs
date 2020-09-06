@@ -5,7 +5,7 @@ using SimpleInjector;
 
 namespace ScriperLib
 {
-    public class ScriperLibContainer
+    public class ScriperLibContainer : IScriperLibContainer
     {
         private Container _container;
         public ScriperLibContainer(string configurationFile)
@@ -19,11 +19,21 @@ namespace ScriperLib
             var configuration = ScriperConfiguration.Load(configurationFile);
 
             _container.RegisterSingleton(() => configuration.ScriptManagerConfiguration);
+            _container.Collection.Register<IScriptRunner>(
+                typeof(ProcessRunner),
+                typeof(PowerShellRunner));
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
             _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());
             _container.Register<IConsoleOutputConfiguration>(() => new ConsoleOutputConfiguration());
             _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
+
+            _container.Verify();
+        }
+
+        public T GetInstance<T>() where T : class
+        {
+            return _container.GetInstance<T>();
         }
     }
 }

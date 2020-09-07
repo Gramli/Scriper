@@ -2,9 +2,9 @@
 {
     public enum ScriptType
     {
-        [FileExtension("ps1")]
+        [FileExtension(".ps1")]
         PowerShell1,
-        [FileExtension("ps2")]
+        [FileExtension(".ps2")]
         PowerShell2,
         [FileExtension(".bat")]
         WindowsProcess,

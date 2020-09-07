@@ -5,6 +5,35 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.ScriptManagerVC">
     <StackPanel>
-      <DataGrid AutoGenerateColumns="True" Items="{Binding Scripts}"/>
+      <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Name" Binding="{Binding Configuration.Name}" FontWeight="Bold"/>
+          <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Configuration.Description}" />
+          <DataGridCheckBoxColumn Header="In System Tray" Binding="{Binding Configuration.InSystemTray}" IsReadOnly="True"/>
+          <DataGridCheckBoxColumn Header="Run In New Window" Binding="{Binding Configuration.RunInNewWindow}" IsReadOnly="True"/>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Button Click="OnRunClick" CommandParameter="{Binding Configuration.Name}">
+                  <Button.Content>
+                    <Image Source="/Assets/icons8_play_96px.png" Width="64" Height="64"/>
+                  </Button.Content>
+                </Button>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Button>
+                  <Button.Content>
+                    <Image Source="/Assets/icons8_edit_property_96px.png" Width="64" Height="64"/>
+                  </Button.Content>
+                </Button>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+        </DataGrid.Columns>
+      </DataGrid>
     </StackPanel>
 </UserControl>

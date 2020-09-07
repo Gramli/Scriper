@@ -12,8 +12,8 @@ namespace ScriperLib.Extensions
             var fields = type.GetFields();
             foreach(var field in fields)
             {
-                var attribute = (FileExtensionAttribute)field.GetCustomAttributes(typeof(FileExtensionAttribute), false)[0];
-                if(attribute.FileExtensionts.Contains(fileExtension))
+                var attribute = (FileExtensionAttribute)field.GetCustomAttributes(typeof(FileExtensionAttribute), false).FirstOrDefault();
+                if(attribute != null && attribute.FileExtensionts.Contains(fileExtension))
                 {
                     return (ScriptType)Enum.Parse(type, field.Name);
                 }

@@ -1,8 +1,8 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
+using ScriperLib.Configuration;
 
 namespace Scriper.Views
 {
@@ -23,6 +23,12 @@ namespace Scriper.Views
         {
             var scriptName = (string)((Button)sender).CommandParameter;
             _viewModel.Run(scriptName);
+        }
+
+        private void OnEditClick(object sender, RoutedEventArgs e)
+        {
+            var scriptName = (string)((Button)sender).CommandParameter;
+            _viewModel.EditScript(scriptName);
         }
     }
 }

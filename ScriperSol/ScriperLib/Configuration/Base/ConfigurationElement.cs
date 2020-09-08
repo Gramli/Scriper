@@ -16,9 +16,11 @@ namespace ScriperLib.Configuration.Base
     /// </summary>
     internal abstract class ConfigurationElement : IConfigurationElement
     {
+        private readonly XElement _element;
         public ConfigurationElement(XElement element)
         {
             Parse(element);
+            _element = element;
         }
 
         protected internal ConfigurationElement()
@@ -147,14 +149,14 @@ namespace ScriperLib.Configuration.Base
 
         private void SetAttributeProperty(PropertyInfo property, string attributeName, bool mandatory, XElement element)
         {
-            if(element is null)
+            if (element is null)
             {
                 return;
             }
 
             var value = element.Attribute(attributeName)?.Value;
 
-            if(string.IsNullOrEmpty(value) && !mandatory)
+            if (string.IsNullOrEmpty(value) && !mandatory)
             {
                 return;
             }
@@ -180,7 +182,7 @@ namespace ScriperLib.Configuration.Base
 
         }
 
-        private void SetElementProperty(PropertyInfo property, string attributeName,bool mandatory, XElement element)
+        private void SetElementProperty(PropertyInfo property, string attributeName, bool mandatory, XElement element)
         {
             var childElement = element.Element(attributeName);
 
@@ -243,7 +245,7 @@ namespace ScriperLib.Configuration.Base
             }
 
             property.SetValue(this, propertyValue);
-            
+
             var addMethod = addMethodType.GetMethod("Add") ?? throw new ConfigurationException($"Cant find Add method in {property.PropertyType} collection.");
 
             foreach (var childElement in childElements.Descendants(attribute.CollectionItemName))
@@ -252,6 +254,16 @@ namespace ScriperLib.Configuration.Base
                 addMethod.Invoke(propertyValue, new[] { childItemInstance });
             }
 
+        }
+
+        public object Clone()
+        {
+            if (_element is null)
+            {
+                return Activator.CreateInstance(GetType());
+            }
+
+            return Activator.CreateInstance(GetType(), _element);
         }
     }
 }

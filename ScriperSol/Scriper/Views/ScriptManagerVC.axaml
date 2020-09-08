@@ -25,7 +25,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button>
+                <Button Click="OnEditClick" CommandParameter="{Binding Configuration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Width="64" Height="64"/>
                   </Button.Content>

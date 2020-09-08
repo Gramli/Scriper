@@ -44,17 +44,9 @@ namespace ScriperLib.Core
 
         public void AddScript(IScriptConfiguration scriptConfiguration)
         {
-            var extension = Path.GetExtension(scriptConfiguration.Path);
-            var scriptType = extension.GetScriptType();
-            if (scriptInicializer.TryGetValue(scriptType, out var inicializationFunc))
-            {
-                var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(scriptType));
-                var script = inicializationFunc.Invoke(scriptConfiguration);
-                _scripts.Add(script, scriptRunner);
-                return;
-            }
-
-            throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");
+            var script = CreateScript(scriptConfiguration);
+            var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(script.ScriptType));
+            _scripts.Add(script, scriptRunner);
         }
 
         public bool RemoveScript(IScript script)
@@ -65,6 +57,24 @@ namespace ScriperLib.Core
         public void RunScript(IScript script)
         {
             _scripts[script].Run(script);
+        }
+
+        public void ReplaceScript(IScript oldScript, IScriptConfiguration newScriptConfiguration)
+        {
+            AddScript(newScriptConfiguration);
+            RemoveScript(oldScript);
+        }
+
+        private IScript CreateScript(IScriptConfiguration scriptConfiguration)
+        {
+            var extension = Path.GetExtension(scriptConfiguration.Path);
+            var scriptType = extension.GetScriptType();
+            if (scriptInicializer.TryGetValue(scriptType, out var inicializationFunc))
+            {
+                return inicializationFunc.Invoke(scriptConfiguration);
+            }
+
+            throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");
         }
     }
 }

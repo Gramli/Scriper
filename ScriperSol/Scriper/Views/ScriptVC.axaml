@@ -8,31 +8,64 @@
     <Style Selector="TextBlock.h1">
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="30"/>
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Margin" Value="8"/>
         </Style>
+      <Style Selector="TextBox.TextH1">
+            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="AcceptsReturn" Value="True"/>
+        </Style>
   </UserControl.Styles>
-  <StackPanel>
+  <StackPanel Margin="5">
     <DockPanel LastChildFill="True">
       <TextBlock Text="Name" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Name}"/>
+      <TextBox Text="{Binding ScriptConfiguration.Name}" Classes="TextH1"/>
+    </DockPanel>
+    <DockPanel LastChildFill="True" Background="LightBlue">
+      <TextBlock Text="Arguments" Classes="h1"/>
+      <TextBox Text="{Binding ScriptConfiguration.Arguments}" Classes="TextH1"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="Description" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Description}"/>
+      <TextBox Text="{Binding ScriptConfiguration.Description}" Classes="TextH1"/>
     </DockPanel>
-    <DockPanel LastChildFill="True">
+    <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Path}"/>
+      <TextBox Text="{Binding ScriptConfiguration.Path}" Classes="TextH1" Width="350"/>
+      <Button Content="..." DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="RunInNewWindow" Classes="h1"/>
       <CheckBox IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
     </DockPanel>
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Background="LightBlue">
       <TextBlock Text="InSystemTray" Classes="h1"/>
       <CheckBox IsChecked="{Binding ScriptConfiguration.InSystemTray}"/>
     </DockPanel>
+    <StackPanel>
+      <DockPanel>
+        <TextBlock Text="File Output" Classes="h1"/>
+        <CheckBox Name="fileOutput" IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
+      </DockPanel>
+      <DockPanel Margin="20,0,0,0">
+        <TextBlock Text="Path" Classes="h1"/>
+        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding ScriptConfiguration.Description}" Width="330" Classes="TextH1"/> 
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..."/>
+      </DockPanel>
+    </StackPanel>
+    <StackPanel Background="LightBlue">
+      <DockPanel>
+        <TextBlock Text="Console Output" Classes="h1"/>
+        <CheckBox Name="ConsoleOutput" IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
+      </DockPanel>
+    </StackPanel>
+    <StackPanel Margin="5">
+      <Button Content="OK" Height="30"/>
+      <Button Content="Cancel" Height="30"/>
+    </StackPanel>
   </StackPanel>
 </UserControl>

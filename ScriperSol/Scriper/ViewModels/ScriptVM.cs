@@ -1,6 +1,7 @@
 ﻿using Scriper.Closing;
 using ScriperLib;
 using ScriperLib.Configuration;
+using System;
 
 namespace Scriper.ViewModels
 {

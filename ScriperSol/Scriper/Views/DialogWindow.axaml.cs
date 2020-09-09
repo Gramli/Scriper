@@ -12,6 +12,9 @@ namespace Scriper.Views
         {
             this.InitializeComponent();
 
+            this.Width = 600;
+            this.Height = 500;
+
 #if DEBUG
             this.AttachDevTools();
 #endif

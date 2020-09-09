@@ -18,6 +18,9 @@ namespace ScriperLib.Configuration
         [ConfigurationAttribute("path", true)]
         public string Path { get; set; }
 
+        [ConfigurationAttribute("arguments", true)]
+        public string Arguments { get; set; }
+
         [ConfigurationAttribute("inSystemTray")]
         public bool InSystemTray { get; set; }
 

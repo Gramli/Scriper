@@ -8,6 +8,7 @@
       <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}">
         <DataGrid.Columns>
           <DataGridTextColumn Header="Name" Binding="{Binding Configuration.Name}" FontWeight="Bold"/>
+          <DataGridTextColumn Header="Argument" Binding="{Binding Configuration.Arguments}" />
           <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Configuration.Description}" />
           <DataGridCheckBoxColumn Header="In System Tray" Binding="{Binding Configuration.InSystemTray}" IsReadOnly="True"/>
           <DataGridCheckBoxColumn Header="Run In New Window" Binding="{Binding Configuration.RunInNewWindow}" IsReadOnly="True"/>

@@ -12,13 +12,19 @@ namespace Scriper.Views
         {
             this.InitializeComponent();
 
-            this.Width = 600;
-            this.Height = 500;
-
 #if DEBUG
             this.AttachDevTools();
 #endif
         }
+
+        public DialogWindow(int width, int height, string title, IControl control)
+            :this(control)
+        {
+            this.Width = width;
+            this.Height = height;
+            this.Title = title;
+        }
+
         public DialogWindow(IControl control)
             : this()
         {

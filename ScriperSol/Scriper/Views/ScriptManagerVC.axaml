@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Scriper.Views.ScriptManagerVC">
+             x:Class="Scriper.Views.ScriptManagerVC"
+             Name="mainControl">
     <StackPanel>
       <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}">
         <DataGrid.Columns>
@@ -15,7 +16,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Click="OnRunClick" CommandParameter="{Binding Configuration.Name}">
+                <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding Configuration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_play_96px.png" Width="64" Height="64"/>
                   </Button.Content>
@@ -26,7 +27,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Click="OnEditClick" CommandParameter="{Binding Configuration.Name}">
+                <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding Configuration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Width="64" Height="64"/>
                   </Button.Content>

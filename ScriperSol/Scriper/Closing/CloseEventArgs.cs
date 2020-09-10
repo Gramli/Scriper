@@ -8,5 +8,13 @@ namespace Scriper.Closing
 
         public T Result { get; private set; }
 
+        public CloseEventArgs()
+        {
+        }
+        public CloseEventArgs(T result)
+        {
+            Result = result;
+        }
+
     }
 }

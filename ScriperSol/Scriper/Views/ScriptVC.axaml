@@ -64,8 +64,8 @@
       </DockPanel>
     </StackPanel>
     <StackPanel Margin="5">
-      <Button Content="OK" Height="30"/>
-      <Button Content="Cancel" Height="30"/>
+      <Button Content="OK" Height="30" Command="{Binding OkCmd}"/>
+      <Button Content="Cancel" Height="30" Command="{Binding CancelCmd}"/>
     </StackPanel>
   </StackPanel>
 </UserControl>

@@ -8,7 +8,7 @@
   <DockPanel>
     <Menu DockPanel.Dock="Top">
       <MenuItem Header="_File">
-        <MenuItem Header="_New Script"/>
+        <MenuItem Header="_New Script" Command="{Binding CreateScriptCmd}" CommandParameter=""/>
         <Separator/>
         <MenuItem Header="_Exit"/>
       </MenuItem>

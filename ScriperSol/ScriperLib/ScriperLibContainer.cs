@@ -1,6 +1,7 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Core;
+using ScriperLib.Extensions;
 using SimpleInjector;
 
 namespace ScriperLib
@@ -22,6 +23,9 @@ namespace ScriperLib
             _container.Collection.Register<IScriptRunner>(
                 typeof(ProcessRunner),
                 typeof(PowerShellRunner));
+            _container.Collection.RegisterWithFactory<IOutput>(
+                typeof(ConsoleOutput),
+                typeof(FileOutput));
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
             _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());

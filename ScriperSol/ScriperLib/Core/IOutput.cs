@@ -1,10 +1,12 @@
-﻿using ScriperLib.Enums;
+﻿using ScriperLib.Configuration.Base;
+using ScriperLib.Enums;
 
 namespace ScriperLib.Core
 {
     public interface IOutput
     {
-        OutputType OutputType { get; }
+        IConfigurationElement Configuration { get; set; }
+        OutputType OutputType { get; set; }
         void WriteOutput(string outputText);
     }
 }

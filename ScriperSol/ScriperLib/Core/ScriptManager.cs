@@ -19,6 +19,8 @@ namespace ScriperLib.Core
 
         private IEnumerable<IScriptRunner> _scriptRunners;
 
+        private Func<IEnumerable<IOutput>> _scriptOutputs;
+
         private readonly Dictionary<ScriptType, Func<IScriptConfiguration, IScript>> scriptInicializer = new Dictionary<ScriptType, Func<IScriptConfiguration, IScript>>
         {
             {ScriptType.WindowsProcess, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new BatchScript(scriptConfiguration)) },
@@ -27,10 +29,13 @@ namespace ScriperLib.Core
             {ScriptType.PowerShell2, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript_v2(scriptConfiguration)) },
         };
 
-        public ScriptManager(IScriptManagerConfiguration configuration, IEnumerable<IScriptRunner> scriptRunners)
+        public ScriptManager(IScriptManagerConfiguration configuration,
+            IEnumerable<IScriptRunner> scriptRunners,
+            Func<IEnumerable<IOutput>> scriptOutputs)
         {
             Configuration = configuration;
             _scriptRunners = scriptRunners;
+            _scriptOutputs = scriptOutputs;
             LoadScripts();
         }
         private void LoadScripts()
@@ -71,7 +76,29 @@ namespace ScriperLib.Core
             var scriptType = extension.GetScriptType();
             if (scriptInicializer.TryGetValue(scriptType, out var inicializationFunc))
             {
-                return inicializationFunc.Invoke(scriptConfiguration);
+                var script = inicializationFunc.Invoke(scriptConfiguration);
+                foreach(var output in _scriptOutputs())
+                {
+                    switch(output.OutputType)
+                    {
+                        case OutputType.Console:
+                            if(script.Configuration.FileOutputConfiguration is null)
+                            {
+                                continue;
+                            }
+                            output.Configuration = script.Configuration.FileOutputConfiguration;
+                            break;
+                        case OutputType.File:
+                            if (script.Configuration.ConsoleOutputConfiguration is null)
+                            {
+                                continue;
+                            }
+                            output.Configuration = script.Configuration.ConsoleOutputConfiguration;
+                            break;
+                    }
+
+                    script.Outputs.Add(output);
+                }
             }
 
             throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");

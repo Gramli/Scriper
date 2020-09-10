@@ -2,6 +2,7 @@
 using ScriperLib.Core;
 using ScriperLib.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace ScriperLib.Scripts
 {
@@ -11,7 +12,7 @@ namespace ScriperLib.Scripts
 
         public ScriptType ScriptType => ScriptType.WindowsProcess;
 
-        public IOutput[] Outputs => throw new NotImplementedException();
+        public ICollection<IOutput> Outputs => throw new NotImplementedException();
 
         public BatchScript(IScriptConfiguration configuration)
         {

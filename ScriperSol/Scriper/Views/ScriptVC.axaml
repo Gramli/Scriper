@@ -36,7 +36,7 @@
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
       <TextBox Text="{Binding ScriptConfiguration.Path}" Classes="TextH1" Width="350"/>
-      <Button Content="..." DockPanel.Dock="Right"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="RunInNewWindow" Classes="h1"/>
@@ -54,7 +54,7 @@
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding ScriptConfiguration.Description}" Width="330" Classes="TextH1"/> 
-        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..."/>
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
       </DockPanel>
     </StackPanel>
     <StackPanel Background="LightBlue">

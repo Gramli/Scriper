@@ -9,7 +9,7 @@ namespace ScriperLib.Core
 {
     internal class FileOutput : IOutput
     {
-        public IFileOutputConfiguration Configuration { get; private set; }
+        public IFileOutputConfiguration Configuration { get; set; }
         public OutputType OutputType => OutputType.File;
         public void WriteOutput(string outputText)
         {

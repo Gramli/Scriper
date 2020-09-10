@@ -1,10 +1,12 @@
-﻿using ReactiveUI;
+﻿using Avalonia;
+using ReactiveUI;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
+using Scriper.Extensions;
 
 namespace Scriper.ViewModels
 {
@@ -50,7 +52,7 @@ namespace Scriper.ViewModels
                 dialogWindow.Close();
             };
 
-            dialogWindow.Show();
+            dialogWindow.ShowDialog(App.Current.GetMainWindow());
         }
 
         public void CreateScript()
@@ -72,7 +74,7 @@ namespace Scriper.ViewModels
                 dialogWindow.Close();
             };
 
-            dialogWindow.Show();
+            dialogWindow.ShowDialog(App.Current.GetMainWindow());
         }
 
         public void Replace(IScript oldScript, IScriptConfiguration newScriptConfiguration)

@@ -10,7 +10,7 @@
       <MenuItem Header="_File">
         <MenuItem Header="_New Script" Command="{Binding CreateScriptCmd}" CommandParameter=""/>
         <Separator/>
-        <MenuItem Header="_Exit"/>
+        <MenuItem Header="_Exit" Command="{Binding ExitCmd}"/>
       </MenuItem>
       <MenuItem Header="_Options"/>
       <MenuItem Header="_Help">

@@ -2,6 +2,7 @@
 using ScriperLib.Core;
 using ScriperLib.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace ScriperLib.Scripts
 {
@@ -10,7 +11,7 @@ namespace ScriperLib.Scripts
         public ScriptType ScriptType => ScriptType.PowerShell1;
         public IScriptConfiguration Configuration { get; private set; }
 
-        public IOutput[] Outputs => throw new NotImplementedException();
+        public ICollection<IOutput> Outputs => throw new NotImplementedException();
 
         public PowerShellScript_v1(IScriptConfiguration configuration)
         {

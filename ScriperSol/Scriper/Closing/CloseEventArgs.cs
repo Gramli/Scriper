@@ -10,10 +10,12 @@ namespace Scriper.Closing
 
         public CloseEventArgs()
         {
+            Cancel = true;
         }
         public CloseEventArgs(T result)
         {
             Result = result;
+            Cancel = false;
         }
 
     }

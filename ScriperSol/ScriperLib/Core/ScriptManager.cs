@@ -2,7 +2,6 @@
 using ScriperLib.Enums;
 using ScriperLib.Exceptions;
 using ScriperLib.Extensions;
-using ScriperLib.Scripts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,27 +20,23 @@ namespace ScriperLib.Core
 
         private Func<IEnumerable<IOutput>> _scriptOutputs;
 
-        private readonly Dictionary<ScriptType, Func<IScriptConfiguration, IScript>> scriptInicializer = new Dictionary<ScriptType, Func<IScriptConfiguration, IScript>>
-        {
-            {ScriptType.WindowsProcess, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new BatchScript(scriptConfiguration)) },
-            {ScriptType.ExeFile, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new ExeFile(scriptConfiguration)) },
-            {ScriptType.PowerShell1, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript_v1(scriptConfiguration)) },
-            {ScriptType.PowerShell2, new Func<IScriptConfiguration, IScript>((scriptConfiguration) => new PowerShellScript_v2(scriptConfiguration)) },
-        };
+        private Func<IEnumerable<IScript>> _scrips;
 
         public ScriptManager(IScriptManagerConfiguration configuration,
             IEnumerable<IScriptRunner> scriptRunners,
+            Func<IEnumerable<IScript>> scrips,
             Func<IEnumerable<IOutput>> scriptOutputs)
         {
             Configuration = configuration;
             _scriptRunners = scriptRunners;
             _scriptOutputs = scriptOutputs;
+            _scrips = scrips;
             LoadScripts();
         }
         private void LoadScripts()
         {
             _scripts = new Dictionary<IScript, IScriptRunner>(Configuration.ScriptsConfigurations.Count);
-            foreach(var scriptConfiguration in Configuration.ScriptsConfigurations)
+            foreach (var scriptConfiguration in Configuration.ScriptsConfigurations)
             {
                 AddScript(scriptConfiguration);
             }
@@ -74,34 +69,9 @@ namespace ScriperLib.Core
         {
             var extension = Path.GetExtension(scriptConfiguration.Path);
             var scriptType = extension.GetScriptType();
-            if (scriptInicializer.TryGetValue(scriptType, out var inicializationFunc))
-            {
-                var script = inicializationFunc.Invoke(scriptConfiguration);
-                foreach(var output in _scriptOutputs())
-                {
-                    switch(output.OutputType)
-                    {
-                        case OutputType.Console:
-                            if(script.Configuration.FileOutputConfiguration is null)
-                            {
-                                continue;
-                            }
-                            output.Configuration = script.Configuration.FileOutputConfiguration;
-                            break;
-                        case OutputType.File:
-                            if (script.Configuration.ConsoleOutputConfiguration is null)
-                            {
-                                continue;
-                            }
-                            output.Configuration = script.Configuration.ConsoleOutputConfiguration;
-                            break;
-                    }
-
-                    script.Outputs.Add(output);
-                }
-            }
-
-            throw new ScriptException($"Do not support or can't recognize script extension {Path.GetFileName(scriptConfiguration.Path)}");
+            var script = _scrips().Single(item => item.ScriptType == scriptType);
+            script.InitFromConfiguration(scriptConfiguration, _scriptOutputs);
+            return script;
         }
     }
 }

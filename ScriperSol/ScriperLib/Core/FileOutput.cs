@@ -1,19 +1,26 @@
-﻿using ScriperLib.Configuration.Outputs;
+﻿using ScriperLib.Configuration.Base;
+using ScriperLib.Configuration.Outputs;
 using ScriperLib.Enums;
-using ScriperLib.Exceptions;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace ScriperLib.Core
 {
     internal class FileOutput : IOutput
     {
-        public IFileOutputConfiguration Configuration { get; set; }
+        public IConfigurationElement Configuration => _fileOutputConfiguration;
         public OutputType OutputType => OutputType.File;
+
+        private IFileOutputConfiguration _fileOutputConfiguration;
+
+        public void InitFromConfiguration(IConfigurationElement configuration)
+        {
+            _fileOutputConfiguration = (IFileOutputConfiguration)configuration;
+        }
+
         public void WriteOutput(string outputText)
         {
-            using var stream = new FileStream(Configuration.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
+            using var stream = new FileStream(_fileOutputConfiguration.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
             using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
             streamWriter.WriteLine(outputText);
         }

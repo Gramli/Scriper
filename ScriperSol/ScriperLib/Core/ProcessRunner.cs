@@ -1,4 +1,6 @@
 ﻿using ScriperLib.Enums;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace ScriperLib.Core
@@ -37,7 +39,7 @@ namespace ScriperLib.Core
             process.Close();
         }
 
-        private void WriteOutputs(IOutput[] outputs, string message)
+        private void WriteOutputs(ICollection<IOutput> outputs, string message)
         {
             foreach(var output in outputs)
             {

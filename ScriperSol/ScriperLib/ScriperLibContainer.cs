@@ -2,7 +2,10 @@
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Core;
 using ScriperLib.Extensions;
+using ScriperLib.Scripts;
 using SimpleInjector;
+using System;
+using System.Collections.Generic;
 
 namespace ScriperLib
 {
@@ -23,7 +26,12 @@ namespace ScriperLib
             _container.Collection.Register<IScriptRunner>(
                 typeof(ProcessRunner),
                 typeof(PowerShellRunner));
-            _container.Collection.RegisterWithFactory<IOutput>(
+            _container.RegisterWithFactoryCollection<IScript>(
+                typeof(BatchScript),
+                typeof(PowerShellScript_v1),
+                typeof(PowerShellScript_v2),
+                typeof(ExeFile));
+            _container.RegisterWithFactoryCollection<IOutput>(
                 typeof(ConsoleOutput),
                 typeof(FileOutput));
             _container.Register<IScriptManager, ScriptManager>();

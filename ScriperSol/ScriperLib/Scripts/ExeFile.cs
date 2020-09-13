@@ -1,22 +1,9 @@
-﻿using ScriperLib.Configuration;
-using ScriperLib.Core;
-using ScriperLib.Enums;
-using System;
-using System.Collections.Generic;
+﻿using ScriperLib.Enums;
 
 namespace ScriperLib.Scripts
 {
-    internal class ExeFile : IScript
+    internal class ExeFile : ScriptBase
     {
-        public IScriptConfiguration Configuration { get; private set; }
-
-        public ScriptType ScriptType => ScriptType.WindowsProcess;
-
-        public ICollection<IOutput> Outputs => throw new NotImplementedException();
-
-        public ExeFile(IScriptConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public override ScriptType ScriptType => ScriptType.ExeFile;
     }
 }

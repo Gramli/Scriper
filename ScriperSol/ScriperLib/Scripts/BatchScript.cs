@@ -6,17 +6,8 @@ using System.Collections.Generic;
 
 namespace ScriperLib.Scripts
 {
-    internal class BatchScript : IScript
+    internal class BatchScript : ScriptBase
     {
-        public IScriptConfiguration Configuration { get; private set; }
-
-        public ScriptType ScriptType => ScriptType.WindowsProcess;
-
-        public ICollection<IOutput> Outputs => throw new NotImplementedException();
-
-        public BatchScript(IScriptConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public override ScriptType ScriptType => ScriptType.WindowsProcess;
     }
 }

@@ -11,7 +11,12 @@ namespace Scriper.ViewModels
 
         public string Text { get; private set; }
         public IConfigurationElement Configuration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        OutputType IOutput.OutputType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        OutputType IOutput.OutputType { get => throw new NotImplementedException(); }
+
+        public void InitFromConfiguration(IConfigurationElement configuration)
+        {
+            throw new NotImplementedException();
+        }
 
         public void WriteOutput(string outputText)
         {

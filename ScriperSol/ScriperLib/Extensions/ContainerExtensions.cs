@@ -14,11 +14,11 @@ namespace ScriperLib.Extensions
             container.Register<Func<TService>>(() => container.GetInstance<TService>);
         }
 
-        public static void RegisterWithFactory<TService>(this ContainerCollectionRegistrator container, params Type[] types)
+        public static void RegisterWithFactoryCollection<TService>(this Container container, params Type[] types)
             where TService : class
         {
-            container.Register<TService>(types);
-            container.Register<Func<IEnumerable<TService>>>(() => container.Container.GetAllInstances<TService>());
+            container.Collection.Register<TService>(types);
+            container.Register<Func<IEnumerable<TService>>>(() => container.GetAllInstances<TService>, Lifestyle.Transient);
         }
     }
 }

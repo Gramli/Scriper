@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using Scriper.Extensions;
+using System.Threading.Tasks;
 
 namespace Scriper.ViewModels
 {
@@ -29,8 +30,18 @@ namespace Scriper.ViewModels
 
         public void RunScript(string name)
         {
+            var outputVM = new OutputVM();
+            var outputVC = new OutputVC(outputVM);
+
             var script = Get(name);
-            _scriptManager.RunScript(script);
+
+            outputVM.InitFromConfiguration(script.Configuration.ConsoleOutputConfiguration);
+            script.Outputs.Add(outputVM);
+
+            var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC);
+            dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
+            dialogWindow.Show();
+            Task.Factory.StartNew(() => _scriptManager.RunScript(script));
         }
 
         public void EditScript(string name)
@@ -39,7 +50,7 @@ namespace Scriper.ViewModels
 
             var scriptViewModel = new ScriptVM((IScriptConfiguration)script.Configuration.Clone());
             var scriptControl = new ScriptVC(scriptViewModel);
-            var dialogWindow = new DialogWindow(600,500,"Edit Script", scriptControl);
+            var dialogWindow = new DialogWindow(600, 500, "Edit Script", scriptControl);
 
             scriptViewModel.Close += (sender, args) =>
             {

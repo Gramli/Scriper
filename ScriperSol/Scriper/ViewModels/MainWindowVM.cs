@@ -1,4 +1,5 @@
 ﻿using ScriperLib;
+using ScriperLib.Configuration;
 
 namespace Scriper.ViewModels
 {
@@ -11,6 +12,12 @@ namespace Scriper.ViewModels
         {
             _container = new ScriperLibContainer(config);
             MainVM = new MainVM(_container);
+        }
+
+        public void SaveConfig()
+        {
+            //TODO resolve save configuration
+            _container.GetInstance<IScriperConfiguration>().Save();
         }
     }
 }

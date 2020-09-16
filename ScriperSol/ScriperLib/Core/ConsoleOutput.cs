@@ -20,14 +20,14 @@ namespace ScriperLib.Core
 
         public void WriteOutput(string outputText)
         {
-            var temp = Console.ForegroundColor;
-            if (_consoleOutputConfiguration.Color != Console.ForegroundColor)
-            {
-                Console.ForegroundColor = _consoleOutputConfiguration.Color;
-            }
+            //var temp = Console.ForegroundColor;
+            //if (_consoleOutputConfiguration.Color != Console.ForegroundColor)
+            //{
+            //    Console.ForegroundColor = _consoleOutputConfiguration.Color;
+            //}
 
             Console.WriteLine(outputText);
-            Console.ForegroundColor = temp;
+            //Console.ForegroundColor = temp;
         }
     }
 }

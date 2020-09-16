@@ -4,8 +4,6 @@ using ScriperLib.Core;
 using ScriperLib.Extensions;
 using ScriperLib.Scripts;
 using SimpleInjector;
-using System;
-using System.Collections.Generic;
 
 namespace ScriperLib
 {
@@ -22,6 +20,7 @@ namespace ScriperLib
         {
             var configuration = ScriperConfiguration.Load(configurationFile);
 
+            _container.RegisterSingleton(() => configuration);
             _container.RegisterSingleton(() => configuration.ScriptManagerConfiguration);
             _container.Collection.Register<IScriptRunner>(
                 typeof(ProcessRunner),

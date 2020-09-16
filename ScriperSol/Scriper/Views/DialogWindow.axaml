@@ -5,5 +5,5 @@
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
         x:Class="Scriper.Views.DialogWindow"
         Title="DialogWindow">
-  <StackPanel Name="basePanel"/> 
+  <DockPanel Name="basePanel"/> 
 </Window>

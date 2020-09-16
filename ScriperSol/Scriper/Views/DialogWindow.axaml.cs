@@ -6,7 +6,7 @@ namespace Scriper.Views
 {
     public class DialogWindow : Window
     {
-        private StackPanel _myPanel;
+        private DockPanel _myPanel;
 
         public DialogWindow()
         {
@@ -18,7 +18,7 @@ namespace Scriper.Views
         }
 
         public DialogWindow(int width, int height, string title, IControl control)
-            :this(control)
+            : this(control)
         {
             this.Width = width;
             this.Height = height;
@@ -28,14 +28,13 @@ namespace Scriper.Views
         public DialogWindow(IControl control)
             : this()
         {
-
             _myPanel.Children.Add(control);
         }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            _myPanel = this.FindControl<StackPanel>("basePanel");
+            _myPanel = this.FindControl<DockPanel>("basePanel");
         }
     }
 }

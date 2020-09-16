@@ -26,7 +26,7 @@ namespace ScriperLib.Configuration
             File.WriteAllText(fileName, scriperEl.ToString());
         }
 
-        public static ScriperConfiguration Load(string fileName)
+        public static IScriperConfiguration Load(string fileName)
         {
             if (!string.IsNullOrEmpty(fileName) && File.Exists(fileName))
             {

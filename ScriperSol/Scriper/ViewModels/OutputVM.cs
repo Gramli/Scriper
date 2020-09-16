@@ -1,7 +1,10 @@
-﻿using ScriperLib.Configuration.Base;
+﻿using Avalonia.Media;
+using ReactiveUI;
+using ScriperLib.Configuration.Base;
+using ScriperLib.Configuration.Outputs;
 using ScriperLib.Core;
 using ScriperLib.Enums;
-using System;
+using ScriperLib.Exceptions;
 
 namespace Scriper.ViewModels
 {
@@ -9,17 +12,70 @@ namespace Scriper.ViewModels
     {
         public OutputType OutputType => OutputType.Console;
 
-        public string Text { get; private set; }
-        public IConfigurationElement Configuration { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        OutputType IOutput.OutputType { get => throw new NotImplementedException(); }
+        private IBrush foregroundColor = Brushes.White;
+        public IBrush ForegroundColor
+        {
+            get { return foregroundColor; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref foregroundColor, value);
+            }
+        }
+
+
+        private IBrush backgroundColor = Brushes.Black;
+        public IBrush BackgroundColor 
+        {
+            get { return backgroundColor; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref backgroundColor, value);
+            }
+        }
+
+        private string text;
+        public string Text
+        {
+            get { return text; }
+            set
+            {
+                this.RaiseAndSetIfChanged(ref text, value);
+            }
+        }
+        public IConfigurationElement Configuration { get; private set; }
 
         public void InitFromConfiguration(IConfigurationElement configuration)
         {
-            throw new NotImplementedException();
+            if(configuration is null)
+            {
+                return;
+            }
+
+            if (configuration is IConsoleOutputConfiguration consoleOutputConfiguration)
+            {
+
+                Configuration = consoleOutputConfiguration;
+
+
+                if(!string.IsNullOrEmpty(consoleOutputConfiguration.Foreground))
+                {
+                    ForegroundColor = Brush.Parse(consoleOutputConfiguration.Foreground);
+                }
+
+                if (!string.IsNullOrEmpty(consoleOutputConfiguration.Background))
+                {
+                    BackgroundColor = Brush.Parse(consoleOutputConfiguration.Background);
+                }
+
+                return;
+            }
+
+            throw new ConfigurationException("Expects IConsoleOutputConfiguration.");
         }
 
         public void WriteOutput(string outputText)
         {
+            Text += $"\n{outputText}";
         }
     }
 }

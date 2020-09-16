@@ -18,11 +18,11 @@ namespace ScriperLib.Core
             _fileOutputConfiguration = (IFileOutputConfiguration)configuration;
         }
 
-        public void WriteOutput(string outputText)
+        public async void WriteOutput(string outputText)
         {
-            using var stream = new FileStream(_fileOutputConfiguration.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read);
-            using var streamWriter = new StreamWriter(stream, Encoding.UTF8);
-            streamWriter.WriteLine(outputText);
+            using var stream = new FileStream(_fileOutputConfiguration.Path, FileMode.Append, FileAccess.Write, FileShare.Write);
+            using var streamWriter = new StreamWriter(stream);
+            await streamWriter.WriteLineAsync(outputText);
         }
     }
 }

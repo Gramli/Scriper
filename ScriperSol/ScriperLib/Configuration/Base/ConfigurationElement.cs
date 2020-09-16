@@ -71,7 +71,16 @@ namespace ScriperLib.Configuration.Base
                     default:
                         throw new ConfigurationException("Can't recoginze attribute.");
                 }
-                element.Add(childElement);
+
+                if(attribute.Mandatory && childElement is null)
+                {
+                    throw new ConfigurationException("Mandatory attribute is null.");
+                }
+
+                if (childElement != null)
+                {
+                    element.Add(childElement);
+                }
             }
         }
 
@@ -81,6 +90,12 @@ namespace ScriperLib.Configuration.Base
         private XElement CreateElementCollection(PropertyInfo property, ConfigurationCollectionAttribute collectionAttribute)
         {
             var value = property.GetValue(this);
+
+            if (value is null)
+            {
+                return null;
+            }
+
             var iEnumerable = value as IEnumerable ?? throw new ConfigurationException($"Property {property.Name} is not IEnumerable");
 
             var collectionElement = new XElement(collectionAttribute.Name);
@@ -107,6 +122,12 @@ namespace ScriperLib.Configuration.Base
         private XElement CreateElementElement(PropertyInfo property, string name)
         {
             var value = property.GetValue(this);
+
+            if (value is null)
+            {
+                return null;
+            }
+
             if (property.PropertyType.IsValueType)
             {
                 return new XElement(name, value);
@@ -132,6 +153,12 @@ namespace ScriperLib.Configuration.Base
         private XAttribute CreateElementAttribute(PropertyInfo property, string name)
         {
             var value = property.GetValue(this);
+
+            if(value is null)
+            {
+                return null;
+            }
+
             return new XAttribute(name, value);
         }
 

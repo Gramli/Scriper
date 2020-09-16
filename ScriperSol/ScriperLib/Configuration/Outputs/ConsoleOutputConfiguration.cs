@@ -1,14 +1,16 @@
 ﻿using ScriperLib.Configuration.Attributes;
 using ScriperLib.Configuration.Base;
-using System;
 using System.Xml.Linq;
 
 namespace ScriperLib.Configuration.Outputs
 {
     internal class ConsoleOutputConfiguration : ConfigurationElement, IConsoleOutputConfiguration
     {
-        [ConfigurationAttribute("color")]
-        public ConsoleColor Color { get; set; }
+        [ConfigurationAttribute("background")]
+        public string Background { get; set; }
+        [ConfigurationAttribute("foreground")]
+        public string Foreground { get; set; }
+
         public ConsoleOutputConfiguration(XElement element)
             : base(element)
         {

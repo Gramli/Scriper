@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform;
+using System;
 
 namespace Scriper.Views
 {
@@ -17,12 +19,13 @@ namespace Scriper.Views
 #endif
         }
 
-        public DialogWindow(int width, int height, string title, IControl control)
+        public DialogWindow(int width, int height, string title, IControl control, WindowIcon icon)
             : this(control)
         {
             this.Width = width;
             this.Height = height;
             this.Title = title;
+            this.Icon = icon;
         }
 
         public DialogWindow(IControl control)

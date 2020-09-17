@@ -1,12 +1,14 @@
 ﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:Scriper.ViewModels;assembly=Scriper"
-        xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="Scriper.Views.MainWindow"
-        Title="Scriper"
-        Icon="/Assets/icons8_console.ico">
-  <views:MainVC DataContext="{Binding MainVM}"/>
+        x:Class="Scriper.Views.AboutWindow"
+        Icon="/Assets/icons8_info.ico"
+        Title="AboutWindow">
+  <StackPanel>
+    <TextBlock Text="Gramli"/>
+    <TextBlock Text="Icons8"/>
+    <TextBlock Text="AvaloniaUI"/>
+  </StackPanel>
 </Window>

@@ -38,7 +38,7 @@ namespace Scriper.ViewModels
             outputVM.InitFromConfiguration(script.Configuration.ConsoleOutputConfiguration);
             script.Outputs.Add(outputVM);
 
-            var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC);
+            var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC, AssetsExtensions.GetAssetsIcon("icons8_console.ico"));
             dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
             dialogWindow.Show();
             Task.Factory.StartNew(() => _scriptManager.RunScript(script));
@@ -50,16 +50,15 @@ namespace Scriper.ViewModels
 
             var scriptViewModel = new ScriptVM((IScriptConfiguration)script.Configuration.Clone());
             var scriptControl = new ScriptVC(scriptViewModel);
-            var dialogWindow = new DialogWindow(600, 500, "Edit Script", scriptControl);
+            var dialogWindow = new DialogWindow(600, 500, "Edit Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_edit_property.ico"));
 
             scriptViewModel.Close += (sender, args) =>
             {
-                if (args.Cancel)
+                if (!args.Cancel)
                 {
-                    return;
+                    Replace(script, args.Result);
                 }
 
-                Replace(script, args.Result);
                 dialogWindow.Close();
             };
 
@@ -72,16 +71,15 @@ namespace Scriper.ViewModels
 
             var scriptViewModel = new ScriptVM(script);
             var scriptControl = new ScriptVC(scriptViewModel);
-            var dialogWindow = new DialogWindow(600, 500, "Add Script", scriptControl);
+            var dialogWindow = new DialogWindow(600, 500, "Add Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_file_1.ico"));
 
             scriptViewModel.Close += (sender, args) =>
             {
-                if (args.Cancel)
+                if (!args.Cancel)
                 {
-                    return;
+                    _scriptManager.AddScript(script);
                 }
 
-                _scriptManager.AddScript(script);
                 dialogWindow.Close();
             };
 

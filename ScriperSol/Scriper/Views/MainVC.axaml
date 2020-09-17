@@ -5,19 +5,35 @@
              xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.MainVC">
-  <DockPanel>
-    <Menu DockPanel.Dock="Top">
-      <MenuItem Header="_File">
-        <MenuItem Header="_New Script" Command="{Binding CreateScriptCmd}" CommandParameter=""/>
-        <Separator/>
-        <MenuItem Header="_Exit" Command="{Binding ExitCmd}"/>
-      </MenuItem>
-      <MenuItem Header="_Options"/>
-      <MenuItem Header="_Help">
-        <MenuItem Header="_About"/>
-        <MenuItem Header="_Update"/>
-      </MenuItem>
-    </Menu>
+    <UserControl.Styles>
+    <Style Selector="Button.h1">
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+        </Style>
+  </UserControl.Styles>
+  <StackPanel>
+    <DockPanel LastChildFill="False">
+      <Button Classes="h1" Command="{Binding CreateScriptCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_add_file_96px.png"/>
+        </Button.Content>
+      </Button>
+      <!--<Button Classes="h1">
+        <Button.Content>
+          <Image Source="/Assets/icons8_administrative_tools_96px.png"/>
+        </Button.Content>
+      </Button>-->
+      <Button Classes="h1">
+        <Button.Content>
+          <Image Source="/Assets/icons8_high_importance_96px.png"/>
+        </Button.Content>
+      </Button>
+      <!--<Button Classes="h1">
+        <Button.Content>
+          <Image Source="/Assets/icons8_software_installer_96px.png"/>
+        </Button.Content>
+      </Button>-->
+    </DockPanel>
     <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}"/>
-  </DockPanel>
+  </StackPanel>
 </UserControl>

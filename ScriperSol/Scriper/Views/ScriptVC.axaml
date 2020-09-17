@@ -59,13 +59,21 @@
     </StackPanel>
     <StackPanel Background="LightBlue">
       <DockPanel>
-        <TextBlock Text="Console Output" Classes="h1"/>
-        <CheckBox Name="ConsoleOutput" IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
+        <TextBlock Text="Time Schedule" Classes="h1"/>
+        <CheckBox Name="TimeSchedule" IsChecked="False" IsEnabled="False"/>
       </DockPanel>
     </StackPanel>
     <StackPanel Margin="5">
-      <Button Content="OK" Height="30" Command="{Binding OkCmd}"/>
-      <Button Content="Cancel" Height="30" Command="{Binding CancelCmd}"/>
+      <Button Height="30" Command="{Binding OkCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_ok_96px.png"/>
+        </Button.Content>
+      </Button>
+      <Button Height="30" Command="{Binding CancelCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_cancel_96px.png"/>
+        </Button.Content>
+      </Button>
     </StackPanel>
   </StackPanel>
 </UserControl>

@@ -47,10 +47,15 @@ namespace ScriperLib.Core
             var script = CreateScript(scriptConfiguration);
             var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(script.ScriptType));
             _scripts.Add(script, scriptRunner);
+            if (!Configuration.ScriptsConfigurations.Contains(scriptConfiguration))
+            {
+                Configuration.ScriptsConfigurations.Add(scriptConfiguration);
+            }
         }
 
         public bool RemoveScript(IScript script)
         {
+            Configuration.ScriptsConfigurations.Remove(script.Configuration);
             return _scripts.Remove(script);
         }
 

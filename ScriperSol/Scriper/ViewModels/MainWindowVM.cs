@@ -16,7 +16,6 @@ namespace Scriper.ViewModels
 
         public void SaveConfig()
         {
-            //TODO resolve save configuration
             _container.GetInstance<IScriperConfiguration>().Save();
         }
     }

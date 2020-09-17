@@ -8,6 +8,21 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Assets\icons8_add_file_96px.png" />
+    <None Remove="Assets\icons8_administrative_tools_96px.png" />
+    <None Remove="Assets\icons8_cancel_96px.png" />
+    <None Remove="Assets\icons8_close_window.ico" />
+    <None Remove="Assets\icons8_console.ico" />
+    <None Remove="Assets\icons8_edit_property.ico" />
+    <None Remove="Assets\icons8_file_1.ico" />
+    <None Remove="Assets\icons8_help.ico" />
+    <None Remove="Assets\icons8_high_importance_96px.png" />
+    <None Remove="Assets\icons8_info.ico" />
+    <None Remove="Assets\icons8_ok_96px.png" />
+    <None Remove="Assets\icons8_refresh.ico" />
+    <None Remove="Assets\icons8_software_installer_96px.png" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.9.12" />
     <PackageReference Include="Avalonia.Desktop" Version="0.9.12" />

@@ -2,16 +2,100 @@
 using ReactiveUI;
 using Scriper.Closing;
 using Scriper.Extensions;
+using ScriperLib;
 using ScriperLib.Configuration;
+using ScriperLib.Configuration.Outputs;
+using System;
 using System.Reactive;
 
 namespace Scriper.ViewModels
 {
-    public class ScriptVM : ViewModelBase, IClose<IScriptConfiguration>
+    public class ScriptVM : ViewModelBase, IClose<IScript>, ICloneable
     {
+        private string name;
+        public string Name
+        {
+            get => ScriptConfiguration.Name;
+            set
+            {
+                ScriptConfiguration.Name = value;
+                this.RaiseAndSetIfChanged(ref name, value);
+            }
+        }
+
+        private string description;
+        public string Description
+        {
+            get => ScriptConfiguration.Description;
+            set
+            {
+                ScriptConfiguration.Description = value;
+                this.RaiseAndSetIfChanged(ref description, value);
+            }
+        }
+
+        private string arguments;
+        public string Arguments
+        {
+            get => ScriptConfiguration.Arguments;
+            set
+            {
+                ScriptConfiguration.Arguments = value;
+                this.RaiseAndSetIfChanged(ref arguments, value);
+            }
+        }
+
+        private string configPath;
+        public string ConfigPath
+        {
+            get => ScriptConfiguration.Path;
+            set
+            {
+                ScriptConfiguration.Path = value;
+                this.RaiseAndSetIfChanged(ref configPath, value);
+            }
+        }
+
+        private bool fileOutput;
+        public bool FileOutput
+        {
+            get => fileOutput;
+            set
+            {
+                if (fileOutput != value)
+                {
+                    ScriptConfiguration.FileOutputConfiguration = value ? _container.GetInstance<IFileOutputConfiguration>() : null;
+                    fileOutput = value;
+                    this.RaiseAndSetIfChanged(ref fileOutput, value);
+                }
+            }
+        }
+
+        private string fileOutputPath;
+        public string FileOutputPath
+        {
+            get => ScriptConfiguration.FileOutputConfiguration?.Path;
+            set
+            {
+                ScriptConfiguration.Path = value;
+                this.RaiseAndSetIfChanged(ref fileOutputPath, value);
+            }
+        }
+
+        private bool outputWindow;
+        public bool OutputWindow
+        {
+            get => ScriptConfiguration.OutputWindow;
+            set
+            {
+                ScriptConfiguration.OutputWindow = value;
+                this.RaiseAndSetIfChanged(ref outputWindow, value);
+            }
+        }
+
         public IScriptConfiguration ScriptConfiguration { get; private set; }
 
-        public event CloseEventHandler<IScriptConfiguration> Close;
+        public event CloseEventHandler<IScript> Close;
 
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
 
@@ -19,8 +103,26 @@ namespace Scriper.ViewModels
 
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
 
-        public ScriptVM(IScriptConfiguration scriptConfiguration)
+        private IScriperLibContainer _container;
+
+        private IScript _script;
+
+        private Func<IScriptConfiguration, IScript> _createScript;
+
+        public ScriptVM(IScriperLibContainer container, IScript script)
         {
+            _container = container;
+            _script = script;
+            ScriptConfiguration = script.Configuration;
+            CancelCmd = ReactiveCommand.Create(Cancel);
+            OkCmd = ReactiveCommand.Create(Ok);
+            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
+        }
+
+        public ScriptVM(IScriperLibContainer container, Func<IScriptConfiguration, IScript> createScript, IScriptConfiguration scriptConfiguration)
+        {
+            _container = container;
+            _createScript = createScript;
             ScriptConfiguration = scriptConfiguration;
             CancelCmd = ReactiveCommand.Create(Cancel);
             OkCmd = ReactiveCommand.Create(Ok);
@@ -29,13 +131,13 @@ namespace Scriper.ViewModels
 
         public void Cancel()
         {
-            this.Close.Invoke(this, new CloseEventArgs<IScriptConfiguration>()) ;
+            this.Close.Invoke(this, new CloseEventArgs<IScript>());
         }
 
         public void Ok()
         {
             //TODO MAKE CHECK
-            this.Close.Invoke(this, new CloseEventArgs<IScriptConfiguration>(ScriptConfiguration));
+            this.Close.Invoke(this, new CloseEventArgs<IScript>(GetScript()));
         }
 
         public async void OpenFile(string parameter)
@@ -47,16 +149,31 @@ namespace Scriper.ViewModels
             var result = await openFileDialog.ShowAsync(App.Current.GetMainWindow());
             if (result != null && result.Length == 1)
             {
-                switch(parameter)
+                switch (parameter)
                 {
                     case "ScriptPath":
-                        ScriptConfiguration.Path = result[0];
+                        ConfigPath = result[0];
                         break;
                     case "FileOutputPath":
-                        ScriptConfiguration.FileOutputConfiguration.Path = result[0];
+                        FileOutputPath = result[0];
                         break;
                 }
             }
+        }
+
+        public IScript GetScript()
+        {
+            if (_script != null)
+            {
+                return _script;
+            }
+
+            return _createScript(ScriptConfiguration);
+            
+        }
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

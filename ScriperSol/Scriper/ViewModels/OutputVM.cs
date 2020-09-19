@@ -51,25 +51,6 @@ namespace Scriper.ViewModels
                 return;
             }
 
-            if (configuration is IConsoleOutputConfiguration consoleOutputConfiguration)
-            {
-
-                Configuration = consoleOutputConfiguration;
-
-
-                if(!string.IsNullOrEmpty(consoleOutputConfiguration.Foreground))
-                {
-                    ForegroundColor = Brush.Parse(consoleOutputConfiguration.Foreground);
-                }
-
-                if (!string.IsNullOrEmpty(consoleOutputConfiguration.Background))
-                {
-                    BackgroundColor = Brush.Parse(consoleOutputConfiguration.Background);
-                }
-
-                return;
-            }
-
             throw new ConfigurationException("Expects IConsoleOutputConfiguration.");
         }
 

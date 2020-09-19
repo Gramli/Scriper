@@ -5,18 +5,18 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.ScriptManagerVC"
              Name="mainControl">
-    <StackPanel>
+    <DockPanel>
       <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}">
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Name" Binding="{Binding Configuration.Name}" FontWeight="Bold"/>
-          <DataGridTextColumn Header="Argument" Binding="{Binding Configuration.Arguments}" />
-          <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Configuration.Description}" />
-          <DataGridCheckBoxColumn Header="In System Tray" Binding="{Binding Configuration.InSystemTray}" IsReadOnly="True"/>
-          <DataGridCheckBoxColumn Header="Run In New Window" Binding="{Binding Configuration.RunInNewWindow}" IsReadOnly="True"/>
+          <DataGridTextColumn Header="Name" Binding="{Binding Name}" FontWeight="Bold"/>
+          <DataGridTextColumn Header="Argument" Binding="{Binding Arguments}" />
+          <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}" />
+          <DataGridCheckBoxColumn Header="In System Tray" Binding="{Binding ScriptConfiguration.InSystemTray}" IsReadOnly="True"/>
+          <DataGridCheckBoxColumn Header="Run In New Window" Binding="{Binding ScriptConfiguration.RunInNewWindow}" IsReadOnly="True"/>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding Configuration.Name}">
+                <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_play_96px.png" Width="64" Height="64"/>
                   </Button.Content>
@@ -27,7 +27,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding Configuration.Name}">
+                <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Width="64" Height="64"/>
                   </Button.Content>
@@ -37,5 +37,5 @@
           </DataGridTemplateColumn>
         </DataGrid.Columns>
       </DataGrid>
-    </StackPanel>
+    </DockPanel>
 </UserControl>

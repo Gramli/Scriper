@@ -10,9 +10,10 @@ namespace ScriperLib.Configuration
         string Name { get; set; }
         string Description { get; set; }
         string Path { get; set; }
+        string Arguments { get; set; }
         bool InSystemTray { get; set; }
         bool RunInNewWindow { get; set; }
-        IConsoleOutputConfiguration ConsoleOutputConfiguration { get; set; }
+        bool OutputWindow { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 

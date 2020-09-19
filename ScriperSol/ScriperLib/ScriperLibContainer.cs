@@ -20,8 +20,8 @@ namespace ScriperLib
         {
             var configuration = ScriperConfiguration.Load(configurationFile);
 
-            _container.RegisterSingleton(() => configuration);
-            _container.RegisterSingleton(() => configuration.ScriptManagerConfiguration);
+            _container.RegisterInstance(configuration);
+            _container.RegisterInstance(configuration.ScriptManagerConfiguration);
             _container.Collection.Register<IScriptRunner>(
                 typeof(ProcessRunner),
                 typeof(PowerShellRunner));
@@ -31,12 +31,10 @@ namespace ScriperLib
                 typeof(PowerShellScript_v2),
                 typeof(ExeFile));
             _container.RegisterWithFactoryCollection<IOutput>(
-                typeof(ConsoleOutput),
                 typeof(FileOutput));
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
             _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());
-            _container.Register<IConsoleOutputConfiguration>(() => new ConsoleOutputConfiguration());
             _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
 
             _container.Verify();

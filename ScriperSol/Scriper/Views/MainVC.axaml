@@ -5,17 +5,31 @@
              xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.MainVC">
-    <UserControl.Styles>
+  <UserControl.Styles>
     <Style Selector="Button.h1">
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="Height" Value="50"/>
-        </Style>
+      <Setter Property="Width" Value="50"/>
+      <Setter Property="Height" Value="50"/>
+    </Style>
   </UserControl.Styles>
-  <StackPanel>
-    <DockPanel LastChildFill="False">
-      <Button Classes="h1" Command="{Binding CreateScriptCmd}">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+      <Button Classes="h1" Grid.Column="0" Grid.Row="0" Command="{Binding CreateScriptCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_add_file_96px.png"/>
+        </Button.Content>
+      </Button>
+      <Button Classes="h1" Grid.Column="1" Grid.Row="0" Click="OnManualClick">
+        <Button.Content>
+          <Image Source="/Assets/icons8_user_manual_96px.png"/>
         </Button.Content>
       </Button>
       <!--<Button Classes="h1">
@@ -23,7 +37,7 @@
           <Image Source="/Assets/icons8_administrative_tools_96px.png"/>
         </Button.Content>
       </Button>-->
-      <Button Classes="h1">
+      <Button Classes="h1" Grid.Column="2" Grid.Row="0" Click="OnAboutClick">
         <Button.Content>
           <Image Source="/Assets/icons8_high_importance_96px.png"/>
         </Button.Content>
@@ -33,7 +47,6 @@
           <Image Source="/Assets/icons8_software_installer_96px.png"/>
         </Button.Content>
       </Button>-->
-    </DockPanel>
-    <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}"/>
-  </StackPanel>
+      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2"/>
+  </Grid>
 </UserControl>

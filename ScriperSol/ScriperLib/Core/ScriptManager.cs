@@ -1,6 +1,4 @@
 ﻿using ScriperLib.Configuration;
-using ScriperLib.Enums;
-using ScriperLib.Exceptions;
 using ScriperLib.Extensions;
 using System;
 using System.Collections.Generic;
@@ -45,11 +43,16 @@ namespace ScriperLib.Core
         public void AddScript(IScriptConfiguration scriptConfiguration)
         {
             var script = CreateScript(scriptConfiguration);
+            AddScript(script);
+        }
+
+        public void AddScript(IScript script)
+        {
             var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(script.ScriptType));
             _scripts.Add(script, scriptRunner);
-            if (!Configuration.ScriptsConfigurations.Contains(scriptConfiguration))
+            if (!Configuration.ScriptsConfigurations.Contains(script.Configuration))
             {
-                Configuration.ScriptsConfigurations.Add(scriptConfiguration);
+                Configuration.ScriptsConfigurations.Add(script.Configuration);
             }
         }
 
@@ -64,13 +67,13 @@ namespace ScriperLib.Core
             _scripts[script].Run(script);
         }
 
-        public void ReplaceScript(IScript oldScript, IScriptConfiguration newScriptConfiguration)
+        public void ReplaceScript(IScript oldScript, IScript newScript)
         {
-            AddScript(newScriptConfiguration);
             RemoveScript(oldScript);
+            AddScript(newScript);
         }
 
-        private IScript CreateScript(IScriptConfiguration scriptConfiguration)
+        public IScript CreateScript(IScriptConfiguration scriptConfiguration)
         {
             var extension = Path.GetExtension(scriptConfiguration.Path);
             var scriptType = extension.GetScriptType();

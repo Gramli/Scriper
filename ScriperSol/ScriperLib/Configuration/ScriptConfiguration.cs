@@ -27,11 +27,11 @@ namespace ScriperLib.Configuration
         [ConfigurationAttribute("runInNewWindow")]
         public bool RunInNewWindow { get; set; }
 
+        [ConfigurationAttribute("outputWindow")]
+        public bool OutputWindow { get; set; }
+
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
-
-        [ConfigurationElement("ConsoleOutput")]
-        public IConsoleOutputConfiguration ConsoleOutputConfiguration { get; set; }
 
         [ConfigurationElement("FileOuput")]
         public IFileOutputConfiguration FileOutputConfiguration { get; set; }

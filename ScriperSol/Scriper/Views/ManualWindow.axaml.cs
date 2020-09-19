@@ -1,18 +1,14 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using Scriper.ViewModels;
-using System;
 
 namespace Scriper.Views
 {
-    public class AboutWindow : Window
+    public class ManualWindow : Window
     {
-        public AboutWindow()
+        public ManualWindow()
         {
             this.InitializeComponent();
-
-            this.DataContext = new AboutVM();
 #if DEBUG
             this.AttachDevTools();
 #endif

@@ -23,41 +23,47 @@
   <StackPanel Margin="5">
     <DockPanel LastChildFill="True">
       <TextBlock Text="Name" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Name}" Classes="TextH1"/>
+      <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Background="LightBlue">
       <TextBlock Text="Arguments" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Arguments}" Classes="TextH1"/>
+      <TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="Description" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Description}" Classes="TextH1"/>
+      <TextBox Text="{Binding Description, Mode=TwoWay}" Classes="TextH1"/>
     </DockPanel>
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ScriptConfiguration.Path}" Classes="TextH1" Width="350"/>
+      <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350"/>
       <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="RunInNewWindow" Classes="h1"/>
-      <CheckBox IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
+      <CheckBox IsChecked="{Binding ScriptConfiguration.RunInNewWindow, Mode=TwoWay}"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Background="LightBlue">
       <TextBlock Text="InSystemTray" Classes="h1"/>
-      <CheckBox IsChecked="{Binding ScriptConfiguration.InSystemTray}"/>
+      <CheckBox IsChecked="{Binding ScriptConfiguration.InSystemTray, Mode=TwoWay}"/>
     </DockPanel>
     <StackPanel>
       <DockPanel>
         <TextBlock Text="File Output" Classes="h1"/>
-        <CheckBox Name="fileOutput" IsChecked="{Binding ScriptConfiguration.RunInNewWindow}"/>
+        <CheckBox Name="fileOutput" IsChecked="{Binding FileOutput}"/>
       </DockPanel>
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
-        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding ScriptConfiguration.Description}" Width="330" Classes="TextH1"/> 
+        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath}" Width="330" Classes="TextH1"/> 
         <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
       </DockPanel>
     </StackPanel>
     <StackPanel Background="LightBlue">
+      <DockPanel>
+        <TextBlock Text="Output Window" Classes="h1"/>
+        <CheckBox Name="OutputWindowe" IsChecked="{Binding OutputWindow}"/>
+      </DockPanel>
+    </StackPanel>
+    <StackPanel>
       <DockPanel>
         <TextBlock Text="Time Schedule" Classes="h1"/>
         <CheckBox Name="TimeSchedule" IsChecked="False" IsEnabled="False"/>

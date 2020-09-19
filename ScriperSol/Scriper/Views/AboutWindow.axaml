@@ -2,13 +2,27 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:vm="clr-namespace:Scriper.ViewModels;assembly=Scriper"
+        mc:Ignorable="d" Width="300" Height="150"
         x:Class="Scriper.Views.AboutWindow"
         Icon="/Assets/icons8_info.ico"
-        Title="AboutWindow">
+        Title="About"
+        CanResize="False">
+  <Window.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Margin" Value="8"/>
+    </Style>
+  </Window.Styles>
   <StackPanel>
-    <TextBlock Text="Gramli"/>
-    <TextBlock Text="Icons8"/>
-    <TextBlock Text="AvaloniaUI"/>
+    <TextBlock Text="{Binding Author}" HorizontalAlignment="Center" Classes="h1"/>
+    <Border Background="LightBlue">
+      <TextBlock Text="{Binding Icons}" HorizontalAlignment="Center" Classes="h1"/>
+    </Border>
+    <TextBlock Text="{Binding UI}"  HorizontalAlignment="Center" Classes="h1"/>
+    <Border Background="LightBlue">
+      <TextBlock Text="{Binding Version}"  HorizontalAlignment="Center" Classes="h1"/>
+    </Border>
   </StackPanel>
 </Window>

@@ -30,11 +30,6 @@ namespace ScriperLib.Scripts
             {
                 AddOutputs(OutputType.File, _outputs, Configuration.FileOutputConfiguration);
             }
-
-            if (Configuration.ConsoleOutputConfiguration != null)
-            {
-                AddOutputs(OutputType.Console, _outputs, Configuration.ConsoleOutputConfiguration);
-            }
         }
 
         private void AddOutputs(OutputType outputType, Func<IEnumerable<IOutput>> _outputs, IConfigurationElement configuration)
@@ -44,6 +39,11 @@ namespace ScriperLib.Scripts
                 output.InitFromConfiguration(configuration);
                 Outputs.Add(output);
             }
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
     }
 }

@@ -10,5 +10,7 @@
         WindowsProcess,
         [FileExtension(".exe")]
         ExeFile,
+        [FileExtension(".py")]
+        PythonFile,
     }
 }

@@ -17,6 +17,7 @@ namespace Scriper.ViewModels
         public ObservableCollection<ScriptVM> Scripts { get; private set; }
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
+        public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
 
         private IScriptManager _scriptManager;
 
@@ -26,6 +27,7 @@ namespace Scriper.ViewModels
             _scriptManager = container.GetInstance<IScriptManager>();
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
+            RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
             InitializeScripts();
         }
 
@@ -77,6 +79,13 @@ namespace Scriper.ViewModels
             };
 
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
+        }
+
+        public void RemoveScript(string name)
+        {
+            var scriptVM = Get(name);
+            Scripts.Remove(scriptVM);
+            _scriptManager.RemoveScript(scriptVM.GetScript());
         }
 
         public void CreateScript()

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="IronPython" Version="2.7.10" />
     <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.0.3" />
     <PackageReference Include="SimpleInjector" Version="5.0.3" />
   </ItemGroup>

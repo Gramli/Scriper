@@ -24,9 +24,11 @@ namespace ScriperLib
             _container.RegisterInstance(configuration.ScriptManagerConfiguration);
             _container.Collection.Register<IScriptRunner>(
                 typeof(ProcessRunner),
+                typeof(PythonRunner),
                 typeof(PowerShellRunner));
             _container.RegisterWithFactoryCollection<IScript>(
                 typeof(BatchScript),
+                typeof(PythonScript),
                 typeof(PowerShellScript_v1),
                 typeof(PowerShellScript_v2),
                 typeof(ExeFile));

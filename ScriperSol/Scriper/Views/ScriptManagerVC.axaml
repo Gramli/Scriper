@@ -2,12 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="clr-namespace:Scriper.Converters;assembly=Scriper"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.ScriptManagerVC"
              Name="mainControl">
+  <UserControl.Resources>
+    <converters:ScriptTypeToImageConverter x:Key="imageConverter"/>
+  </UserControl.Resources>
     <DockPanel>
       <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}">
         <DataGrid.Columns>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                 <Image Source="{Binding ScriptType, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
           <DataGridTextColumn Header="Name" Binding="{Binding Name}" FontWeight="Bold"/>
           <DataGridTextColumn Header="Argument" Binding="{Binding Arguments}" />
           <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}" />
@@ -30,6 +41,17 @@
                 <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Width="64" Height="64"/>
+                  </Button.Content>
+                </Button>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Button Command="{Binding #mainControl.DataContext.RemoveScriptCmd}" CommandParameter="{Binding Name}">
+                  <Button.Content>
+                    <Image Source="/Assets/icons8_delete_96px_6.png" Width="64" Height="64"/>
                   </Button.Content>
                 </Button>
               </DataTemplate>

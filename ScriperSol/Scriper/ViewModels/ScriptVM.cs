@@ -5,6 +5,7 @@ using Scriper.Extensions;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
+using ScriperLib.Enums;
 using System;
 using System.Reactive;
 
@@ -94,6 +95,8 @@ namespace Scriper.ViewModels
         }
 
         public IScriptConfiguration ScriptConfiguration { get; private set; }
+
+        public ScriptType ScriptType => _script.ScriptType;
 
         public event CloseEventHandler<IScript> Close;
 

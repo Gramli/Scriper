@@ -11,7 +11,7 @@ using System.Reactive;
 
 namespace Scriper.ViewModels
 {
-    public class ScriptVM : ViewModelBase, IClose<IScript>, ICloneable
+    public class ScriptVM : ViewModelBase, IClose<IScript>
     {
         private string name;
         public string Name
@@ -166,17 +166,13 @@ namespace Scriper.ViewModels
 
         public IScript GetScript()
         {
-            if (_script != null)
+            if (_script is null)
             {
-                return _script;
+                _script = _createScript(ScriptConfiguration);
             }
 
-            return _createScript(ScriptConfiguration);
+            return _script;
             
-        }
-        public object Clone()
-        {
-            return MemberwiseClone();
         }
     }
 }

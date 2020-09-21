@@ -20,7 +20,6 @@ namespace ScriperLib.Core
                 StartInfo = new ProcessStartInfo()
                 {
                     FileName = script.Configuration.Path,
-                    CreateNoWindow = script.Configuration.RunInNewWindow,
                     UseShellExecute = false,
                     RedirectStandardError = true,
                     RedirectStandardOutput = true

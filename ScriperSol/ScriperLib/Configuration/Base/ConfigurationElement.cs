@@ -14,13 +14,21 @@ namespace ScriperLib.Configuration.Base
     /// Base element for configuration
     /// Use reflection and Attributes to regognize what to parse or save
     /// </summary>
+    [Serializable]
     internal abstract class ConfigurationElement : IConfigurationElement
     {
-        private readonly XElement _element;
+        private readonly string _source;
         public ConfigurationElement(XElement element)
         {
             Parse(element);
-            _element = element;
+            _source = element.ToString();
+        }
+
+        protected internal ConfigurationElement(string source)
+        {
+            _source = source;
+            var element = XElement.Parse(source);
+            Parse(element);
         }
 
         protected internal ConfigurationElement()
@@ -285,12 +293,12 @@ namespace ScriperLib.Configuration.Base
 
         public object Clone()
         {
-            if (_element is null)
+            if (string.IsNullOrEmpty(_source))
             {
                 return Activator.CreateInstance(GetType());
             }
 
-            return Activator.CreateInstance(GetType(), _element);
+            return Activator.CreateInstance(GetType(), _source);
         }
     }
 }

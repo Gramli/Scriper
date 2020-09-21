@@ -7,6 +7,7 @@ using ScriperLib.Configuration.Outputs;
 
 namespace ScriperLib.Configuration
 {
+    [Serializable]
     internal class ScriptConfiguration : ConfigurationElement, IScriptConfiguration
     {
         [ConfigurationAttribute("name", true)]
@@ -23,9 +24,6 @@ namespace ScriperLib.Configuration
 
         [ConfigurationAttribute("inSystemTray")]
         public bool InSystemTray { get; set; }
-
-        [ConfigurationAttribute("runInNewWindow")]
-        public bool RunInNewWindow { get; set; }
 
         [ConfigurationAttribute("outputWindow")]
         public bool OutputWindow { get; set; }

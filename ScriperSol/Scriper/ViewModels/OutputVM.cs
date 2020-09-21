@@ -1,10 +1,11 @@
 ﻿using Avalonia.Media;
 using ReactiveUI;
 using ScriperLib.Configuration.Base;
-using ScriperLib.Configuration.Outputs;
 using ScriperLib.Core;
 using ScriperLib.Enums;
 using ScriperLib.Exceptions;
+using System.Text;
+using System.Timers;
 
 namespace Scriper.ViewModels
 {
@@ -24,7 +25,7 @@ namespace Scriper.ViewModels
 
 
         private IBrush backgroundColor = Brushes.Black;
-        public IBrush BackgroundColor 
+        public IBrush BackgroundColor
         {
             get { return backgroundColor; }
             set
@@ -44,9 +45,24 @@ namespace Scriper.ViewModels
         }
         public IConfigurationElement Configuration { get; private set; }
 
+        private readonly StringBuilder _output;
+        private readonly Timer _wait;
+        public OutputVM()
+        {
+            _output = new StringBuilder();
+            _wait = new Timer(100);
+            _wait.Elapsed += _wait_Elapsed;
+        }
+
+        private void _wait_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _wait.Stop();
+            Text = _output.ToString();
+        }
+
         public void InitFromConfiguration(IConfigurationElement configuration)
         {
-            if(configuration is null)
+            if (configuration is null)
             {
                 return;
             }
@@ -56,7 +72,11 @@ namespace Scriper.ViewModels
 
         public void WriteOutput(string outputText)
         {
-            Text += $"\n{outputText}";
+            _output.AppendLine(outputText);
+            if(!_wait.Enabled)
+            {
+                _wait.Start();
+            }
         }
     }
 }

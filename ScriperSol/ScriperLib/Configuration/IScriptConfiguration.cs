@@ -1,6 +1,5 @@
 ﻿using ScriperLib.Configuration.Base;
 using ScriperLib.Configuration.Outputs;
-using System;
 using System.Collections.Generic;
 
 namespace ScriperLib.Configuration
@@ -12,7 +11,6 @@ namespace ScriperLib.Configuration
         string Path { get; set; }
         string Arguments { get; set; }
         bool InSystemTray { get; set; }
-        bool RunInNewWindow { get; set; }
         bool OutputWindow { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }

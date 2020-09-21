@@ -1,11 +1,12 @@
 ﻿using ScriperLib.Configuration.Base;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Enums;
+using System;
 using System.IO;
-using System.Text;
 
 namespace ScriperLib.Core
 {
+    [Serializable]
     internal class FileOutput : IOutput
     {
         public IConfigurationElement Configuration => _fileOutputConfiguration;

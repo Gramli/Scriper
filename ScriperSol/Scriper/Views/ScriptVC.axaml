@@ -6,19 +6,19 @@
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="8"/>
-        </Style>
-      <Style Selector="TextBox.TextH1">
-            <Setter Property="BorderThickness" Value="0.5"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="AcceptsReturn" Value="True"/>
-        </Style>
+      <Setter Property="Width" Value="200"/>
+      <Setter Property="Height" Value="30"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Margin" Value="8"/>
+    </Style>
+    <Style Selector="TextBox.TextH1">
+      <Setter Property="BorderThickness" Value="0.5"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
   </UserControl.Styles>
   <StackPanel Margin="5">
     <DockPanel LastChildFill="True">
@@ -29,9 +29,14 @@
       <TextBlock Text="Arguments" Classes="h1"/>
       <TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>
     </DockPanel>
-    <DockPanel LastChildFill="True">
+    <DockPanel LastChildFill="True" Height="80">
       <TextBlock Text="Description" Classes="h1"/>
-      <TextBox Text="{Binding Description, Mode=TwoWay}" Classes="TextH1"/>
+      <ScrollViewer>
+        <TextBox Text="{Binding Description, Mode=TwoWay}" Height="75"
+                 Classes="TextH1"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+      </ScrollViewer>
     </DockPanel>
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
@@ -39,33 +44,29 @@
       <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
-      <TextBlock Text="RunInNewWindow" Classes="h1"/>
-      <CheckBox IsChecked="{Binding ScriptConfiguration.RunInNewWindow, Mode=TwoWay}"/>
-    </DockPanel>
-    <DockPanel LastChildFill="True" Background="LightBlue">
       <TextBlock Text="InSystemTray" Classes="h1"/>
-      <CheckBox IsChecked="{Binding ScriptConfiguration.InSystemTray, Mode=TwoWay}"/>
+      <CheckBox IsChecked="{Binding ScriptConfiguration.InSystemTray, Mode=TwoWay}" IsEnabled="False"/>
     </DockPanel>
-    <StackPanel>
+    <StackPanel Background="LightBlue">
       <DockPanel>
         <TextBlock Text="File Output" Classes="h1"/>
         <CheckBox Name="fileOutput" IsChecked="{Binding FileOutput}"/>
       </DockPanel>
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
-        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath}" Width="330" Classes="TextH1"/> 
+        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath}" Width="330" Classes="TextH1"/>
         <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
       </DockPanel>
     </StackPanel>
-    <StackPanel Background="LightBlue">
+    <StackPanel>
       <DockPanel>
         <TextBlock Text="Output Window" Classes="h1"/>
         <CheckBox Name="OutputWindowe" IsChecked="{Binding OutputWindow}"/>
       </DockPanel>
     </StackPanel>
-    <StackPanel>
+    <StackPanel Background="LightBlue">
       <DockPanel>
-        <TextBlock Text="Time Schedule" Classes="h1"/>
+        <TextBlock Text="Time Schedule" Classes="h1" />
         <CheckBox Name="TimeSchedule" IsChecked="False" IsEnabled="False"/>
       </DockPanel>
     </StackPanel>

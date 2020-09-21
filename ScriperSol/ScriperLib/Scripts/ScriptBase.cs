@@ -5,9 +5,11 @@ using ScriperLib.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ScriperLib.Extensions;
 
 namespace ScriperLib.Scripts
 {
+    [Serializable]
     public abstract class ScriptBase : IScript
     {
         public abstract ScriptType ScriptType { get; }
@@ -43,7 +45,7 @@ namespace ScriperLib.Scripts
 
         public object Clone()
         {
-            return MemberwiseClone();
+            return this.DeepClone();
         }
     }
 }

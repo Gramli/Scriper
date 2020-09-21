@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Scriper.Extensions;
 using Scriper.ViewModels;
 
 namespace Scriper.Views
@@ -23,6 +24,7 @@ namespace Scriper.Views
             if(viewModel != null)
             {
                 viewModel.SaveConfig();
+                App.Current.CloseWindows();
             }
         }
 

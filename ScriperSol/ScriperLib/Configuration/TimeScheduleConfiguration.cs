@@ -6,6 +6,7 @@ using ScriperLib.Configuration.Base;
 
 namespace ScriperLib.Configuration
 {
+    [Serializable]
     internal class TimeScheduleConfiguration : ConfigurationElement, ITimeScheduleConfiguration
     {
         [ConfigurationElement("Time", true)]

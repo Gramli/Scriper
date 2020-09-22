@@ -8,18 +8,30 @@ namespace ScriperLib.Extensions
     {
         public static ScriptType GetScriptType(this string fileExtension)
         {
-            var type = typeof(ScriptType);
-            var fields = type.GetFields();
-            foreach(var field in fields)
+            if(fileExtension.TryGetScriptType(out var scriptType))
             {
-                var attribute = (FileExtensionAttribute)field.GetCustomAttributes(typeof(FileExtensionAttribute), false).FirstOrDefault();
-                if(attribute != null && attribute.FileExtensionts.Contains(fileExtension))
-                {
-                    return (ScriptType)Enum.Parse(type, field.Name);
-                }
+                return scriptType.Value;
             }
 
             throw new ArgumentException($"Unknown FileExtension: {fileExtension}");
+        }
+
+        public static bool TryGetScriptType(this string fileExtension, out ScriptType? scriptType)
+        {
+            var type = typeof(ScriptType);
+            var fields = type.GetFields();
+            foreach (var field in fields)
+            {
+                var attribute = (FileExtensionAttribute)field.GetCustomAttributes(typeof(FileExtensionAttribute), false).FirstOrDefault();
+                if (attribute != null && attribute.FileExtensionts.Contains(fileExtension))
+                {
+                    scriptType = (ScriptType)Enum.Parse(type, field.Name);
+                    return true;
+                }
+            }
+
+            scriptType = null;
+            return false;
         }
 
         public static string[] GetFileExtensionAttributes(this ScriptType enumValue)

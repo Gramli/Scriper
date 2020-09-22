@@ -1,10 +1,11 @@
 ﻿using IronPython.Hosting;
 using ScriperLib.Enums;
 using ScriperLib.Extensions;
+using ScriperLib.Outputs;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ScriperLib.Core
+namespace ScriperLib.Runners
 {
     public class PythonRunner : IScriptRunner
     {

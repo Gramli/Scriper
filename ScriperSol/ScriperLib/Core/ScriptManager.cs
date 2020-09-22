@@ -1,5 +1,6 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Extensions;
+using ScriperLib.Outputs;
 using System;
 using System.Collections.Generic;
 using System.IO;

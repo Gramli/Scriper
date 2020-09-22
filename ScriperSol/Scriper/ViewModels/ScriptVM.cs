@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Media;
 using ReactiveUI;
 using Scriper.Closing;
 using Scriper.Extensions;
@@ -6,7 +7,9 @@ using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Enums;
+using ScriperLib.Extensions;
 using System;
+using System.IO;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -21,6 +24,46 @@ namespace Scriper.ViewModels
             {
                 ScriptConfiguration.Name = value;
                 this.RaiseAndSetIfChanged(ref name, value);
+                ClearInvalid();
+            }
+        }
+
+        private string errorText;
+        public string ErrorText
+        {
+            get { return errorText; }
+            set
+            {
+                if (errorText != value)
+                {
+                    this.RaiseAndSetIfChanged(ref errorText, value);
+                }
+            }
+        }
+
+        private IBrush nameBackground = Brushes.White;
+        public IBrush NameBackground
+        {
+            get { return nameBackground; }
+            set
+            {
+                if (nameBackground != value)
+                {
+                    this.RaiseAndSetIfChanged(ref nameBackground, value);
+                }
+            }
+        }
+
+        private IBrush configBackground = Brushes.White;
+        public IBrush ConfigBackground
+        {
+            get { return configBackground; }
+            set
+            {
+                if (configBackground != value)
+                {
+                    this.RaiseAndSetIfChanged(ref configBackground, value);
+                }
             }
         }
 
@@ -54,6 +97,7 @@ namespace Scriper.ViewModels
             {
                 ScriptConfiguration.Path = value;
                 this.RaiseAndSetIfChanged(ref configPath, value);
+                ClearInvalid();
             }
         }
 
@@ -139,12 +183,31 @@ namespace Scriper.ViewModels
 
         public void Ok()
         {
-            //TODO MAKE CHECK
+            if (string.IsNullOrEmpty(Name))
+            {
+                InvalidName("Invalid script name, name is empty.");
+                return;
+            }
+
+            if(string.IsNullOrEmpty(ConfigPath))
+            {
+                InvalidateConfigPath("Invalid script path, path is empty.");
+                return;
+            }
+
+            if(!Path.GetExtension(ConfigPath).TryGetScriptType(out var scriptType))
+            {
+                InvalidateConfigPath("Uknown script(file) type.");
+                return;
+            }
+
             this.Close.Invoke(this, new CloseEventArgs<IScript>(GetScript()));
         }
 
         public async void OpenFile(string parameter)
         {
+
+
             var openFileDialog = new OpenFileDialog()
             {
                 AllowMultiple = false,
@@ -164,6 +227,18 @@ namespace Scriper.ViewModels
             }
         }
 
+        public void InvalidName(string message)
+        {
+            NameBackground = Brushes.Salmon;
+            ErrorText = message;
+        }
+
+        private void InvalidateConfigPath(string message)
+        {
+            ConfigBackground = Brushes.Salmon;
+            ErrorText = message;
+        }
+
         public IScript GetScript()
         {
             if (_script is null)
@@ -173,6 +248,13 @@ namespace Scriper.ViewModels
 
             return _script;
             
+        }
+
+        private void ClearInvalid()
+        {
+            NameBackground = Brushes.White;
+            ConfigBackground = Brushes.White;
+            ErrorText = string.Empty;
         }
     }
 }

@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="250"
         x:Class="Scriper.Views.DialogWindow"
-        Title="DialogWindow">
+        Title="DialogWindow"
+        CanResize="False">
   <DockPanel Name="basePanel"/> 
 </Window>

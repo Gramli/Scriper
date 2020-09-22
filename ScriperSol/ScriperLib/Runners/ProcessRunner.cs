@@ -1,9 +1,10 @@
 ﻿using ScriperLib.Enums;
+using ScriperLib.Outputs;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace ScriperLib.Core
+namespace ScriperLib.Runners
 {
     internal class ProcessRunner : IScriptRunner
     {
@@ -15,6 +16,35 @@ namespace ScriperLib.Core
 
         public void Run(IScript script)
         {
+            switch(script.ScriptType)
+            {
+                case ScriptType.ExeFile:
+                    RunExe(script);
+                    break;
+                case ScriptType.WindowsProcess:
+                    RunBat(script);
+                    break;
+            }
+        }
+
+        private void RunExe(IScript script)
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo()
+                {
+                    FileName = script.Configuration.Path,
+                    UseShellExecute = true,
+                    RedirectStandardError = false,
+                    RedirectStandardOutput = false,
+                    Arguments = script.Configuration.Arguments,
+                }
+            };
+
+            process.Start();
+        }
+        private void RunBat(IScript script)
+        {
             var process = new Process
             {
                 StartInfo = new ProcessStartInfo()
@@ -22,7 +52,8 @@ namespace ScriperLib.Core
                     FileName = script.Configuration.Path,
                     UseShellExecute = false,
                     RedirectStandardError = true,
-                    RedirectStandardOutput = true
+                    RedirectStandardOutput = true,
+                    Arguments = script.Configuration.Arguments,
                 }
             };
 

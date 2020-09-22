@@ -97,6 +97,11 @@ namespace Scriper.ViewModels
 
             scriptViewModel.Close += (sender, args) =>
             {
+                if(Scripts.Any(item=>item.Name == args.Result.Configuration.Name))
+                {
+                    scriptViewModel.InvalidName("Invalid script name, script name already exists.");
+                    return;
+                }
                 if (!args.Cancel)
                 {
                     _scriptManager.AddScript(args.Result);

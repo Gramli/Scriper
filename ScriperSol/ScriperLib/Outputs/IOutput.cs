@@ -1,7 +1,7 @@
 ﻿using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
 
-namespace ScriperLib.Core
+namespace ScriperLib.Outputs
 {
     public interface IOutput
     {

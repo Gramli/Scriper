@@ -26,7 +26,7 @@ namespace ScriperLib.Configuration
         public bool InSystemTray { get; set; }
 
         [ConfigurationAttribute("outputWindow")]
-        public bool OutputWindow { get; set; }
+        public bool OutputWindow { get; set; } = true;
 
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }

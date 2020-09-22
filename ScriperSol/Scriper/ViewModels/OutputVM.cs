@@ -1,9 +1,9 @@
 ﻿using Avalonia.Media;
 using ReactiveUI;
 using ScriperLib.Configuration.Base;
-using ScriperLib.Core;
 using ScriperLib.Enums;
 using ScriperLib.Exceptions;
+using ScriperLib.Outputs;
 using System.Text;
 using System.Timers;
 

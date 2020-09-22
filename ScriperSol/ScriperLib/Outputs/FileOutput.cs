@@ -4,7 +4,7 @@ using ScriperLib.Enums;
 using System;
 using System.IO;
 
-namespace ScriperLib.Core
+namespace ScriperLib.Outputs
 {
     [Serializable]
     internal class FileOutput : IOutput

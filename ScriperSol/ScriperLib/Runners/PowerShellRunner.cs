@@ -1,10 +1,11 @@
 ﻿using ScriperLib.Enums;
+using ScriperLib.Outputs;
 using System.Collections.Generic;
 using System.IO;
 using System.Management.Automation;
 using System.Threading.Tasks;
 
-namespace ScriperLib.Core
+namespace ScriperLib.Runners
 {
     internal class PowerShellRunner : IScriptRunner
     {

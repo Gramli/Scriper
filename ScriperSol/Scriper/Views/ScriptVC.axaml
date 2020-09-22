@@ -23,7 +23,7 @@
   <StackPanel Margin="5">
     <DockPanel LastChildFill="True">
       <TextBlock Text="Name" Classes="h1"/>
-      <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1"/>
+      <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1" Background="{Binding NameBackground}"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Background="LightBlue">
       <TextBlock Text="Arguments" Classes="h1"/>
@@ -40,7 +40,7 @@
     </DockPanel>
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350"/>
+      <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
       <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
@@ -70,6 +70,9 @@
         <CheckBox Name="TimeSchedule" IsChecked="False" IsEnabled="False"/>
       </DockPanel>
     </StackPanel>
+    <DockPanel>
+      <TextBlock Text="{Binding ErrorText}" TextAlignment="Center" Foreground="Red"/>
+    </DockPanel>
     <StackPanel Margin="5">
       <Button Height="30" Command="{Binding OkCmd}">
         <Button.Content>

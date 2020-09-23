@@ -5,7 +5,7 @@ namespace ScriperLib.Configuration
 {
     public class ScriperConfiguration : IScriperConfiguration
     {
-        private string fileName;
+        private string fileName = "defaultScriper.config";
         public IScriptManagerConfiguration ScriptManagerConfiguration { get; private set; }
 
         private ScriperConfiguration(string fileName, IScriptManagerConfiguration scriptManagerConfiguration)

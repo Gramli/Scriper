@@ -3,7 +3,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ScriperLib.Extensions
 {
-    public static class DeepCloneExtension
+    public static class DeepCloneExtensions
     {
         public static T DeepClone<T>(this T a)
         {

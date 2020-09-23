@@ -2,6 +2,7 @@
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.Extensions;
+using ScriperLib.Extensions;
 
 namespace Scriper.Views
 {
@@ -25,8 +26,7 @@ namespace Scriper.Views
 
         private void OnManualClick(object sender, RoutedEventArgs e)
         {
-            var manualWindow = new ManualWindow();
-            manualWindow.ShowDialog(App.Current.GetMainWindow());
+            BrowserExtensions.OpenBrowserByPlatform("https://github.com/Gramli/Scriper");
         }
     }
 }

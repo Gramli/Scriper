@@ -8,5 +8,22 @@
         x:Class="Scriper.Views.MainWindow"
         Title="Scriper"
         Icon="/Assets/icons8_console.ico">
-  <views:MainVC DataContext="{Binding MainVM}"/>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="60"/>
+      <RowDefinition Height="65"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="60"/>
+    </Grid.RowDefinitions>
+    <Border Background="LightBlue" Margin="15,15,15,0" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0" IsVisible="{Binding !DataVisible}">
+      <TextBlock Margin="15,0,0,0" Text="Select Config:" FontWeight="Bold" FontSize="16" VerticalAlignment="Center"/>
+    </Border>
+    <ListBox Margin="15,0,15,0" Grid.Row="1" Grid.RowSpan="2" FontSize="14" Items="{Binding Configs}" Name="cmbConfigs" IsVisible="{Binding !DataVisible}"/>
+    <Button Margin="15,0,15,15" Grid.Row="3" Command="{Binding OkCmd}" CommandParameter="{Binding #cmbConfigs.SelectedItem}" IsVisible="{Binding !DataVisible}">
+      <Image Source="/Assets/icons8_ok_96px.png" Width="32" Height="32"/>
+    </Button>
+    <Panel IsVisible="{Binding DataVisible}" Grid.RowSpan="4">
+      <views:MainVC DataContext="{Binding MainVM}"/>
+    </Panel>
+  </Grid>
 </Window>

@@ -8,8 +8,8 @@ Actual version supports:
 * Pyhton - .py
 * Exe - .exe
 
-##Get Started
-All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI or edit the config file. At start Scriper looking for config files which ends with **"Scriper.config"** s o you can have more configs and pick at start which you want to use.
+## Get Started
+All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI or edit the config file. At start Scriper looking for config files in same folder and has to ends with **"Scriper.config"** so you can have more configs and pick which one you want to use.
 
 ### Configuration
 

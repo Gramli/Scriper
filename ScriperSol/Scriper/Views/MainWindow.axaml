@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Scriper.Views.MainWindow"
-        Title="Scriper"
+        Title="{Binding Title}"
         Icon="/Assets/icons8_console.ico">
   <Grid>
     <Grid.RowDefinitions>

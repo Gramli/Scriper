@@ -1,4 +1,5 @@
 ﻿using ScriperLib.Configuration;
+using ScriperLib.Exceptions;
 using ScriperLib.Extensions;
 using ScriperLib.Outputs;
 using System;
@@ -6,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace ScriperLib.Core
+namespace ScriperLib
 {
     internal class ScriptManager : IScriptManager
     {
@@ -49,8 +50,14 @@ namespace ScriperLib.Core
 
         public void AddScript(IScript script)
         {
+            if (_scripts.Keys.Any(key => key.Configuration.Name == script.Configuration.Name))
+            {
+                throw new ConfigurationException($"In Configuration are two scripts with same name: {script.Configuration.Name}.");
+            }
+
             var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(script.ScriptType));
             _scripts.Add(script, scriptRunner);
+
             if (!Configuration.ScriptsConfigurations.Contains(script.Configuration))
             {
                 Configuration.ScriptsConfigurations.Add(script.Configuration);
@@ -70,6 +77,11 @@ namespace ScriperLib.Core
 
         public void ReplaceScript(IScript oldScript, IScript newScript)
         {
+            if(_scripts.Keys.Any(script=> script.Configuration.Name == newScript.Configuration.Name && script != oldScript))
+            {
+                throw new ConfigurationException($"Can't replace script:{oldScript.Configuration.Name} because scripts with same name already exists: {newScript.Configuration.Name}.");
+            }
+
             RemoveScript(oldScript);
             AddScript(newScript);
         }

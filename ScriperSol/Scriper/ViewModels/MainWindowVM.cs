@@ -1,8 +1,11 @@
-﻿using ReactiveUI;
+﻿using NLog;
+using ReactiveUI;
+using Scriper.Extensions;
 using ScriperLib;
 using ScriperLib.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -29,9 +32,21 @@ namespace Scriper.ViewModels
             }
         }
 
+        private string title;
+        public string Title
+        {
+            get => title;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref title, $"Scriper: {Path.GetFileName(value)}");
+            }
+        }
+
         public List<string> Configs { get; private set; }
 
         public ReactiveCommand<string, Unit> OkCmd { get; }
+
+        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
         private IScriperLibContainer _container;
         public MainWindowVM(List<string> configs)
@@ -41,9 +56,7 @@ namespace Scriper.ViewModels
             if (configs.Count < 2)
             {
                 var config = configs.Count > 0 ? configs[0] : null;
-                _container = new ScriperLibContainer(config);
-                MainVM = new MainVM(_container);
-                DataVisible = true;
+                Init(config);
             }
             else
             {
@@ -54,9 +67,23 @@ namespace Scriper.ViewModels
 
         private void Ok(string config)
         {
-            _container = new ScriperLibContainer(config);
-            MainVM = new MainVM(_container);
-            DataVisible = true;
+            Init(config);
+        }
+
+        private void Init(string config)
+        {
+            try
+            {
+                _container = new ScriperLibContainer(config);
+                MainVM = new MainVM(_container);
+                DataVisible = true;
+                Title = config;
+            }
+            catch(Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
         }
 
         public void SaveConfig()

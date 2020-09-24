@@ -1,5 +1,4 @@
 ﻿using ScriperLib.Configuration;
-using ScriperLib.Core;
 using ScriperLib.Enums;
 using ScriperLib.Outputs;
 using System;

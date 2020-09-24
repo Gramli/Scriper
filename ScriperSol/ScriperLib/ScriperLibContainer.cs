@@ -1,6 +1,5 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
-using ScriperLib.Core;
 using ScriperLib.Extensions;
 using ScriperLib.Outputs;
 using ScriperLib.Runners;

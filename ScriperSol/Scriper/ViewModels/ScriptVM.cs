@@ -206,8 +206,6 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-
-
             var openFileDialog = new OpenFileDialog()
             {
                 AllowMultiple = false,

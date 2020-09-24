@@ -11,21 +11,9 @@ namespace Scriper.Views
         public MainWindow()
         {
             InitializeComponent();
-
-            this.Closed += MainWindow_Closed;
 #if DEBUG
             this.AttachDevTools();
 #endif
-        }
-
-        private void MainWindow_Closed(object sender, System.EventArgs e)
-        {
-            var viewModel = this.DataContext as MainWindowVM;
-            if(viewModel != null)
-            {
-                viewModel.SaveConfig();
-                App.Current.CloseWindows();
-            }
         }
 
         private void InitializeComponent()

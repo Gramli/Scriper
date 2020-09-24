@@ -1,6 +1,5 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Configuration.Base;
-using ScriperLib.Core;
 using ScriperLib.Enums;
 using System;
 using System.Collections.Generic;

@@ -1,6 +1,8 @@
-﻿using ReactiveUI;
+﻿using NLog;
+using ReactiveUI;
 using Scriper.Extensions;
 using ScriperLib;
+using System;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -9,13 +11,11 @@ namespace Scriper.ViewModels
     {
         public ScriptManagerVM ScriptManagerVM { get; private set; }
         public ReactiveCommand<string, Unit> CreateScriptCmd { get; }
-
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
 
-        private IScriperLibContainer _container;
+        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
         public MainVM(IScriperLibContainer container)
         {
-            _container = container;
             ScriptManagerVM = new ScriptManagerVM(container);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
@@ -28,7 +28,15 @@ namespace Scriper.ViewModels
 
         public void CreateScript(string argument)
         {
-            ScriptManagerVM.CreateScript();
+            try
+            {
+                ScriptManagerVM.CreateScript();
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
         }
     }
 }

@@ -36,3 +36,8 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * TimeSchedules - *not implemented yet*
 * FileOuput
   * path - path to script output file -> script output will be written there
+  
+#What will be in next version?
+TimeSchedule support
+Javascript support
+

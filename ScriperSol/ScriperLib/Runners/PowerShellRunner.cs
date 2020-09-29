@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Management.Automation;
 using System.Threading.Tasks;
+using ScriperLib.Extensions;
 
 namespace ScriperLib.Runners
 {
@@ -11,31 +12,42 @@ namespace ScriperLib.Runners
     {
         public ScriptType[] ScriptTypes => new[] { ScriptType.PowerShell1, ScriptType.PowerShell2 };
 
-        public async void Run(IScript script)
+        public IScriptResult Run(IScript script)
         {
-            await RunScript(script);
+            using var powerShell = PowerShell.Create();
+            var content = File.ReadAllText(script.Configuration.Path);
+            powerShell.AddScript(content);
+
+            if (!string.IsNullOrEmpty(script.Configuration.Arguments))
+            {
+                powerShell.AddArgument(script.Configuration.Arguments);
+            }
+
+            var pipelineObjects = powerShell.Invoke();
+
+            // print the resulting pipeline objects to the console.
+            foreach (var item in pipelineObjects)
+            {
+                WriteOutputs(script.Outputs, item.ToString());
+            }
+
+            if (powerShell.HadErrors)
+            {
+                foreach (var item in powerShell.Streams.Error)
+                {
+                    var formated = $"Exception Message: {item.Exception.Message}; Stack Trace{item.Exception.StackTrace}; \n + CategoryInfo: {item.CategoryInfo} \n + FullyQualifiedErrorId: {item.FullyQualifiedErrorId}".FormatError();
+                    WriteOutputs(script.Outputs, formated);
+                }
+            }
+
+            return null;
         }
 
-        private Task RunScript(IScript script)
+        public Task<IScriptResult> RunAsync(IScript script)
         {
             return Task.Factory.StartNew(() =>
             {
-                using var powerShell = PowerShell.Create();
-                var content = File.ReadAllText(script.Configuration.Path);
-                powerShell.AddScript(content);
-
-                if (!string.IsNullOrEmpty(script.Configuration.Arguments))
-                {
-                    powerShell.AddArgument(script.Configuration.Arguments);
-                }
-
-                var pipelineObjects = powerShell.Invoke();
-
-                // print the resulting pipeline objects to the console.
-                foreach (var item in pipelineObjects)
-                {
-                    WriteOutputs(script.Outputs, item.ToString());
-                }
+                return Run(script);
             });
         }
 

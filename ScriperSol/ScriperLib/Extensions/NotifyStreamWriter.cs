@@ -37,6 +37,12 @@ namespace ScriperLib.Extensions
             base.Write(value);
         }
 
+        public override void Write(object value)
+        {
+            Invoke(value);
+            base.Write(value);
+        }
+
         private void Invoke(object value)
         {
             OnWrite.Invoke(this, new WriteEventArgs(value.ToString()));

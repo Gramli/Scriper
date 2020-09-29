@@ -1,8 +1,9 @@
 ﻿using ScriperLib.Enums;
+using ScriperLib.Extensions;
 using ScriperLib.Outputs;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace ScriperLib.Runners
 {
@@ -14,7 +15,7 @@ namespace ScriperLib.Runners
         {
         }
 
-        public void Run(IScript script)
+        public IScriptResult Run(IScript script)
         {
             switch(script.ScriptType)
             {
@@ -25,6 +26,16 @@ namespace ScriperLib.Runners
                     RunBat(script);
                     break;
             }
+
+            return null;
+        }
+
+        public Task<IScriptResult> RunAsync(IScript script)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                return Run(script);
+            });
         }
 
         private void RunExe(IScript script)
@@ -57,15 +68,14 @@ namespace ScriperLib.Runners
                 }
             };
 
-            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, $"output:: {e.Data}");
-            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, $"error:: {e.Data}");
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, e.Data);
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) => WriteOutputs(script.Outputs, e.Data.FormatError());
 
             process.Start();
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();
             process.WaitForExit();
 
-            WriteOutputs(script.Outputs, $"exitcode:: {process.ExitCode}");
             process.Close();
         }
 

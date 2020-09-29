@@ -1,0 +1,5 @@
+$startinfo = new-object System.Diagnostics.ProcessStartInfo 
+$startinfo.FileName = "explorer.exe"
+$startinfo.WorkingDirectory = 'D:\foldername'
+
+[System.Diagnostics.Process]::Start($startinfo)

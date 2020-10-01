@@ -1,10 +1,6 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Exceptions;
-using ScriperLib.Extensions;
-using ScriperLib.Outputs;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace ScriperLib
@@ -12,30 +8,21 @@ namespace ScriperLib
     internal class ScriptManager : IScriptManager
     {
         public IScriptManagerConfiguration Configuration { get; private set; }
-        public IReadOnlyCollection<IScript> Scripts => _scripts.Keys;
+        public IReadOnlyCollection<IScript> Scripts => _scripts;
 
-        private Dictionary<IScript, IScriptRunner> _scripts;
+        private HashSet<IScript> _scripts;
 
-        private IEnumerable<IScriptRunner> _scriptRunners;
+        private readonly IScriptCreator _scriptCreator;
 
-        private Func<IEnumerable<IOutput>> _scriptOutputs;
-
-        private Func<IEnumerable<IScript>> _scrips;
-
-        public ScriptManager(IScriptManagerConfiguration configuration,
-            IEnumerable<IScriptRunner> scriptRunners,
-            Func<IEnumerable<IScript>> scrips,
-            Func<IEnumerable<IOutput>> scriptOutputs)
+        public ScriptManager(IScriptManagerConfiguration configuration, IScriptCreator scriptCreator)
         {
             Configuration = configuration;
-            _scriptRunners = scriptRunners;
-            _scriptOutputs = scriptOutputs;
-            _scrips = scrips;
+            _scriptCreator = scriptCreator;
             LoadScripts();
         }
         private void LoadScripts()
         {
-            _scripts = new Dictionary<IScript, IScriptRunner>(Configuration.ScriptsConfigurations.Count);
+            _scripts = new HashSet<IScript>(Configuration.ScriptsConfigurations.Count);
             foreach (var scriptConfiguration in Configuration.ScriptsConfigurations)
             {
                 AddScript(scriptConfiguration);
@@ -44,19 +31,18 @@ namespace ScriperLib
 
         public void AddScript(IScriptConfiguration scriptConfiguration)
         {
-            var script = CreateScript(scriptConfiguration);
+            var script = _scriptCreator.Create(scriptConfiguration);
             AddScript(script);
         }
 
         public void AddScript(IScript script)
         {
-            if (_scripts.Keys.Any(key => key.Configuration.Name == script.Configuration.Name))
+            if (_scripts.Any(key => key.Configuration.Name == script.Configuration.Name))
             {
                 throw new ConfigurationException($"In Configuration are two scripts with same name: {script.Configuration.Name}.");
             }
 
-            var scriptRunner = _scriptRunners.Single(runner => runner.ScriptTypes.Contains(script.ScriptType));
-            _scripts.Add(script, scriptRunner);
+            _scripts.Add(script);
 
             if (!Configuration.ScriptsConfigurations.Contains(script.Configuration))
             {
@@ -70,29 +56,15 @@ namespace ScriperLib
             return _scripts.Remove(script);
         }
 
-        public void RunScript(IScript script)
-        {
-            _scripts[script].Run(script);
-        }
-
         public void ReplaceScript(IScript oldScript, IScript newScript)
         {
-            if(_scripts.Keys.Any(script=> script.Configuration.Name == newScript.Configuration.Name && script != oldScript))
+            if(_scripts.Any(script=> script.Configuration.Name == newScript.Configuration.Name && script != oldScript))
             {
                 throw new ConfigurationException($"Can't replace script:{oldScript.Configuration.Name} because scripts with same name already exists: {newScript.Configuration.Name}.");
             }
 
             RemoveScript(oldScript);
             AddScript(newScript);
-        }
-
-        public IScript CreateScript(IScriptConfiguration scriptConfiguration)
-        {
-            var extension = Path.GetExtension(scriptConfiguration.Path);
-            var scriptType = extension.GetScriptType();
-            var script = _scrips().Single(item => item.ScriptType == scriptType);
-            script.InitFromConfiguration(scriptConfiguration, _scriptOutputs);
-            return script;
         }
     }
 }

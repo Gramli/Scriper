@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ScriperLib
 {
-    public interface IScript : ICloneable
+    public interface IScript
     {
         ScriptType ScriptType {get;}
         IScriptConfiguration Configuration { get; }

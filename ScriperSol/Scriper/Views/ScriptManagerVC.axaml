@@ -36,7 +36,7 @@
           <DataGridTemplateColumn Header="Name" Width="150">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding Name}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
+                <TextBox Text="{Binding ScriptConfiguration.Name}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
                   <TextBox.Styles>
                     <Style Selector="TextBox /template/ TextPresenter">
                       <Setter Property="VerticalAlignment" Value="Center"/>
@@ -49,14 +49,14 @@
           <DataGridTemplateColumn Header="Argument" Width="*">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding Arguments}" Classes="LongText"/>
+                <TextBox Text="{Binding ScriptConfiguration.Arguments}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
           <DataGridTemplateColumn Header="Description" Width="500">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                  <TextBox Text="{Binding Description}" Classes="LongText"/>
+                  <TextBox Text="{Binding ScriptConfiguration.Description}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
@@ -64,7 +64,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding Name}">
+                <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_play_96px.png" Classes="BtnImage"/>
                   </Button.Content>
@@ -75,7 +75,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding Name}">
+                <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Classes="BtnImage"/>
                   </Button.Content>
@@ -86,7 +86,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <Button Command="{Binding #mainControl.DataContext.RemoveScriptCmd}" CommandParameter="{Binding Name}">
+                <Button Command="{Binding #mainControl.DataContext.RemoveScriptCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_delete_96px_6.png" Classes="BtnImage"/>
                   </Button.Content>

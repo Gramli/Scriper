@@ -5,11 +5,11 @@ using Scriper.Extensions;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
+using ScriperLib.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
-using System.Threading.Tasks;
 
 namespace Scriper.ViewModels
 {
@@ -21,7 +21,9 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
 
-        private IScriptManager _scriptManager;
+        private readonly IScriptManager _scriptManager;
+
+        private readonly IScriptRunner _scriptRunner;
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
@@ -29,6 +31,7 @@ namespace Scriper.ViewModels
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
+            _scriptRunner = container.GetInstance<IScriptRunner>();
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
@@ -42,7 +45,7 @@ namespace Scriper.ViewModels
                 Scripts = new ObservableCollection<ScriptVM>();
                 foreach (var script in _scriptManager.Scripts)
                 {
-                    var vm = new ScriptVM(Container, script);
+                    var vm = new ScriptVM(script);
                     Scripts.Add(vm);
                 }
             }
@@ -57,10 +60,10 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var scriptVM = Get(name);
-                var script = scriptVM.GetScript();
+                var scriptVM = GetScriptVM(name);
+                var script = scriptVM.Script;
 
-                if (scriptVM.OutputWindow)
+                if (scriptVM.ScriptConfiguration.OutputWindow)
                 {
                     var outputVM = new OutputVM();
                     var outputVC = new OutputVC(outputVM);
@@ -69,7 +72,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
                     dialogWindow.Show();
                 }
-                Task.Factory.StartNew(() => _scriptManager.RunScript(script));
+                _scriptRunner.RunAsync(script);
             }
             catch (Exception ex)
             {
@@ -82,9 +85,8 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var script = Get(name).GetScript();
-
-                var scriptViewModel = new ScriptVM(Container, (IScript)script.Clone());
+                var script = GetScriptVM(name).Script;
+                var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
                 var dialogWindow = new DialogWindow(600, 550, "Edit Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_edit_property.ico"));
 
@@ -92,9 +94,9 @@ namespace Scriper.ViewModels
                 {
                     if (!args.Cancel)
                     {
-                        Replace(script, args.Result);
-                        var oldVM = Scripts.Single(item => item.Name == script.Configuration.Name);
-                        Scripts.Replace(oldVM, scriptViewModel);
+                        var oldVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
+                        Scripts.Replace(oldVM, new ScriptVM(args.Result));
+                        _scriptManager.ReplaceScript(script, args.Result);
                     }
 
                     dialogWindow.Close();
@@ -113,9 +115,9 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var scriptVM = Get(name);
+                var scriptVM = GetScriptVM(name);
                 Scripts.Remove(scriptVM);
-                _scriptManager.RemoveScript(scriptVM.GetScript());
+                _scriptManager.RemoveScript(scriptVM.Script);
             }
             catch (Exception ex)
             {
@@ -129,13 +131,13 @@ namespace Scriper.ViewModels
             try
             {
                 var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
-                var scriptViewModel = new ScriptVM(Container, _scriptManager.CreateScript, scriptConfiguration);
+                var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
                 var dialogWindow = new DialogWindow(600, 550, "Add Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_file_1.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
-                    if (Scripts.Any(item => item.Name == args.Result.Configuration.Name))
+                    if (Scripts.Any(item => item.ScriptConfiguration.Name == args.Result.Configuration.Name))
                     {
                         scriptViewModel.InvalidName("Invalid script name, script name already exists.");
                         return;
@@ -143,7 +145,7 @@ namespace Scriper.ViewModels
                     if (!args.Cancel)
                     {
                         _scriptManager.AddScript(args.Result);
-                        Scripts.Add(scriptViewModel);
+                        Scripts.Add(new ScriptVM(args.Result));
                     }
 
                     dialogWindow.Close();
@@ -158,22 +160,9 @@ namespace Scriper.ViewModels
             }
         }
 
-        public void Replace(IScript oldScript, IScript newScript)
+        private ScriptVM GetScriptVM(string name)
         {
-            try
-            {
-                _scriptManager.ReplaceScript(oldScript, newScript);
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
-        public ScriptVM Get(string name)
-        {
-            return Scripts.Single(script => script.Name == name);
+            return Scripts.Single(script => script.ScriptConfiguration.Name == name);
         }
     }
 }

@@ -290,15 +290,5 @@ namespace ScriperLib.Configuration.Base
             }
 
         }
-
-        public object Clone()
-        {
-            if (string.IsNullOrEmpty(_source))
-            {
-                return Activator.CreateInstance(GetType());
-            }
-
-            return Activator.CreateInstance(GetType(), _source);
-        }
     }
 }

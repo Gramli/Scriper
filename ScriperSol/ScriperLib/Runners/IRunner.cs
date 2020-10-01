@@ -1,11 +1,11 @@
 ﻿using ScriperLib.Enums;
-using ScriperLib.Runners;
 using System.Threading.Tasks;
 
-namespace ScriperLib
+namespace ScriperLib.Runners
 {
-    public interface IScriptRunner
+    internal interface IRunner
     {
+        public ScriptType[] ScriptTypes { get; }
         IScriptResult Run(IScript script);
         Task<IScriptResult> RunAsync(IScript script);
     }

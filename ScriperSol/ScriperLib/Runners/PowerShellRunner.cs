@@ -8,7 +8,7 @@ using ScriperLib.Extensions;
 
 namespace ScriperLib.Runners
 {
-    internal class PowerShellRunner : IScriptRunner
+    internal class PowerShellRunner : IRunner
     {
         public ScriptType[] ScriptTypes => new[] { ScriptType.PowerShell1, ScriptType.PowerShell2 };
 

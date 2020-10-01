@@ -23,10 +23,11 @@ namespace ScriperLib
 
             _container.RegisterInstance(configuration);
             _container.RegisterInstance(configuration.ScriptManagerConfiguration);
-            _container.Collection.Register<IScriptRunner>(
+            _container.Collection.Register<IRunner>(
                 typeof(ProcessRunner),
                 typeof(PythonRunner),
                 typeof(PowerShellRunner));
+            _container.Register<IScriptRunner, ScriptRunner>();
             _container.RegisterWithFactoryCollection<IScript>(
                 typeof(BatchScript),
                 typeof(PythonScript),
@@ -35,6 +36,7 @@ namespace ScriperLib
                 typeof(ExeFile));
             _container.RegisterWithFactoryCollection<IOutput>(
                 typeof(FileOutput));
+            _container.Register<IScriptCreator, ScriptCreator>();
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
             _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());

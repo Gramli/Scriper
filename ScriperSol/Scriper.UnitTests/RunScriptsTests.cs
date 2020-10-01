@@ -18,9 +18,10 @@ namespace Scriper.UnitTests
         public void RunAllScripts()
         {
             var scriptManager = _scriperLibContainer.GetInstance<IScriptManager>();
-            foreach(var script in scriptManager.Scripts)
+            var scriptRunner = _scriperLibContainer.GetInstance<IScriptRunner>();
+            foreach (var script in scriptManager.Scripts)
             {
-                scriptManager.RunScript(script);
+                scriptRunner.Run(script);
             }
         }
     }

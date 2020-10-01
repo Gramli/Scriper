@@ -15,9 +15,5 @@ namespace ScriperLib
         void ReplaceScript(IScript oldScript, IScript newScript);
 
         bool RemoveScript(IScript script);
-
-        void RunScript(IScript script);
-
-        IScript CreateScript(IScriptConfiguration scriptConfiguration);
     }
 }

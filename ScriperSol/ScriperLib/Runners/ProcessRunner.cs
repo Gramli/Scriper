@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ScriperLib.Runners
 {
-    internal class ProcessRunner : IScriptRunner
+    internal class ProcessRunner : IRunner
     {
         public ScriptType[] ScriptTypes => new[] { ScriptType.ExeFile, ScriptType.WindowsProcess };
 

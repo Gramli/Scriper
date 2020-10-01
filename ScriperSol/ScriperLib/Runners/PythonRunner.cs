@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ScriperLib.Runners
 {
-    public class PythonRunner : IScriptRunner
+    public class PythonRunner : IRunner
     {
         public ScriptType[] ScriptTypes => new[] { ScriptType.PythonFile };
 

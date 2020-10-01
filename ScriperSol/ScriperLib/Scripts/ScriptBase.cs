@@ -1,11 +1,10 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
+using ScriperLib.Outputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ScriperLib.Extensions;
-using ScriperLib.Outputs;
 
 namespace ScriperLib.Scripts
 {
@@ -41,11 +40,6 @@ namespace ScriperLib.Scripts
                 output.InitFromConfiguration(configuration);
                 Outputs.Add(output);
             }
-        }
-
-        public object Clone()
-        {
-            return this.DeepClone();
         }
     }
 }

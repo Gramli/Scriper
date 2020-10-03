@@ -1,4 +1,5 @@
 ﻿using ScriperLib.Configuration;
+using ScriperLib.Exceptions;
 using ScriperLib.Extensions;
 using ScriperLib.Outputs;
 using System;
@@ -22,6 +23,11 @@ namespace ScriperLib
 
         public IScript Create(IScriptConfiguration scriptConfiguration)
         {
+            if (string.IsNullOrEmpty(scriptConfiguration.Name) || string.IsNullOrEmpty(scriptConfiguration.Path))
+            {
+                throw new ConfigurationException("Name or path is empty.");
+            }
+
             var extension = Path.GetExtension(scriptConfiguration.Path);
             var scriptType = extension.GetScriptType();
             var script = _scrips().Single(item => item.ScriptType == scriptType);

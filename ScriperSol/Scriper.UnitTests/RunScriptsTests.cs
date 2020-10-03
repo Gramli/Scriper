@@ -3,10 +3,9 @@ using ScriperLib;
 
 namespace Scriper.UnitTests
 {
-    public class RunScriptsTests
+    public class RunScriptsTests : TestsBase
     {
         private ScriperLibContainer _scriperLibContainer;
-        private string filePath = @"Assets\defaultScriper.config";
 
         [SetUp]
         public void SetUp()

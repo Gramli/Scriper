@@ -5,10 +5,8 @@ using System.Linq;
 
 namespace Scriper.UnitTests
 {
-    public class ConfigurationTests
+    public class ConfigurationTests : TestsBase
     {
-        private string filePath = @"Assets\defaultScriper.config";
-
         [Test]
         public void LoadConfiguration()
         {

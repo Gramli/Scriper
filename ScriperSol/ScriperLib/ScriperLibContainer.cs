@@ -33,7 +33,8 @@ namespace ScriperLib
                 typeof(PythonScript),
                 typeof(PowerShellScript_v1),
                 typeof(PowerShellScript_v2),
-                typeof(ExeFile));
+                typeof(ExeFile),
+                typeof(LinuxShell));
             _container.RegisterWithFactoryCollection<IOutput>(
                 typeof(FileOutput));
             _container.Register<IScriptCreator, ScriptCreator>();

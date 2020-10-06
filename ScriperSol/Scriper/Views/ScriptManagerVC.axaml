@@ -10,14 +10,18 @@
     <converters:ScriptTypeToImageConverter x:Key="imageConverter"/>
   </UserControl.Resources>
   <UserControl.Styles>
-      <Style Selector="TextBox.LongText">
+      <Style Selector="DataGridColumnHeader.dtgHeader">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
-        <Setter Property="AcceptsReturn" Value="True"/>
-        <Setter Property="IsReadOnly" Value="true"/>
-        <Setter Property="Height" Value="64"/>
-        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontWeight" Value="Bold"/>
       </Style>
+    <Style Selector="TextBox.LongText">
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="TextWrapping" Value="Wrap"/>
+      <Setter Property="AcceptsReturn" Value="True"/>
+      <Setter Property="IsReadOnly" Value="true"/>
+      <Setter Property="Height" Value="64"/>
+      <Setter Property="BorderThickness" Value="0"/>
+    </Style>
     <Style Selector="Image.BtnImage">
       <Setter Property="Width" Value="64"/>
       <Setter Property="Height" Value="64"/>
@@ -33,7 +37,10 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridTemplateColumn Header="Name" Width="150">
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.Header>
+              <DataGridColumnHeader Content="Name" Classes="dtgHeader" Width="150"/>
+            </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <TextBox Text="{Binding ScriptConfiguration.Name}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
@@ -46,21 +53,36 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridTemplateColumn Header="Argument" Width="*">
+          <DataGridTemplateColumn Width="*">
+            <DataGridTemplateColumn.Header>
+              <DataGridColumnHeader Content="Argument" Classes="dtgHeader"/>
+            </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <TextBox Text="{Binding ScriptConfiguration.Arguments}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridTemplateColumn Header="Description" Width="500">
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.Header>
+              <DataGridColumnHeader Content="Description" Classes="dtgHeader" Width="500"/>
+            </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                   <TextBox Text="{Binding ScriptConfiguration.Description}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridCheckBoxColumn Header="In System Tray" Binding="{Binding ScriptConfiguration.InSystemTray}" IsReadOnly="True"/>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.Header>
+              <DataGridColumnHeader Content="In System Tray" Classes="dtgHeader"/>
+            </DataGridTemplateColumn.Header>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <CheckBox IsEnabled="False" IsChecked="{Binding ScriptConfiguration.InSystemTray}"/>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>

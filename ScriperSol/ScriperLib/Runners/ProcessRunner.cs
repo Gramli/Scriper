@@ -9,7 +9,7 @@ namespace ScriperLib.Runners
 {
     internal class ProcessRunner : IRunner
     {
-        public ScriptType[] ScriptTypes => new[] { ScriptType.ExeFile, ScriptType.WindowsProcess };
+        public ScriptType[] ScriptTypes => new[] { ScriptType.ExeFile, ScriptType.WindowsProcess, ScriptType.LinuxShell };
 
         public ProcessRunner()
         {

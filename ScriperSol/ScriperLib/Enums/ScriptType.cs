@@ -12,5 +12,7 @@
         ExeFile,
         [FileExtension(".py")]
         PythonFile,
+        [FileExtension(".sh")]
+        LinuxShell,
     }
 }

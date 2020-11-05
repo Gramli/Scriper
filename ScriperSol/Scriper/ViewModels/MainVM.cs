@@ -13,12 +13,15 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> CreateScriptCmd { get; }
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
 
+        public ReactiveCommand<Unit, Unit> EditScriptInDefaultEditorCmd { get; }
+
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
         public MainVM(IScriperLibContainer container)
         {
             ScriptManagerVM = new ScriptManagerVM(container);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
+            EditScriptInDefaultEditorCmd = ReactiveCommand.Create(EditScriptInDefaultEditor);
         }
 
         public void Exit()
@@ -36,6 +39,18 @@ namespace Scriper.ViewModels
             {
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
+            }
+        }
+
+        public void EditScriptInDefaultEditor()
+        {
+            try
+            {
+
+            }
+            catch(Exception ex)
+            {
+
             }
         }
     }

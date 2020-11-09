@@ -1,6 +1,7 @@
 ﻿using DynamicData;
 using NLog;
 using ReactiveUI;
+using Scriper.Configuration;
 using Scriper.Extensions;
 using Scriper.Views;
 using ScriperLib;
@@ -25,9 +26,11 @@ namespace Scriper.ViewModels
 
         private readonly IScriptRunner _scriptRunner;
 
+        private readonly IScriperUIConfiguration _uiConfig;
+
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        public ScriptManagerVM(IScriperLibContainer container)
+        public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig)
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
@@ -35,6 +38,7 @@ namespace Scriper.ViewModels
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
+            _uiConfig = uiConfig;
             InitializeScripts();
         }
 

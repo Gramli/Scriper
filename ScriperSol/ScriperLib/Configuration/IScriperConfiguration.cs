@@ -4,6 +4,6 @@
     {
         IScriptManagerConfiguration ScriptManagerConfiguration { get; }
 
-        void Save();
+        void Save(string path);
     }
 }

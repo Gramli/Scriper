@@ -5,12 +5,10 @@ namespace ScriperLib.Configuration
 {
     public class ScriperConfiguration : IScriperConfiguration
     {
-        private string fileName = @"Config\defaultScriper.config";
         public IScriptManagerConfiguration ScriptManagerConfiguration { get; private set; }
 
-        private ScriperConfiguration(string fileName, IScriptManagerConfiguration scriptManagerConfiguration)
+        private ScriperConfiguration(IScriptManagerConfiguration scriptManagerConfiguration)
         {
-            this.fileName = fileName;
             ScriptManagerConfiguration = scriptManagerConfiguration;
         }
 
@@ -19,11 +17,11 @@ namespace ScriperLib.Configuration
             ScriptManagerConfiguration = new ScriptManagerConfiguration();
         }
 
-        public void Save()
+        public void Save(string path)
         {
             var scriperEl = new XElement("Scriper");
             ScriptManagerConfiguration.Save(scriperEl);
-            File.WriteAllText(fileName, scriperEl.ToString());
+            File.WriteAllText(path, scriperEl.ToString());
         }
 
         public static IScriperConfiguration Load(string fileName)
@@ -33,7 +31,7 @@ namespace ScriperLib.Configuration
                 var fileInString = File.ReadAllText(fileName);
                 var element = XElement.Parse(fileInString);
                 var scriptManagerConfiguration = new ScriptManagerConfiguration(element);
-                return new ScriperConfiguration(fileName, scriptManagerConfiguration);
+                return new ScriperConfiguration(scriptManagerConfiguration);
             }
 
             return new ScriperConfiguration();

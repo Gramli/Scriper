@@ -1,0 +1,30 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="150"
+        x:Class="Scriper.Views.SettingsWindow"
+        Title="SettingsWindow">
+  <Window.Styles>
+    <StyleInclude Source="/Assets/Styles.xaml" />
+  </Window.Styles>
+  <StackPanel>
+    <DockPanel Background="LightBlue">
+      <TextBlock Text="Text Editor Path:" Classes="h1"/>
+      <TextBox Text="{Binding TextEditorPath, Mode=TwoWay}" Classes="TextH1" Width="350"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
+    </DockPanel>
+    <StackPanel Margin="5">
+      <Button Height="30" Command="{Binding OkCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_ok_96px.png"/>
+        </Button.Content>
+      </Button>
+      <Button Height="30" Command="{Binding CancelCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_cancel_96px.png"/>
+        </Button.Content>
+      </Button>
+    </StackPanel>
+  </StackPanel>
+</Window>

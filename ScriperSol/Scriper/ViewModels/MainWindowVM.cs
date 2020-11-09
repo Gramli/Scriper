@@ -1,5 +1,6 @@
 ﻿using NLog;
 using ReactiveUI;
+using Scriper.Configuration;
 using Scriper.Extensions;
 using ScriperLib;
 using ScriperLib.Configuration;
@@ -49,9 +50,16 @@ namespace Scriper.ViewModels
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
         private IScriperLibContainer _container;
-        public MainWindowVM(List<string> configs)
+
+        private IScriperUIConfiguration _uiConfig;
+
+        private readonly string _uiConfigPath;
+
+        private string _scriperConfigPath;
+        public MainWindowVM(List<string> configs, string uiConfigPath)
         {
             OkCmd = ReactiveCommand.Create<string>(Ok);
+            _uiConfigPath = uiConfigPath;
 
             if (configs.Count < 2)
             {
@@ -74,8 +82,10 @@ namespace Scriper.ViewModels
         {
             try
             {
+                _scriperConfigPath = config;
                 _container = new ScriperLibContainer(config);
-                MainVM = new MainVM(_container);
+                _uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
+                MainVM = new MainVM(_container, _uiConfig);
                 DataVisible = true;
                 Title = config;
             }
@@ -90,7 +100,8 @@ namespace Scriper.ViewModels
         {
             if (_container != null)
             {
-                _container.GetInstance<IScriperConfiguration>().Save();
+                _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
+                _uiConfig.Save(_uiConfigPath);
             }
         }
     }

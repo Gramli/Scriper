@@ -5,20 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
-    <Style Selector="TextBlock.h1">
-      <Setter Property="Width" Value="200"/>
-      <Setter Property="Height" Value="30"/>
-      <Setter Property="FontSize" Value="14"/>
-      <Setter Property="FontWeight" Value="Bold"/>
-      <Setter Property="Margin" Value="8"/>
-    </Style>
-    <Style Selector="TextBox.TextH1">
-      <Setter Property="BorderThickness" Value="0.5"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="FontSize" Value="14"/>
-      <Setter Property="TextWrapping" Value="Wrap"/>
-      <Setter Property="AcceptsReturn" Value="True"/>
-    </Style>
+    <StyleInclude Source="/Assets/Styles.xaml" />
   </UserControl.Styles>
   <StackPanel Margin="5">
     <DockPanel LastChildFill="True">

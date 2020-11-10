@@ -21,6 +21,7 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
+        public ReactiveCommand<string, Unit> EditScriptContentCmd { get; }
 
         private readonly IScriptManager _scriptManager;
 
@@ -38,6 +39,7 @@ namespace Scriper.ViewModels
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
+            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
             _uiConfig = uiConfig;
             InitializeScripts();
         }
@@ -162,6 +164,31 @@ namespace Scriper.ViewModels
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
             }
+        }
+
+        public void EditScriptContent(string name)
+        {
+            try 
+            {
+                var scriptVM = GetScriptVM(name);
+                var scriptToRun = GetEditScriptContentScript(scriptVM);
+                _scriptRunner.Run(scriptToRun);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        //THink about name
+        private IScript GetEditScriptContentScript(ScriptVM scriptVM)
+        {
+            var newScriptConfig = Container.GetInstance<IScriptConfiguration>();
+            newScriptConfig.Name = "ScriptEditorScript"; // maybe readOnly
+            newScriptConfig.Arguments = scriptVM.ScriptConfiguration.Path;
+            newScriptConfig.Path = _uiConfig.TextEditor.Path;
+            return Container.GetInstance<IScriptCreator>().Create(newScriptConfig);
         }
 
         private ScriptVM GetScriptVM(string name)

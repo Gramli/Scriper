@@ -23,8 +23,8 @@
       <Setter Property="BorderThickness" Value="0"/>
     </Style>
     <Style Selector="Image.BtnImage">
-      <Setter Property="Width" Value="64"/>
-      <Setter Property="Height" Value="64"/>
+      <Setter Property="Width" Value="54"/>
+      <Setter Property="Height" Value="54"/>
     </Style>
   </UserControl.Styles>
     <DockPanel>
@@ -100,6 +100,17 @@
                 <Button Command="{Binding #mainControl.DataContext.EditScriptCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">
                   <Button.Content>
                     <Image Source="/Assets/icons8_edit_property_96px.png" Classes="BtnImage"/>
+                  </Button.Content>
+                </Button>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTemplateColumn>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <Button Command="{Binding #mainControl.DataContext.EditScriptContentCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">
+                  <Button.Content>
+                    <Image Source="/Assets/icons8_edit_file_96px.png" Classes="BtnImage"/>
                   </Button.Content>
                 </Button>
               </DataTemplate>

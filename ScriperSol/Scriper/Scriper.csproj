@@ -14,6 +14,8 @@
     <None Remove="Assets\icons8_cancel_96px.png" />
     <None Remove="Assets\icons8_close_window.ico" />
     <None Remove="Assets\icons8_console.ico" />
+    <None Remove="Assets\icons8_edit_96px.png" />
+    <None Remove="Assets\icons8_edit_file_96px.png" />
     <None Remove="Assets\icons8_edit_property.ico" />
     <None Remove="Assets\icons8_error.ico" />
     <None Remove="Assets\icons8_file_1.ico" />
@@ -27,7 +29,6 @@
     <None Remove="Assets\icons8_user_manual_1.ico" />
     <None Remove="Assets\icons8_user_manual_96px.png" />
     <None Remove="Assets\icons8_windows_xp_96px_1.png" />
-    <None Remove="Assets\Styles.xaml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.9.12" />
@@ -39,11 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScriperLib\ScriperLib.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <AvaloniaResource Update="Assets\Styles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </AvaloniaResource>
   </ItemGroup>
   <ItemGroup>
     <None Update="Config\nlog.config">

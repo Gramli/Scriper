@@ -23,11 +23,11 @@ namespace Scriper.ViewModels
         private IScriperUIConfiguration _uiConfig;
         public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig)
         {
-            ScriptManagerVM = new ScriptManagerVM(container, uiConfig);
+            _uiConfig = uiConfig;
+            ScriptManagerVM = new ScriptManagerVM(container, _uiConfig);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
-            _uiConfig = uiConfig;
         }
 
         public void Exit()

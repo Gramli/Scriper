@@ -24,7 +24,7 @@ namespace Scriper.ViewModels
         public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig)
         {
             _uiConfig = uiConfig;
-            ScriptManagerVM = new ScriptManagerVM(container, _uiConfig);
+            ScriptManagerVM = new ScriptManagerVM(container, () => _uiConfig);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
@@ -71,6 +71,11 @@ namespace Scriper.ViewModels
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
             }
+        }
+
+        public IScriperUIConfiguration GetActualUIConfiguration()
+        {
+            return _uiConfig;
         }
     }
 }

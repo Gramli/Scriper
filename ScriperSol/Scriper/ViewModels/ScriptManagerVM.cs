@@ -27,11 +27,13 @@ namespace Scriper.ViewModels
 
         private readonly IScriptRunner _scriptRunner;
 
-        private readonly IScriperUIConfiguration _uiConfig;
+        private readonly Func<IScriperUIConfiguration> _getUIConfig;
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig)
+        private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
+
+        public ScriptManagerVM(IScriperLibContainer container, Func<IScriperUIConfiguration> getUIConfig)
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
@@ -40,7 +42,7 @@ namespace Scriper.ViewModels
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
             EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
-            _uiConfig = uiConfig;
+            _getUIConfig = getUIConfig;
             InitializeScripts();
         }
 
@@ -170,8 +172,16 @@ namespace Scriper.ViewModels
         {
             try 
             {
+                var config = _getUIConfig();
+
+                if(string.IsNullOrEmpty(config.TextEditor.Path))
+                {
+                    MessageBoxExtensions.Show("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
+                    return;
+                }
+
                 var scriptVM = GetScriptVM(name);
-                var scriptToRun = GetEditScriptContentScript(scriptVM);
+                var scriptToRun = CreateOpenScriptEditorScript(scriptVM, config);
                 _scriptRunner.Run(scriptToRun);
             }
             catch (Exception ex)
@@ -181,13 +191,12 @@ namespace Scriper.ViewModels
             }
         }
 
-        //THink about name
-        private IScript GetEditScriptContentScript(ScriptVM scriptVM)
+        private IScript CreateOpenScriptEditorScript(ScriptVM scriptVM, IScriperUIConfiguration config)
         {
             var newScriptConfig = Container.GetInstance<IScriptConfiguration>();
-            newScriptConfig.Name = "ScriptEditorScript"; // maybe readOnly
+            newScriptConfig.Name = _openScriptEditorScript;
             newScriptConfig.Arguments = scriptVM.ScriptConfiguration.Path;
-            newScriptConfig.Path = _uiConfig.TextEditor.Path;
+            newScriptConfig.Path = config.TextEditor.Path;
             return Container.GetInstance<IScriptCreator>().Create(newScriptConfig);
         }
 

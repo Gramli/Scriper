@@ -51,8 +51,6 @@ namespace Scriper.ViewModels
 
         private IScriperLibContainer _container;
 
-        private IScriperUIConfiguration _uiConfig;
-
         private readonly string _uiConfigPath;
 
         private string _scriperConfigPath;
@@ -84,8 +82,7 @@ namespace Scriper.ViewModels
             {
                 _scriperConfigPath = config;
                 _container = new ScriperLibContainer(config);
-                _uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
-                MainVM = new MainVM(_container, _uiConfig);
+                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath));
                 DataVisible = true;
                 Title = config;
             }
@@ -96,12 +93,13 @@ namespace Scriper.ViewModels
             }
         }
 
-        public void SaveConfig()
+        public void SaveConfigs()
         {
             if (_container != null)
             {
                 _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
-                _uiConfig.Save(_uiConfigPath);
+                var uiConfig = MainVM.GetActualUIConfiguration();
+                uiConfig.Save(_uiConfigPath);
             }
         }
     }

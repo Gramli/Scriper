@@ -28,7 +28,7 @@
     <Border Background="LightBlue" Grid.Column="0" />
     <TextBlock Text="Text Editor Path:" Classes="h1"/>
     <TextBox Background="LightBlue" Grid.Column="1" Text="{Binding TextEditorPath, Mode=TwoWay}" MaxWidth="330" Classes="TextH1"/>
-    <Button Background="LightBlue"  Grid.Column="2" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath"/>
+    <Button  Grid.Column="2" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath"/>
     <Button Grid.Row="1" Grid.ColumnSpan="3" Command="{Binding OkCmd}">
       <Button.Content>
         <Image Source="/Assets/icons8_ok_96px.png"/>

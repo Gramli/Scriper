@@ -50,7 +50,7 @@ namespace Scriper
             {
                 var mainWindow = (MainWindow)((IClassicDesktopStyleApplicationLifetime)sender).MainWindow;
                 var mainWindowVM = (MainWindowVM)mainWindow.DataContext;
-                mainWindowVM.SaveConfig();
+                mainWindowVM.SaveConfigs();
             }
             catch(Exception ex)
             {

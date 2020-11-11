@@ -1,0 +1,44 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="520"
+        Height="100"
+        CanResize="False"        
+        x:Class="Scriper.Views.SettingsWindow"
+        Title="SettingsWindow">
+  <Window.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+  </Window.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150"/>
+      <ColumnDefinition/>
+      <ColumnDefinition Width="40"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40"/>
+      <RowDefinition Height="30"/>
+      <RowDefinition Height="30"/>
+    </Grid.RowDefinitions>
+    <Border Background="LightBlue" Grid.Column="0" />
+    <TextBlock Text="Text Editor Path:" Classes="h1"/>
+    <TextBox Background="LightBlue" Grid.Column="1" Text="{Binding TextEditorPath, Mode=TwoWay}" MaxWidth="330" Classes="TextH1"/>
+    <Button  Grid.Column="2" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath"/>
+    <Button Grid.Row="1" Grid.ColumnSpan="3" Command="{Binding OkCmd}">
+      <Button.Content>
+        <Image Source="/Assets/icons8_ok_96px.png"/>
+      </Button.Content>
+    </Button>
+    <Button Grid.Row="2" Grid.ColumnSpan="3" Command="{Binding CancelCmd}">
+      <Button.Content>
+        <Image Source="/Assets/icons8_cancel_96px.png"/>
+      </Button.Content>
+    </Button>
+
+  </Grid>
+</Window>

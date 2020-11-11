@@ -15,7 +15,7 @@ namespace ScriperLib.Configuration.Base
     /// Use reflection and Attributes to regognize what to parse or save
     /// </summary>
     [Serializable]
-    internal abstract class ConfigurationElement : IConfigurationElement
+    public abstract class ConfigurationElement : IConfigurationElement
     {
         private readonly string _source;
         public ConfigurationElement(XElement element)

@@ -16,6 +16,7 @@
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
@@ -32,12 +33,12 @@
           <Image Source="/Assets/icons8_user_manual_96px.png"/>
         </Button.Content>
       </Button>
-      <!--<Button Classes="h1">
+      <Button Classes="h1" Grid.Column="2" Grid.Row="0" Command="{Binding OpenSettingsCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_administrative_tools_96px.png"/>
         </Button.Content>
-      </Button>-->
-      <Button Classes="h1" Grid.Column="2" Grid.Row="0" Click="OnAboutClick">
+      </Button>
+      <Button Classes="h1" Grid.Column="3" Grid.Row="0" Click="OnAboutClick">
         <Button.Content>
           <Image Source="/Assets/icons8_high_importance_96px.png"/>
         </Button.Content>
@@ -47,6 +48,6 @@
           <Image Source="/Assets/icons8_software_installer_96px.png"/>
         </Button.Content>
       </Button>-->
-      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2"/>
+      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="2"/>
   </Grid>
 </UserControl>

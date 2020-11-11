@@ -8,12 +8,14 @@ using Scriper.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Scriper
 {
     public class App : Application
     {
         private readonly string _configNameEnd = "Scriper.config";
+        private readonly string _configUINameEnd = "ScriperUI.config";
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
@@ -24,13 +26,14 @@ namespace Scriper
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var configPaths = FindConfig();
+            var uiConfigPath = FindConfig(_configUINameEnd).SingleOrDefault();
+            var configPaths = FindConfig(_configNameEnd);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowVM(configPaths),
+                    DataContext = new MainWindowVM(configPaths, uiConfigPath),
                 };
 
                 desktop.Exit += Desktop_Exit;
@@ -47,7 +50,7 @@ namespace Scriper
             {
                 var mainWindow = (MainWindow)((IClassicDesktopStyleApplicationLifetime)sender).MainWindow;
                 var mainWindowVM = (MainWindowVM)mainWindow.DataContext;
-                mainWindowVM.SaveConfig();
+                mainWindowVM.SaveConfigs();
             }
             catch(Exception ex)
             {
@@ -59,7 +62,7 @@ namespace Scriper
             NLogExtensions.LogFactory.Shutdown();
         }
 
-        private List<string> FindConfig()
+        private List<string> FindConfig(string configNameEnd)
         {
             var result = new List<string>();
             var dirName = @$"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}\Config";
@@ -67,7 +70,7 @@ namespace Scriper
 
             foreach(var fileName in fileNames)
             {
-                if(fileName.EndsWith(_configNameEnd))
+                if(fileName.EndsWith(configNameEnd))
                 {
                     result.Add(fileName);
                 }

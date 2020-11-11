@@ -14,6 +14,8 @@
     <None Remove="Assets\icons8_cancel_96px.png" />
     <None Remove="Assets\icons8_close_window.ico" />
     <None Remove="Assets\icons8_console.ico" />
+    <None Remove="Assets\icons8_edit_96px.png" />
+    <None Remove="Assets\icons8_edit_file_96px.png" />
     <None Remove="Assets\icons8_edit_property.ico" />
     <None Remove="Assets\icons8_error.ico" />
     <None Remove="Assets\icons8_file_1.ico" />
@@ -41,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Config\nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Config\ScriperUI.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

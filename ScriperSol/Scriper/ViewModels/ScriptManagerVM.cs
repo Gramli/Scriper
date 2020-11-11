@@ -1,6 +1,7 @@
 ﻿using DynamicData;
 using NLog;
 using ReactiveUI;
+using Scriper.Configuration;
 using Scriper.Extensions;
 using Scriper.Views;
 using ScriperLib;
@@ -20,14 +21,19 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
+        public ReactiveCommand<string, Unit> EditScriptContentCmd { get; }
 
         private readonly IScriptManager _scriptManager;
 
         private readonly IScriptRunner _scriptRunner;
 
+        private readonly Func<IScriperUIConfiguration> _getUIConfig;
+
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        public ScriptManagerVM(IScriperLibContainer container)
+        private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
+
+        public ScriptManagerVM(IScriperLibContainer container, Func<IScriperUIConfiguration> getUIConfig)
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
@@ -35,6 +41,8 @@ namespace Scriper.ViewModels
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
+            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
+            _getUIConfig = getUIConfig;
             InitializeScripts();
         }
 
@@ -158,6 +166,38 @@ namespace Scriper.ViewModels
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
             }
+        }
+
+        public void EditScriptContent(string name)
+        {
+            try 
+            {
+                var config = _getUIConfig();
+
+                if(string.IsNullOrEmpty(config.TextEditor.Path))
+                {
+                    MessageBoxExtensions.Show("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
+                    return;
+                }
+
+                var scriptVM = GetScriptVM(name);
+                var scriptToRun = CreateOpenScriptEditorScript(scriptVM, config);
+                _scriptRunner.Run(scriptToRun);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private IScript CreateOpenScriptEditorScript(ScriptVM scriptVM, IScriperUIConfiguration config)
+        {
+            var newScriptConfig = Container.GetInstance<IScriptConfiguration>();
+            newScriptConfig.Name = _openScriptEditorScript;
+            newScriptConfig.Arguments = scriptVM.ScriptConfiguration.Path;
+            newScriptConfig.Path = config.TextEditor.Path;
+            return Container.GetInstance<IScriptCreator>().Create(newScriptConfig);
         }
 
         private ScriptVM GetScriptVM(string name)

@@ -2,7 +2,7 @@
 
 namespace ScriperLib.Configuration.Attributes
 {
-    internal abstract class ConfigurationBaseAttribute : Attribute
+    public abstract class ConfigurationBaseAttribute : Attribute
     {
         public string Name { get; private set; }
 

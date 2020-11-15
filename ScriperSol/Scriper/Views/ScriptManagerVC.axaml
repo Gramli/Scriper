@@ -84,6 +84,22 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
           <DataGridTemplateColumn>
+            <DataGridTemplateColumn.Header>
+              <DataGridColumnHeader Content="Last Run" Classes="dtgHeader" Width="150"/>
+            </DataGridTemplateColumn.Header>
+            <DataGridTemplateColumn.CellTemplate>
+              <DataTemplate>
+                <TextBox Text="{Binding ScriptConfiguration.LastRun}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
+                  <TextBox.Styles>
+                    <Style Selector="TextBox /template/ TextPresenter">
+                      <Setter Property="VerticalAlignment" Value="Center"/>
+                    </Style>
+                  </TextBox.Styles>
+                </TextBox>
+              </DataTemplate>
+            </DataGridTemplateColumn.CellTemplate>
+          </DataGridTemplateColumn>
+          <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <Button Command="{Binding #mainControl.DataContext.RunScriptCmd}" CommandParameter="{Binding ScriptConfiguration.Name}">

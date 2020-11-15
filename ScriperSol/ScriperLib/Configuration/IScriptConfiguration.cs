@@ -12,6 +12,7 @@ namespace ScriperLib.Configuration
         string Arguments { get; set; }
         bool InSystemTray { get; set; }
         bool OutputWindow { get; set; }
+        string LastRun { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 

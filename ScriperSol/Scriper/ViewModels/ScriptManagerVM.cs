@@ -81,8 +81,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Show();
                 }
                 _scriptRunner.RunAsync(script);
-                script.Configuration.LastRun = DateTime.Now.ToString();
-                //TODO need raise propertychanged
+                scriptVM.LastRun = DateTime.Now.ToString();
             }
             catch (Exception ex)
             {

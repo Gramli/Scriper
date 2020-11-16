@@ -81,6 +81,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Show();
                 }
                 _scriptRunner.RunAsync(script);
+                scriptVM.LastRun = DateTime.Now.ToString();
             }
             catch (Exception ex)
             {

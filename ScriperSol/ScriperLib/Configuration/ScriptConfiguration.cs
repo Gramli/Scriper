@@ -28,6 +28,9 @@ namespace ScriperLib.Configuration
         [ConfigurationAttribute("outputWindow")]
         public bool OutputWindow { get; set; } = true;
 
+        [ConfigurationAttribute("lastRun", false)]
+        public string LastRun { get; set; }
+
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
 

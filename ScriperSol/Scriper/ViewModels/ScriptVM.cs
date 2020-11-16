@@ -1,4 +1,5 @@
-﻿using ScriperLib;
+﻿using ReactiveUI;
+using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Enums;
 
@@ -11,6 +12,17 @@ namespace Scriper.ViewModels
         public ScriptType ScriptType => Script.ScriptType; 
 
         public IScript Script { get; private set; }
+
+        private string _lastRun;
+        public string LastRun
+        {
+            get { return ScriptConfiguration.LastRun; }
+            set
+            {
+                ScriptConfiguration.LastRun = value;
+                this.RaiseAndSetIfChanged(ref _lastRun, value);
+            }
+        }
 
         public ScriptVM(IScript script)
         {

@@ -26,7 +26,8 @@ namespace ScriperLib
             _container.Collection.Register<IRunner>(
                 typeof(ProcessRunner),
                 typeof(PythonRunner),
-                typeof(PowerShellRunner));
+                typeof(PowerShellRunner),
+                typeof(JavascriptRunner));
             _container.Register<IScriptRunner, ScriptRunner>();
             _container.RegisterWithFactoryCollection<IScript>(
                 typeof(BatchScript),
@@ -34,7 +35,8 @@ namespace ScriperLib
                 typeof(PowerShellScript_v1),
                 typeof(PowerShellScript_v2),
                 typeof(ExeFile),
-                typeof(LinuxShell));
+                typeof(LinuxShell),
+                typeof(JavascriptScript));
             _container.RegisterWithFactoryCollection<IOutput>(
                 typeof(FileOutput));
             _container.Register<IScriptCreator, ScriptCreator>();

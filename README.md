@@ -41,11 +41,12 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
   * path - path to script output file -> script output will be written there
   
 ## Technologies and Tools Used
-[Avalonia](https://github.com/AvaloniaUI/Avalonia)
-[IronPython](https://github.com/IronLanguages/ironpython2)
-[SimpleInjector](https://github.com/simpleinjector/SimpleInjector)
-[NLog](https://github.com/NLog/NLog)
-[MessageBox.Avalonia](https://github.com/AvaloniaUtils/MessageBox.Avalonia)
+* [Avalonia](https://github.com/AvaloniaUI/Avalonia)
+* [IronPython](https://github.com/IronLanguages/ironpython2)
+* [SimpleInjector](https://github.com/simpleinjector/SimpleInjector)
+* [NLog](https://github.com/NLog/NLog)
+* [MessageBox.Avalonia](https://github.com/AvaloniaUtils/MessageBox.Avalonia)
+* [NUnit](https://github.com/nunit/nunit)
 
   
 # Planned

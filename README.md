@@ -10,6 +10,7 @@ Actual version supports:
 * Pyhton - .py
 * Exe - .exe
 * Linux Shell - .sh
+* Javascript - .js
 
 ## Get Started
 All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI or edit the config file. At start Scriper looking for config files in Config directory and has to ends with **"Scriper.config"** so you can have more configs and pick which one you want to use.
@@ -47,6 +48,7 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * [NLog](https://github.com/NLog/NLog)
 * [MessageBox.Avalonia](https://github.com/AvaloniaUtils/MessageBox.Avalonia)
 * [NUnit](https://github.com/nunit/nunit)
+* [Jint](https://github.com/sebastienros/jint)
 
   
 # Planned

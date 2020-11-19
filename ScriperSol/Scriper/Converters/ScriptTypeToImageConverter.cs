@@ -20,7 +20,11 @@ namespace Scriper.Converters
                 case ScriptType.WindowsProcess:
                     return AssetsExtensions.GetAssetsImage("icons8_windows_xp_96px_1.png");
                 case ScriptType.ExeFile:
-                    return AssetsExtensions.GetAssetsImage("icons8_program_96px_1.png");
+                    return AssetsExtensions.GetAssetsImage("icons8_application_window_96px.png");
+                case ScriptType.Javascript:
+                    return AssetsExtensions.GetAssetsImage("icons8_javascript_96px.png");
+                case ScriptType.LinuxShell:
+                    return AssetsExtensions.GetAssetsImage("icons8_linux_96px.png");
                 default:
                     return null;
             }

@@ -65,7 +65,7 @@
           </DataGridTemplateColumn>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="Description" Classes="dtgHeader" Width="500"/>
+              <DataGridColumnHeader Content="Description" Classes="dtgHeader" Width="450"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>

@@ -11,7 +11,7 @@ namespace Scriper.UnitTests
         public void LoadConfiguration()
         {
             var config = ScriperConfiguration.Load(filePath);
-            Assert.AreEqual(3, config.ScriptManagerConfiguration.ScriptsConfigurations.Count);
+            Assert.AreEqual(5, config.ScriptManagerConfiguration.ScriptsConfigurations.Count);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Scriper.UnitTests
             scriperConfiguration.Save(filePath);
 
             var config = ScriperConfiguration.Load(filePath);
-            Assert.AreEqual(4, config.ScriptManagerConfiguration.ScriptsConfigurations.Count);
+            Assert.AreEqual(6, config.ScriptManagerConfiguration.ScriptsConfigurations.Count);
 
             var scriptToDelete = config.ScriptManagerConfiguration.ScriptsConfigurations.Single(item => item.Name == name);
             config.ScriptManagerConfiguration.ScriptsConfigurations.Remove(scriptToDelete);

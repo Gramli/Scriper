@@ -41,8 +41,10 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * FileOuput
   * path - path to script output file -> script output will be written there
 
-### Scripts
-* Javascript - if you want to write to output just call log or logf function:
+### Use The Scripts
+####Javascript 
+If you want to write to output just call log or logf function, the functions are defined in C# code.
+For example:
 ```js
 //example of log function
 var someString = 'just some string';

@@ -80,7 +80,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
                     dialogWindow.Show();
                 }
-                _scriptRunner.RunAsync(script);
+                RunScript(script);
                 scriptVM.LastRun = DateTime.Now.ToString();
             }
             catch (Exception ex)
@@ -184,6 +184,20 @@ namespace Scriper.ViewModels
                 var scriptVM = GetScriptVM(name);
                 var scriptToRun = CreateOpenScriptEditorScript(scriptVM, config);
                 _scriptRunner.Run(scriptToRun);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private async void RunScript(IScript script)
+        {
+            //Need catch expcetions from async run
+            try
+            {
+                await _scriptRunner.RunAsync(script);
             }
             catch (Exception ex)
             {

@@ -14,5 +14,7 @@
         PythonFile,
         [FileExtension(".sh")]
         LinuxShell,
+        [FileExtension(".js")]
+        Javascript,
     }
 }

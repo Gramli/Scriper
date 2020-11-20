@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Assets\icons8_add_file_96px.png" />
     <None Remove="Assets\icons8_administrative_tools_96px.png" />
+    <None Remove="Assets\icons8_application_window_96px.png" />
     <None Remove="Assets\icons8_cancel_96px.png" />
     <None Remove="Assets\icons8_close_window.ico" />
     <None Remove="Assets\icons8_console.ico" />
@@ -22,6 +23,8 @@
     <None Remove="Assets\icons8_file_1.ico" />
     <None Remove="Assets\icons8_high_importance_96px.png" />
     <None Remove="Assets\icons8_info.ico" />
+    <None Remove="Assets\icons8_javascript_96px.png" />
+    <None Remove="Assets\icons8_linux_96px.png" />
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />

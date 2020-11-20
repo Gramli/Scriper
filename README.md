@@ -5,11 +5,12 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 Actual version supports:
 
-* Windows Proccess - .bat
-* PowerShell - .ps1, .ps2
-* Pyhton - .py
-* Exe - .exe
-* Linux Shell - .sh
+* Windows Proccess - .bat - [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
+* PowerShell - .ps1, .ps2 -  [System.Management.Automation](https://www.nuget.org/packages/Microsoft.PowerShell.SDK/)
+* Python - .py - [IronPython](https://github.com/IronLanguages/ironpython2)
+* Exe - .exe -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
+* Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
+* Javascript - .js - [Jint](https://github.com/sebastienros/jint)
 
 ## Get Started
 All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI or edit the config file. At start Scriper looking for config files in Config directory and has to ends with **"Scriper.config"** so you can have more configs and pick which one you want to use.
@@ -39,7 +40,23 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * TimeSchedules - *not implemented yet*
 * FileOuput
   * path - path to script output file -> script output will be written there
-  
+
+### Use The Scripts
+####Javascript 
+If you want to write to output just call log or logf function, the functions are defined in C# code.
+For example:
+```js
+//example of log function
+var someString = 'just some string';
+log(someString);
+log('just some another string');
+//example of logf function - format
+var result = 5*10;
+logf(result, '5*10={0}');
+```
+
+
+
 ## Technologies and Tools Used
 * [Avalonia](https://github.com/AvaloniaUI/Avalonia)
 * [IronPython](https://github.com/IronLanguages/ironpython2)
@@ -47,9 +64,9 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * [NLog](https://github.com/NLog/NLog)
 * [MessageBox.Avalonia](https://github.com/AvaloniaUtils/MessageBox.Avalonia)
 * [NUnit](https://github.com/nunit/nunit)
+* [Jint](https://github.com/sebastienros/jint)
 
   
 # Planned
 * TimeSchedule support
-* Javascript support
 

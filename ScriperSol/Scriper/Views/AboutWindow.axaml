@@ -3,27 +3,42 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Scriper.ViewModels;assembly=Scriper"
-        mc:Ignorable="d" Width="300" Height="160"
+        mc:Ignorable="d" Width="500" Height="250"
         x:Class="Scriper.Views.AboutWindow"
         Icon="/Assets/icons8_info.ico"
         Title="About"
         CanResize="False">
   <Window.Styles>
     <Style Selector="TextBlock.h1">
-      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontSize" Value="22"/>
       <Setter Property="FontWeight" Value="Bold"/>
       <Setter Property="Margin" Value="8"/>
     </Style>
+    <Style Selector="TextBlock.h2">
+      <Setter Property="FontSize" Value="16"/>
+      <Setter Property="Margin" Value="8"/>
+    </Style>
+    <Style Selector="TextBlock.h3">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="Margin" Value="4"/>
+    </Style>
   </Window.Styles>
-  <StackPanel>
-    <TextBlock Text="{Binding Author}" HorizontalAlignment="Center" Classes="h1"/>
-    <Border Background="LightBlue">
-      <TextBlock Text="{Binding Version}"  HorizontalAlignment="Center" Classes="h1"/>
-    </Border>
-    <TextBlock Text="{Binding UI}"  HorizontalAlignment="Center" Classes="h1"/>
-    <Border Background="LightBlue">
-      <TextBlock Text="{Binding Icons}" HorizontalAlignment="Center" Classes="h1"/>
-    </Border>
-    <TextBlock Text="{Binding Msg}"  HorizontalAlignment="Center" Classes="h1"/>
-  </StackPanel>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="150"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="50"/>
+      <RowDefinition Height="5"/>
+      <RowDefinition Height="25"/>
+      <RowDefinition Height="25"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Column="1" Text="Scriper" Classes="h1"/>
+    <Border Grid.Row="1" Grid.Column="1"  Margin="5,0,20,0" Height="1" Background="Black"/>
+    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Version}" Classes="h2"/>
+    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Author}" Classes="h3"/>
+    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Text}" Width="345" TextWrapping="Wrap" Classes="h3"/>
+  </Grid>
 </Window>

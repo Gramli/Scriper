@@ -4,7 +4,13 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ![Scriper Example](/Images/scriper.png)
 
 ## Menu
-[Get Started](https://github.com/Gramli/Scriper/Get Started)
+[Features](#features)
+[Download](#download)
+[Get Started](#get-started)
+[Technologies and Tools](#technologies-and-tools)
+[Planned](#planned)
+
+## Features
 
 Actual version supports:
 
@@ -75,6 +81,6 @@ logf(result, '5*10={0}');
 * [Jint](https://github.com/sebastienros/jint)
 
   
-# Planned
+## Planned
 * TimeSchedule support
 

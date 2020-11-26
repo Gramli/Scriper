@@ -3,6 +3,9 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ![Scriper Example](/Images/scriper.png)
 
+## Menu
+[Get Started](https://github.com/Gramli/Scriper/Get Started)
+
 Actual version supports:
 
 * Windows Proccess - .bat - [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)

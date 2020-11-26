@@ -7,7 +7,8 @@
         Height="230"
         CanResize="False"        
         x:Class="Scriper.Views.SettingsWindow"
-        Title="Settings">
+        Title="Settings"
+        Icon="/Assets/icons8_administrative_tools.ico">
   <Window.Styles>
     <Style Selector="TextBlock.h2">
       <Setter Property="FontSize" Value="14"/>

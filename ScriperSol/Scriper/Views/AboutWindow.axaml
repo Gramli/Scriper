@@ -35,6 +35,7 @@
       <RowDefinition Height="25"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
+    <Image Grid.RowSpan="4" Source="/Assets/icons8_console_100px.png" Width="100" Height="100"/>
     <TextBlock Grid.Column="1" Text="Scriper" Classes="h1"/>
     <Border Grid.Row="1" Grid.Column="1"  Margin="5,0,20,0" Height="1" Background="Black"/>
     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Version}" Classes="h2"/>

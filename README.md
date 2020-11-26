@@ -4,11 +4,11 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ![Scriper Example](/Images/scriper.png)
 
 ## Menu
-[Features](#features)
-[Download](#download)
-[Get Started](#get-started)
-[Technologies and Tools](#technologies-and-tools)
-[Planned](#planned)
+[Features](#features)  
+[Download](#download)  
+[Get Started](#get-started)  
+[Technologies and Tools](#technologies-and-tools)  
+[Planned](#planned)  
 
 ## Features
 

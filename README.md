@@ -5,15 +5,13 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ## Menu
 [Features](#features)  
-[Download](#download)  
+[Download & Install](#download-&-install)  
 [Get Started](#get-started)  
 [Technologies and Tools](#technologies-and-tools)  
 [Planned](#planned)  
 
 ## Features
-
-Actual version supports:
-
+### Actual supports:
 * Windows Proccess - .bat - [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
 * PowerShell - .ps1, .ps2 -  [System.Management.Automation](https://www.nuget.org/packages/Microsoft.PowerShell.SDK/)
 * Python - .py - [IronPython](https://github.com/IronLanguages/ironpython2)
@@ -21,7 +19,7 @@ Actual version supports:
 * Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
 * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
 
-## Download
+## Download & Install
 ### pre-release v1
 * [Windows]()
 * [Binaries](https://github.com/Gramli/Scriper/releases/download/v1.0/pre-release_v1.0.zip)

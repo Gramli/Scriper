@@ -16,25 +16,21 @@ SetOutPath $INSTDIR
 
 # create the uninstaller
 WriteUninstaller "$INSTDIR\ScriperUninstaller.exe"
+
+CreateShortCut "$DESKTOP\Scriper.lnk" "$INSTDIR\Scriper.exe"
+CreateShortCut "$SMPROGRAMS\Scriper.lnk" "$INSTDIR\Scriper.exe"
+
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper" \
+                 "DisplayName" "Scriper -- Application for managing scripts"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper" \
+                 "UninstallString" "$\"$INSTDIR\ScriperUninstaller.exe$\""
  
 # define what to install and place it in the output path
 File /r \
-/x "cs" \
-/x "de" \
-/x "es" \
-/x "fr" \
-/x "it" \
-/x "ja" \
-/x "ko" \
-/x "pl" \
-/x "de" \
-/x "pt-BR" \
-/x "ru" \
-/x "tr" \
-/x "zh-Hans" \
-/x "zh-Hant" \
 /x "*.pdb" \
 "E:\GitHub\Scriper\ScriperSol\Scriper\bin\Release\netcoreapp3.1\*.*"
+
+CopyFiles "E:\GitHub\Scriper\ScriperSol\Install\defaultScriper.config" "$INSTDIR\Config"
  
 # default section end
 SectionEnd
@@ -45,8 +41,11 @@ Section "Uninstall"
  
 # Always delete uninstaller first
 Delete $INSTDIR\ScriperUninstaller.exe
-Delete /r $INSTDIR\*.*
+Delete "$DESKTOP\Scriper.lnk"
+Delete "$SMPROGRAMS\Scriper.lnk"
+DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper"
+Delete $INSTDIR\*.*
  
 # Delete the directory
-RMDir $INSTDIR
+RMDir /r $INSTDIR
 SectionEnd

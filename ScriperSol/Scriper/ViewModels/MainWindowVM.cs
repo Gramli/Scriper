@@ -97,6 +97,9 @@ namespace Scriper.ViewModels
         {
             if (_container != null)
             {
+
+                _scriperConfigPath = _scriperConfigPath ?? "Config/defaultScriper.config";
+
                 _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
                 var uiConfig = MainVM.GetActualUIConfiguration();
                 uiConfig.Save(_uiConfigPath);

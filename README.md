@@ -21,8 +21,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ## Download and Install
 ### pre-release v1
-* [Windows]()
-* [Binaries](https://github.com/Gramli/Scriper/releases/download/v1.0/pre-release_v1.0.zip)
+* [Windows](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperInstaller.exe)
 
 ## Get Started
 All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI pressing "Add Script" button (most top left) or edit the config file (in case you understant xml). At start Scriper is looking for config files in Config directory which is in same folder as .exe file. In Config directory you can have more configs and pick which one you want to use, but every config file has to ends with **"Scriper.config"**. 

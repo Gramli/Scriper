@@ -45,7 +45,7 @@ Section "Uninstall"
  
 # Always delete uninstaller first
 Delete $INSTDIR\ScriperUninstaller.exe
-Delete $INSTDIR\*.*
+Delete /r $INSTDIR\*.*
  
 # Delete the directory
 RMDir $INSTDIR

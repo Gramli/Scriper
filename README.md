@@ -20,7 +20,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
 
 ## Download and Install
-### pre-release v1
+### release v1.1
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperInstaller.exe)
 
 ## Get Started
@@ -76,6 +76,8 @@ logf(result, '5*10={0}');
 * [MessageBox.Avalonia](https://github.com/AvaloniaUtils/MessageBox.Avalonia)
 * [NUnit](https://github.com/nunit/nunit)
 * [Jint](https://github.com/sebastienros/jint)
+* [NSIS](https://nsis.sourceforge.io/Download)
+* [Icons8](https://icons8.com)
 
   
 ## Planned

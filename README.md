@@ -80,6 +80,8 @@ logf(result, '5*10={0}');
 * [Icons8](https://icons8.com)
 
   
-## Planned
+## Planned to v1.2
 * TimeSchedule support
+* Windows - System Tray
+* Change Order of Scripts
 

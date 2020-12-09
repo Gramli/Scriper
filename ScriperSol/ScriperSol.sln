@@ -11,6 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scriper.UnitTests", "Scripe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Install", "Install", "{36B7CBBB-410A-43B1-83D7-6527EBAD1EC8}"
 	ProjectSection(SolutionItems) = preProject
+		Install\defaultScriper.config = Install\defaultScriper.config
 		Install\installScript.nsi = Install\installScript.nsi
 	EndProjectSection
 EndProject

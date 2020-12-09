@@ -30,7 +30,7 @@ File /r \
 /x "*.pdb" \
 "E:\GitHub\Scriper\ScriperSol\Scriper\bin\Release\netcoreapp3.1\*.*"
 
-CopyFiles "E:\GitHub\Scriper\ScriperSol\Install\defaultScriper.config" "$INSTDIR\Config"
+# CopyFiles "E:\GitHub\Scriper\ScriperSol\Install\defaultScriper.config" "$INSTDIR\Config"
  
 # default section end
 SectionEnd

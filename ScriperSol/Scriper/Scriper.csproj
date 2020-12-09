@@ -45,6 +45,9 @@
     <ProjectReference Include="..\ScriperLib\ScriperLib.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="Config\defaultScriper.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Config\nlog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

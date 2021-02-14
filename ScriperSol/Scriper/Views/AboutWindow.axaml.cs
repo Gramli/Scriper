@@ -13,9 +13,6 @@ namespace Scriper.Views
             this.InitializeComponent();
 
             this.DataContext = new AboutVM();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

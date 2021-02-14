@@ -5,10 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronPython" Version="2.7.10" />
+    <PackageReference Include="IronPython" Version="2.7.11" />
     <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.0.3" />
-    <PackageReference Include="SimpleInjector" Version="5.0.3" />
+    <PackageReference Include="Microsoft.PowerShell.5.ReferenceAssemblies" Version="1.1.0" />
+    <PackageReference Include="Microsoft.PowerShell.SDK" Version="7.1.2" />
+    <PackageReference Include="SimpleInjector" Version="5.2.1" />
   </ItemGroup>
 
 </Project>

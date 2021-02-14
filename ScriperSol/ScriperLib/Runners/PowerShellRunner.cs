@@ -2,9 +2,9 @@
 using ScriperLib.Outputs;
 using System.Collections.Generic;
 using System.IO;
-using System.Management.Automation;
 using System.Threading.Tasks;
 using ScriperLib.Extensions;
+using System.Management.Automation;
 
 namespace ScriperLib.Runners
 {

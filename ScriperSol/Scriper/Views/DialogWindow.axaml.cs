@@ -13,10 +13,6 @@ namespace Scriper.Views
         public DialogWindow()
         {
             this.InitializeComponent();
-
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         public DialogWindow(int width, int height, string title, IControl control, WindowIcon icon)

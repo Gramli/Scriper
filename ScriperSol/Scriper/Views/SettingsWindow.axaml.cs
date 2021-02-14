@@ -16,9 +16,6 @@ namespace Scriper.Views
         public SettingsWindow()
         {
             this.InitializeComponent();
-#if DEBUG
-            this.AttachDevTools();
-#endif
         }
 
         private void InitializeComponent()

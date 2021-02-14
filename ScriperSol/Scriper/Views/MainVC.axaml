@@ -9,7 +9,7 @@
     <Style Selector="Button.h1">
       <Setter Property="Width" Value="50"/>
       <Setter Property="Height" Value="50"/>
-      <Setter Property="Background" Value="#cfecf8"/>
+      <Setter Property="Background" Value="{DynamicResource btnAppColor}"/>
     </Style>
   </UserControl.Styles>
   <Grid>

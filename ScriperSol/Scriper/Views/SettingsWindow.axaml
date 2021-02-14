@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Width="520"
-        Height="230"
+        Height="240"
         CanResize="False"        
         x:Class="Scriper.Views.SettingsWindow"
         Title="Settings"
@@ -17,6 +17,9 @@
     <Style Selector="TextBlock.h1">
       <Setter Property="FontSize" Value="16"/>
       <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    <Style Selector="Button.btnColor">
+      <Setter Property="Background" Value="{DynamicResource btnAppColor}"/>
     </Style>
   </Window.Styles>
       <Grid>
@@ -39,13 +42,14 @@
         <Border Grid.Row="1" Grid.ColumnSpan="2"  Margin="5,0,5,0" Height="1" Background="Black"/>
         <TextBlock Grid.Row="2" Text="Default Text Editor" Margin="10,0,10,0" Classes="h2"/>
         <TextBox Grid.Row="3" Grid.ColumnSpan="3" Text="{Binding TextEditorPath, Mode=TwoWay}" Classes="TextH1" Margin="10,0,10,0"/>
-        <Button Grid.Row="4" Grid.Column="2" Content="Change" Command="{Binding OpenFileCmd}" Margin="0,0,10,0" CommandParameter="ScriptPath"/>
-        <Button Grid.Row="6" Grid.ColumnSpan="3" Command="{Binding OkCmd}">
+        <Button Grid.Row="4" Grid.Column="3" Classes="btnColor" Content="Change" Command="{Binding OpenFileCmd}" Margin="0,0,10,0" CommandParameter="ScriptPath" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        
+        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="6" Grid.ColumnSpan="3" Command="{Binding OkCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <Button.Content>
             <Image Source="/Assets/icons8_ok_96px.png"/>
           </Button.Content>
         </Button>
-        <Button Grid.Row="7" Grid.ColumnSpan="3" Command="{Binding CancelCmd}">
+        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="7" Grid.ColumnSpan="3" Command="{Binding CancelCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <Button.Content>
             <Image Source="/Assets/icons8_cancel_96px.png"/>
           </Button.Content>

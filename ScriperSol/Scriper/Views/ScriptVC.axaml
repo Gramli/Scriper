@@ -2,7 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             d:DesignHeight="525"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
@@ -18,6 +20,9 @@
       <Setter Property="FontSize" Value="14"/>
       <Setter Property="TextWrapping" Value="Wrap"/>
       <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
+    <Style Selector="Button.btnColor">
+      <Setter Property="Background" Value="{DynamicResource btnAppColor}"/>
     </Style>
   </UserControl.Styles>
   <StackPanel Margin="5">
@@ -41,7 +46,7 @@
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
       <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
-      <Button Content="..." Command="{Binding OpenFileCmd}" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="InSystemTray" Classes="h1"/>
@@ -55,7 +60,7 @@
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath}" Width="330" Classes="TextH1"/>
-        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
       </DockPanel>
     </StackPanel>
     <StackPanel>
@@ -74,12 +79,12 @@
       <TextBlock Text="{Binding ErrorText}" TextAlignment="Center" Foreground="Red"/>
     </DockPanel>
     <StackPanel Margin="5">
-      <Button Height="30" Command="{Binding OkCmd}">
+      <Button Height="30" Classes="btnColor" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding OkCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_ok_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Height="30" Command="{Binding CancelCmd}">
+      <Button Height="30" Classes="btnColor" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Command="{Binding CancelCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_cancel_96px.png"/>
         </Button.Content>

@@ -97,7 +97,7 @@ namespace Scriper.ViewModels
                 var script = GetScriptVM(name).Script;
                 var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 550, "Edit Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_edit_property.ico"));
+                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_edit_property.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -142,17 +142,17 @@ namespace Scriper.ViewModels
                 var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
                 var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 550, "Add Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_file_1.ico"));
+                var dialogWindow = new DialogWindow(600, 525, "Add Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_file_1.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
-                    if (Scripts.Any(item => item.ScriptConfiguration.Name == args.Result.Configuration.Name))
-                    {
-                        scriptViewModel.InvalidName("Invalid script name, script name already exists.");
-                        return;
-                    }
                     if (!args.Cancel)
                     {
+                        if (Scripts.Any(item => item.ScriptConfiguration.Name == args.Result.Configuration.Name))
+                        {
+                            scriptViewModel.InvalidName("Invalid script name, script name already exists.");
+                            return;
+                        }
                         _scriptManager.AddScript(args.Result);
                         Scripts.Add(new ScriptVM(args.Result));
                     }
@@ -171,11 +171,11 @@ namespace Scriper.ViewModels
 
         public void EditScriptContent(string name)
         {
-            try 
+            try
             {
                 var config = _getUIConfig();
 
-                if(string.IsNullOrEmpty(config.TextEditor.Path))
+                if (string.IsNullOrEmpty(config.TextEditor.Path))
                 {
                     MessageBoxExtensions.Show("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
                     return;

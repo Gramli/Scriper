@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
@@ -18,19 +17,11 @@ namespace Scriper.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        public void DoubleTappedRow(object sender, RoutedEventArgs routedEventArgs)
-        {
-            var context = (ScriptManagerVM)this.DataContext;
-            var image = (Image)sender;
-            context.ChangeScriptOrder((string)image.Tag, true);
-
-        }
-
         public void TappedRow(object sender, RoutedEventArgs routedEventArgs)
         {
-            var context = (ScriptManagerVM)this.DataContext;
+            var scriptManagerVM = (ScriptManagerVM)this.DataContext;
             var image = (Image)sender;
-            context.ChangeScriptOrder((string)image.Tag, true);
+            scriptManagerVM.MoveScriptUp((string)image.Tag);
         }
     }
 }

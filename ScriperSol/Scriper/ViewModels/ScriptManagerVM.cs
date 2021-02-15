@@ -1,5 +1,4 @@
 ﻿using Avalonia.Collections;
-using Avalonia.Interactivity;
 using DynamicData;
 using NLog;
 using ReactiveUI;
@@ -10,7 +9,6 @@ using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Extensions;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 
@@ -212,7 +210,6 @@ namespace Scriper.ViewModels
 
         private async void RunScript(IScript script)
         {
-            //Need catch expcetions from async run
             try
             {
                 await _scriptRunner.RunAsync(script);

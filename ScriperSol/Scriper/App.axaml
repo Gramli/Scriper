@@ -8,6 +8,7 @@
 
     <Application.Resources>
       <SolidColorBrush x:Key="btnAppColor">#cfecf8</SolidColorBrush>
+      <SolidColorBrush x:Key="btnAppBorderBrushColor">#79c9ec</SolidColorBrush>
     </Application.Resources>
   
     <Application.Styles>

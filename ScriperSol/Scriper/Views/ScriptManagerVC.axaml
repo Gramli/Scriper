@@ -10,32 +10,40 @@
     <converters:ScriptTypeToImageConverter x:Key="imageConverter"/>
   </UserControl.Resources>
   <UserControl.Styles>
-      <Style Selector="DataGridColumnHeader.dtgHeader">
-        <Setter Property="Background" Value="Transparent"/>
+      <Style Selector="TextBlock.DtgHeader">
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="AreSeparatorsVisible" Value="false"/>
-        <Setter Property="SeparatorBrush" Value="Transparent"/>
+        <Setter Property="Padding" Value="15,7,7,7"/>
       </Style>
-    <Style Selector="TextBox.LongText">
-      <Setter Property="Background" Value="Transparent"/>
+    <Style Selector="TextBlock.LongText">
       <Setter Property="TextWrapping" Value="Wrap"/>
-      <Setter Property="AcceptsReturn" Value="True"/>
-      <Setter Property="IsReadOnly" Value="true"/>
       <Setter Property="Height" Value="64"/>
-      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="5"/>
+    </Style>
+    <Style Selector="TextBlock.VerticalCenter">
+      <Setter Property="Height" Value="64"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Padding" Value="15,20,0,0"/>
     </Style>
     <Style Selector="Image.BtnImage">
       <Setter Property="Width" Value="54"/>
       <Setter Property="Height" Value="54"/>
     </Style>
     <Style Selector="Button.btnRow">
-      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Background" Value="{DynamicResource btnAppColor}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource btnAppBorderBrushColor}"/>
+      <Setter Property="BorderThickness" Value="0.5"/>
     </Style>
   </UserControl.Styles>
     <DockPanel>
-      <DataGrid AutoGenerateColumns="False" Items="{Binding Scripts}" BorderThickness="0" VerticalGridLinesBrush="Transparent" GridLinesVisibility="0">
+      <DataGrid CanUserSortColumns="false" CanUserResizeColumns="False"  Items="{Binding Scripts}" BorderThickness="0">
+        <DataGrid.Styles >
+          <Style Selector="DataGridColumnHeader">
+            <Setter Property="Background" Value="{DynamicResource btnAppBorderBrushColor}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="AreSeparatorsVisible" Value="false"/>
+          </Style>
+        </DataGrid.Styles>
         <DataGrid.Columns>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
@@ -46,63 +54,51 @@
           </DataGridTemplateColumn>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="Name" Classes="dtgHeader" Width="150" />
+              <TextBlock Text="Name" Classes="DtgHeader"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding ScriptConfiguration.Name}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
-                  <TextBox.Styles>
-                    <Style Selector="TextBox /template/ TextPresenter">
-                      <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                  </TextBox.Styles>
-                </TextBox>
+                <TextBlock Text="{Binding ScriptConfiguration.Name}" Classes="VerticalCenter"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
           <DataGridTemplateColumn Width="*">
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="Argument" Classes="dtgHeader"/>
+              <TextBlock Text="Argument" Classes="DtgHeader"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding ScriptConfiguration.Arguments}" Classes="LongText"/>
+                <TextBlock Text="{Binding ScriptConfiguration.Arguments}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="Description" Classes="dtgHeader" Width="400"/>
+              <TextBlock Text="Description" Classes="DtgHeader" Width="400"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                  <TextBox Text="{Binding ScriptConfiguration.Description}" Classes="LongText"/>
+                <TextBlock Text="{Binding ScriptConfiguration.Description}" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <DataGridTemplateColumn>
+          <!--<DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="In System Tray" Classes="dtgHeader"/>
+              <DataGridColumnHeader Content="System Tray" Classes="dtgHeader" Width="60"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <CheckBox IsEnabled="False" IsChecked="{Binding ScriptConfiguration.InSystemTray}"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>
+          </DataGridTemplateColumn>-->
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="Last Run" Classes="dtgHeader" Width="150"/>
+              <TextBlock Text="Last Run" Classes="DtgHeader" Width="170"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBox Text="{Binding LastRun}" Background="Transparent" IsReadOnly="true" Height="64" BorderThickness="0" FontWeight="Bold" >
-                  <TextBox.Styles>
-                    <Style Selector="TextBox /template/ TextPresenter">
-                      <Setter Property="VerticalAlignment" Value="Center"/>
-                    </Style>
-                  </TextBox.Styles>
-                </TextBox>
+                <TextBlock Text="{Binding LastRun}" Classes="VerticalCenter" />
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

@@ -10,6 +10,8 @@
       <Setter Property="Width" Value="50"/>
       <Setter Property="Height" Value="50"/>
       <Setter Property="Background" Value="{DynamicResource btnAppColor}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource btnAppBorderBrushColor}"/>
+      <Setter Property="BorderThickness" Value="0.5"/>
     </Style>
   </UserControl.Styles>
   <Grid>

@@ -48,8 +48,8 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                 <Image Source="{Binding ScriptType, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
-              </DataTemplate>
+                 <Image Tapped="TappedRow" Tag="{Binding ScriptConfiguration.Name}" Source="{Binding ScriptType, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
+            </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
           <DataGridTemplateColumn>
@@ -82,16 +82,6 @@
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
-          <!--<DataGridTemplateColumn>
-            <DataGridTemplateColumn.Header>
-              <DataGridColumnHeader Content="System Tray" Classes="dtgHeader" Width="60"/>
-            </DataGridTemplateColumn.Header>
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <CheckBox IsEnabled="False" IsChecked="{Binding ScriptConfiguration.InSystemTray}"/>
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>-->
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.Header>
               <TextBlock Text="Last Run" Classes="DtgHeader" Width="170"/>

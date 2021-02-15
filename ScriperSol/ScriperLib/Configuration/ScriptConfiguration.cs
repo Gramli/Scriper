@@ -31,6 +31,9 @@ namespace ScriperLib.Configuration
         [ConfigurationAttribute("lastRun", false)]
         public string LastRun { get; set; }
 
+        [ConfigurationAttribute("order", false)]
+        public int Order { get; set; } = -1;
+
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
         public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using DynamicData;
+﻿using Avalonia.Collections;
+using DynamicData;
 using NLog;
 using ReactiveUI;
 using Scriper.Configuration;
@@ -8,7 +9,6 @@ using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Extensions;
 using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 
@@ -17,7 +17,7 @@ namespace Scriper.ViewModels
     public class ScriptManagerVM : ViewModelBase
     {
         public IScriperLibContainer Container { get; private set; }
-        public ObservableCollection<ScriptVM> Scripts { get; private set; }
+        public AvaloniaList<ScriptVM> Scripts { get; private set; }
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
@@ -50,7 +50,7 @@ namespace Scriper.ViewModels
         {
             try
             {
-                Scripts = new ObservableCollection<ScriptVM>();
+                Scripts = new AvaloniaList<ScriptVM>();
                 foreach (var script in _scriptManager.Scripts)
                 {
                     var vm = new ScriptVM(script);
@@ -192,9 +192,24 @@ namespace Scriper.ViewModels
             }
         }
 
+        public void MoveScriptUp(string name)
+        {
+            var scriptVM = Scripts.Single(x => x.ScriptConfiguration.Name == name);
+            var index = Scripts.IndexOf(scriptVM);
+            if (index > 0)
+            {
+                var newIndex = index - 1;
+                //move doesnt work in UI
+                //Scripts.Move(index, newOrder);
+                Scripts.Remove(scriptVM);
+                Scripts.Insert(newIndex, scriptVM);
+                scriptVM.ScriptConfiguration.Order = newIndex;
+                Scripts[index].ScriptConfiguration.Order = index;
+            }
+        }
+
         private async void RunScript(IScript script)
         {
-            //Need catch expcetions from async run
             try
             {
                 await _scriptRunner.RunAsync(script);

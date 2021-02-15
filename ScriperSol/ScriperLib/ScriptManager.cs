@@ -23,7 +23,8 @@ namespace ScriperLib
         private void LoadScripts()
         {
             _scripts = new HashSet<IScript>(Configuration.ScriptsConfigurations.Count);
-            foreach (var scriptConfiguration in Configuration.ScriptsConfigurations)
+            var orderedScripts = Configuration.ScriptsConfigurations.OrderBy(x => x.Order);
+            foreach (var scriptConfiguration in orderedScripts)
             {
                 AddScript(scriptConfiguration);
             }
@@ -42,11 +43,25 @@ namespace ScriperLib
                 throw new ConfigurationException($"In Configuration are two scripts with same name: {script.Configuration.Name}.");
             }
 
+            if (script.Configuration.Order != -1)
+            {
+                script.Configuration.Order = _scripts.Count;
+            }
+
+            SetScriptOrder(script);
             _scripts.Add(script);
 
             if (!Configuration.ScriptsConfigurations.Contains(script.Configuration))
             {
                 Configuration.ScriptsConfigurations.Add(script.Configuration);
+            }
+        }
+
+        private void SetScriptOrder(IScript script)
+        {
+            if (script.Configuration.Order == -1)
+            {
+                script.Configuration.Order = _scripts.Count;
             }
         }
 

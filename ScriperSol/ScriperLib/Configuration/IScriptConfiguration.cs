@@ -13,6 +13,7 @@ namespace ScriperLib.Configuration
         bool InSystemTray { get; set; }
         bool OutputWindow { get; set; }
         string LastRun { get; set; }
+        int Order { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; }
 

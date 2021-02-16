@@ -13,33 +13,33 @@ namespace Scriper.ViewModels
 {
     public class MainWindowVM : ViewModelBase
     {
-        private MainVM mainVM;
+        private MainVM _mainVm;
         public MainVM MainVM
         {
-            get => mainVM;
+            get => _mainVm;
             set
             {
-                this.RaiseAndSetIfChanged(ref mainVM, value);
+                this.RaiseAndSetIfChanged(ref _mainVm, value);
             }
         }
 
-        private bool dataVisible = false;
+        private bool _dataVisible;
         public bool DataVisible
         {
-            get => dataVisible;
+            get => _dataVisible;
             set
             {
-                this.RaiseAndSetIfChanged(ref dataVisible, value);
+                this.RaiseAndSetIfChanged(ref _dataVisible, value);
             }
         }
 
-        private string title;
+        private string _title;
         public string Title
         {
-            get => title;
+            get => _title;
             set
             {
-                this.RaiseAndSetIfChanged(ref title, $"Scriper: {Path.GetFileName(value)}");
+                this.RaiseAndSetIfChanged(ref _title, $"Scriper: {Path.GetFileName(value)}");
             }
         }
 

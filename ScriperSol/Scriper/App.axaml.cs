@@ -1,14 +1,15 @@
-﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using NLog;
 using Scriper.Extensions;
+using Scriper.SystemTray.Windows;
 using Scriper.ViewModels;
 using Scriper.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Application = Avalonia.Application;
 
 namespace Scriper
 {

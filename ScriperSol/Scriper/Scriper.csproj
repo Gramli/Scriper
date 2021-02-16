@@ -45,6 +45,16 @@
     <ProjectReference Include="..\ScriperLib\ScriperLib.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Drawing.Common">
+      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\3.1.12\System.Drawing.Common.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\3.1.12\System.Windows.Forms.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Config\defaultScriper.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

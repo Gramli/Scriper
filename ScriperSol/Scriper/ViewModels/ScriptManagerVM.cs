@@ -4,6 +4,7 @@ using NLog;
 using ReactiveUI;
 using Scriper.Configuration;
 using Scriper.Extensions;
+using Scriper.SystemTray.Windows;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
@@ -33,6 +34,8 @@ namespace Scriper.ViewModels
 
         private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
 
+        private IWindowsTrayIcon _windowsTrayIcon => WindowsTrayIcon.Current;
+
         public ScriptManagerVM(IScriperLibContainer container, Func<IScriperUIConfiguration> getUIConfig)
         {
             Container = container;
@@ -55,6 +58,7 @@ namespace Scriper.ViewModels
                 {
                     var vm = new ScriptVM(script);
                     Scripts.Add(vm);
+                    EditContextMenuByInSystemTray(script);
                 }
             }
             catch (Exception ex)
@@ -103,8 +107,11 @@ namespace Scriper.ViewModels
                 {
                     if (!args.Cancel)
                     {
-                        var oldVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
-                        Scripts.Replace(oldVM, new ScriptVM(args.Result));
+                        var oldScriptVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
+                        var newScriptVM = new ScriptVM(args.Result);
+                        EditContextMenuByInSystemTray(oldScriptVM.Script);
+                        EditContextMenuByInSystemTray(newScriptVM.Script);
+                        Scripts.Replace(oldScriptVM, newScriptVM);
                         _scriptManager.ReplaceScript(script, args.Result);
                     }
 
@@ -126,6 +133,7 @@ namespace Scriper.ViewModels
             {
                 var scriptVM = GetScriptVM(name);
                 Scripts.Remove(scriptVM);
+                EditContextMenuByInSystemTray(scriptVM.Script);
                 _scriptManager.RemoveScript(scriptVM.Script);
             }
             catch (Exception ex)
@@ -154,7 +162,9 @@ namespace Scriper.ViewModels
                             return;
                         }
                         _scriptManager.AddScript(args.Result);
-                        Scripts.Add(new ScriptVM(args.Result));
+                        var newScriptVM = new ScriptVM(args.Result);
+                        Scripts.Add(newScriptVM);
+                        EditContextMenuByInSystemTray(newScriptVM.Script);
                     }
 
                     dialogWindow.Close();
@@ -233,6 +243,18 @@ namespace Scriper.ViewModels
         private ScriptVM GetScriptVM(string name)
         {
             return Scripts.Single(script => script.ScriptConfiguration.Name == name);
+        }
+
+        private void EditContextMenuByInSystemTray(IScript script)
+        {
+            if (script.Configuration.InSystemTray)
+            {
+                _windowsTrayIcon.TryAddContextMenuItem(script.Configuration.Name, RunScript);
+            }
+            else
+            {
+                _windowsTrayIcon.RemoveContextMenuItem(script.Configuration.Name);
+            }
         }
     }
 }

@@ -4,10 +4,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Linq;
+using Scriper.Extensions;
+using System.IO;
 
 namespace Scriper.SystemTray.Windows
 {
-    internal class WindowsTrayIcon : IDisposable, IWindowsTrayIcon
+    internal class WindowsTrayIcon : IWindowsTrayIcon
     {
         public static IWindowsTrayIcon Current => _windowsTrayIcon ??= new WindowsTrayIcon("Scriper");
         private static IWindowsTrayIcon _windowsTrayIcon;
@@ -22,9 +24,10 @@ namespace Scriper.SystemTray.Windows
             _contextMenuStrip = new ContextMenuStrip();
             _notifyIcon = new NotifyIcon(_components)
             {
+                Visible = true,
                 ContextMenuStrip = _contextMenuStrip,
                 Text = text,
-                Icon = new Icon(@"C:\github\Scriper\ScriperSol\Scriper\Assets\icons8_console.ico"),
+                Icon = GetAssetsIcon("icons8_console.ico"),
             };
 
         }
@@ -33,12 +36,17 @@ namespace Scriper.SystemTray.Windows
         {
             foreach (var actionItem in actionsDict)
             {
-                AddContextMenuItem(actionItem.Key, actionItem.Value);
+                TryAddContextMenuItem(actionItem.Key, actionItem.Value);
             }
         }
 
-        public void AddContextMenuItem(string name, Action<string> action)
+        public bool TryAddContextMenuItem(string name, Action<string> action)
         {
+            if(_contextMenuStrip.Items.ContainsKey(name))
+            {
+                return false;
+            }
+
             var toolStripMenuItem = new ToolStripMenuItem()
             {
                 Name = name,
@@ -47,6 +55,7 @@ namespace Scriper.SystemTray.Windows
             };
             toolStripMenuItem.Click += (sender, eventArgs) => { action(name); };
             _contextMenuStrip.Items.Add(toolStripMenuItem);
+            return true;
         }
 
         public void RemoveContextMenuItem(string name)
@@ -72,6 +81,14 @@ namespace Scriper.SystemTray.Windows
         public void Dispose()
         {
             _components.Dispose();
+        }
+
+        private Icon GetAssetsIcon(string name)
+        {
+            var avaloniaIcon = AssetsExtensions.GetAssetsIcon(name);
+            using var iconStream = new MemoryStream();
+            avaloniaIcon.Save(iconStream);
+            return new Icon(iconStream); 
         }
     }
 }

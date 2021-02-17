@@ -52,6 +52,7 @@ namespace Scriper
                 var mainWindow = (MainWindow)((IClassicDesktopStyleApplicationLifetime)sender).MainWindow;
                 var mainWindowVM = (MainWindowVM)mainWindow.DataContext;
                 mainWindowVM.SaveConfigs();
+                WindowsTrayIcon.Current.Dispose();
             }
             catch(Exception ex)
             {

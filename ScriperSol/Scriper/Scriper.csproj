@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>icons8_console.ico</ApplicationIcon>
 	<AssemblyVersion>1.1.0.0</AssemblyVersion>
+	<UseWindowsForms>true</UseWindowsForms> 
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -45,16 +46,6 @@
     <ProjectReference Include="..\ScriperLib\ScriperLib.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Drawing.Common">
-      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\3.1.12\System.Drawing.Common.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="System.Windows.Forms">
-      <HintPath>..\..\..\..\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\3.1.12\System.Windows.Forms.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Config\defaultScriper.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -63,6 +54,9 @@
     </None>
     <None Update="Config\ScriperUI.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="icons8_console.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

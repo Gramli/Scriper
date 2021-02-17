@@ -73,29 +73,6 @@ namespace Scriper.ViewModels
             }
         }
 
-        private void Ok(string config)
-        {
-            Init(config);
-        }
-
-        private void Init(string config)
-        {
-            try
-            {
-                _scriperConfigPath = config;
-                _container = new ScriperLibContainer(config);
-                _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
-                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
-                DataVisible = true;
-                Title = config;
-            }
-            catch(Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
         public void SaveConfigs()
         {
             if (_container != null)
@@ -112,6 +89,36 @@ namespace Scriper.ViewModels
         public void Dispose()
         {
             _systemTrayMenu.Dispose();
+        }
+
+        private void Ok(string config)
+        {
+            Init(config);
+        }
+
+        private void Init(string config)
+        {
+            try
+            {
+                _scriperConfigPath = config;
+                _container = new ScriperLibContainer(config);
+                _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
+                AddCloseButtonToSystemTray();
+                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
+                DataVisible = true;
+                Title = config;
+            }
+            catch(Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private void AddCloseButtonToSystemTray()
+        {
+            _systemTrayMenu.TryInsertClickContextMenuItem("Exit", (param) => App.Current.Close(), "icons8_close_window.ico");
+            _systemTrayMenu.InsertContextMenuSeparator("ExitSep");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Scriper.AssetsAccess
             return new Icon(iconStream);
         }
 
-        public Bitmap GetAssetsImage(string imageName)
+        public Image GetAssetsImage(string imageName)
         {
             var asset = GetAsset(imageName);
             return new Bitmap(asset);

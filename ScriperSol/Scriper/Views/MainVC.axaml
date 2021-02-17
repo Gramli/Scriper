@@ -20,6 +20,7 @@
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
@@ -46,11 +47,11 @@
           <Image Source="/Assets/icons8_high_importance_96px.png"/>
         </Button.Content>
       </Button>
-      <!--<Button Classes="h1">
+      <Button Classes="h1" Grid.Column="4" Grid.Row="0" Command="{Binding HideCmd}">
         <Button.Content>
-          <Image Source="/Assets/icons8_software_installer_96px.png"/>
+          <Image Source="/Assets/icons8_minimize_window_96px.png"/>
         </Button.Content>
-      </Button>-->
-      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Grid.RowSpan="2"/>
+      </Button>
+      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="2"/>
   </Grid>
 </UserControl>

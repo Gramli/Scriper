@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Reactive;
 using Scriper.AssetsAccess;
+using Scriper.Converters;
 
 namespace Scriper.ViewModels
 {
@@ -31,6 +32,7 @@ namespace Scriper.ViewModels
         private readonly IScriptRunner _scriptRunner;
         private readonly IScriperUIConfiguration _uiConfig;
         private readonly ISystemTrayMenu _systemTrayMenu;
+        private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
         private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
@@ -247,7 +249,8 @@ namespace Scriper.ViewModels
         {
             if (script.Configuration.InSystemTray)
             {
-                _systemTrayMenu?.TryAddContextMenuItem(script.Configuration.Name, RunScript);
+                var imageName = _scriptTypeToAssetNameConverter.Convert(script.ScriptType);
+                _systemTrayMenu?.TryInsertClickContextMenuItem(script.Configuration.Name, RunScript, imageName);
             }
             else
             {

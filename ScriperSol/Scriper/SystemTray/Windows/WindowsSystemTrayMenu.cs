@@ -1,7 +1,6 @@
 ﻿using Avalonia.Platform;
 using Scriper.AssetsAccess;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -28,15 +27,7 @@ namespace Scriper.SystemTray.Windows
             };
         }
 
-        public void AddRangeContextMenuItems(Dictionary<string, Action<string>> actionsDict)
-        {
-            foreach (var actionItem in actionsDict)
-            {
-                TryAddContextMenuItem(actionItem.Key, actionItem.Value);
-            }
-        }
-
-        public bool TryAddContextMenuItem(string name, Action<string> action)
+        public bool TryInsertClickContextMenuItem(string name, Action<string> action, string imageName)
         {
             if(_contextMenuStrip.Items.ContainsKey(name))
             {
@@ -48,10 +39,22 @@ namespace Scriper.SystemTray.Windows
                 Name = name,
                 Text = name,
                 CheckOnClick = false,
+                Image = WindowsAssetsAccess.Instance.GetAssetsImage(imageName),
             };
             toolStripMenuItem.Click += (sender, eventArgs) => { action(name); };
-            _contextMenuStrip.Items.Add(toolStripMenuItem);
+            _contextMenuStrip.Items.Insert(0,toolStripMenuItem);
             return true;
+        }
+
+
+        public void InsertContextMenuSeparator(string name)
+        {
+            var toolStripMenuSeparator = new ToolStripSeparator()
+            {
+                Name = name,
+                Visible = true,
+            };
+            _contextMenuStrip.Items.Insert(0, toolStripMenuSeparator);
         }
 
         public void RemoveContextMenuItem(string name)

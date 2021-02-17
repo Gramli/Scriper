@@ -4,7 +4,6 @@ using NLog;
 using Scriper.Extensions;
 using Scriper.SystemTray.Windows;
 using System;
-using System.Collections.Generic;
 
 namespace Scriper.SystemTray
 {
@@ -43,14 +42,9 @@ namespace Scriper.SystemTray
             _osSpecificSystemTrayMenu?.Dispose();
         }
 
-        public void AddRangeContextMenuItems(Dictionary<string, Action<string>> actionsDict)
+        public bool TryInsertClickContextMenuItem(string name, Action<string> action, string imageName)
         {
-            _osSpecificSystemTrayMenu?.AddRangeContextMenuItems(actionsDict);
-        }
-
-        public bool TryAddContextMenuItem(string name, Action<string> action)
-        {
-            return _osSpecificSystemTrayMenu?.TryAddContextMenuItem(name, action) ?? false;
+            return _osSpecificSystemTrayMenu?.TryInsertClickContextMenuItem(name, action, imageName) ?? false;
         }
 
         public void RemoveContextMenuItem(string name)
@@ -71,6 +65,11 @@ namespace Scriper.SystemTray
         public void Hide()
         {
             _osSpecificSystemTrayMenu?.Hide();
+        }
+
+        public void InsertContextMenuSeparator(string name)
+        {
+            _osSpecificSystemTrayMenu?.InsertContextMenuSeparator(name);
         }
     }
 }

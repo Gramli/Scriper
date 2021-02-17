@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Scriper.SystemTray.Windows
+namespace Scriper.SystemTray
 {
-    interface IWindowsTrayIcon : IDisposable
+    public interface ISystemTrayMenu : IDisposable
     {
         void AddRangeContextMenuItems(Dictionary<string, Action<string>> actionsDict);
         bool TryAddContextMenuItem(string name, Action<string> action);

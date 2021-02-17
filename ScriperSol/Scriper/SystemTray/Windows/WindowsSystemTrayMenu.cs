@@ -1,24 +1,21 @@
-﻿using System;
+﻿using Avalonia.Platform;
+using Scriper.AssetsAccess;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Windows.Forms;
-using System.Linq;
-using Scriper.Extensions;
-using System.IO;
 
 namespace Scriper.SystemTray.Windows
 {
-    internal class WindowsTrayIcon : IWindowsTrayIcon
+    internal class WindowsSystemTrayMenu : IWindowsSystemTrayMenu
     {
-        public static IWindowsTrayIcon Current => _windowsTrayIcon ??= new WindowsTrayIcon("Scriper");
-        private static IWindowsTrayIcon _windowsTrayIcon;
+        private NotifyIcon _notifyIcon;
+        private ContextMenuStrip _contextMenuStrip;
+        private IContainer _components;
 
-        private readonly NotifyIcon _notifyIcon;
-        private readonly ContextMenuStrip _contextMenuStrip;
-        private readonly IContainer _components;
-
-        private WindowsTrayIcon(string text)
+        public OperatingSystemType OperatingSystemType => OperatingSystemType.WinNT;
+        
+        public void Init(string name)
         {
             _components = new Container();
             _contextMenuStrip = new ContextMenuStrip();
@@ -26,10 +23,9 @@ namespace Scriper.SystemTray.Windows
             {
                 Visible = true,
                 ContextMenuStrip = _contextMenuStrip,
-                Text = text,
-                Icon = GetAssetsIcon("icons8_console.ico"),
+                Text = name,
+                Icon = WindowsAssetsAccess.Instance.GetAssetsIcon("icons8_console.ico"),
             };
-
         }
 
         public void AddRangeContextMenuItems(Dictionary<string, Action<string>> actionsDict)
@@ -81,14 +77,6 @@ namespace Scriper.SystemTray.Windows
         public void Dispose()
         {
             _components.Dispose();
-        }
-
-        private Icon GetAssetsIcon(string name)
-        {
-            var avaloniaIcon = AssetsExtensions.GetAssetsIcon(name);
-            using var iconStream = new MemoryStream();
-            avaloniaIcon.Save(iconStream);
-            return new Icon(iconStream); 
         }
     }
 }

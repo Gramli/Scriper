@@ -2,7 +2,6 @@
 using Avalonia.Markup.Xaml;
 using NLog;
 using Scriper.Extensions;
-using Scriper.SystemTray.Windows;
 using Scriper.ViewModels;
 using Scriper.Views;
 using System;
@@ -52,7 +51,7 @@ namespace Scriper
                 var mainWindow = (MainWindow)((IClassicDesktopStyleApplicationLifetime)sender).MainWindow;
                 var mainWindowVM = (MainWindowVM)mainWindow.DataContext;
                 mainWindowVM.SaveConfigs();
-                WindowsTrayIcon.Current.Dispose();
+                mainWindowVM.Dispose();
             }
             catch(Exception ex)
             {

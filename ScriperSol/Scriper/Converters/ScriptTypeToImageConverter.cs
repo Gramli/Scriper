@@ -3,6 +3,7 @@ using Scriper.Extensions;
 using ScriperLib.Enums;
 using System;
 using System.Globalization;
+using Scriper.AssetsAccess;
 
 namespace Scriper.Converters
 {
@@ -14,17 +15,17 @@ namespace Scriper.Converters
             {
                 case ScriptType.PowerShell1:
                 case ScriptType.PowerShell2:
-                    return AssetsExtensions.GetAssetsImage("icons8_powershell_96px.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_powershell_96px.png");
                 case ScriptType.PythonFile:
-                    return AssetsExtensions.GetAssetsImage("icons8_python_96px.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_python_96px.png");
                 case ScriptType.WindowsProcess:
-                    return AssetsExtensions.GetAssetsImage("icons8_windows_xp_96px_1.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_windows_xp_96px_1.png");
                 case ScriptType.ExeFile:
-                    return AssetsExtensions.GetAssetsImage("icons8_application_window_96px.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_application_window_96px.png");
                 case ScriptType.Javascript:
-                    return AssetsExtensions.GetAssetsImage("icons8_javascript_96px.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_javascript_96px.png");
                 case ScriptType.LinuxShell:
-                    return AssetsExtensions.GetAssetsImage("icons8_linux_96px.png");
+                    return AvaloniaAssets.Instance.GetAssetsImage("icons8_linux_96px.png");
                 default:
                     return null;
             }

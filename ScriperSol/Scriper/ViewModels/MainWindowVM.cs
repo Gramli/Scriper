@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
+using Scriper.SystemTray;
+using Scriper.SystemTray.Windows;
 
 namespace Scriper.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class MainWindowVM : ViewModelBase, IDisposable
     {
         private MainVM _mainVm;
         public MainVM MainVM
@@ -44,16 +46,16 @@ namespace Scriper.ViewModels
         }
 
         public List<string> Configs { get; private set; }
-
         public ReactiveCommand<string, Unit> OkCmd { get; }
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        private IScriperLibContainer _container;
-
         private readonly string _uiConfigPath;
 
+        private ISystemTrayMenu _systemTrayMenu;
+        private IScriperLibContainer _container;
         private string _scriperConfigPath;
+
         public MainWindowVM(List<string> configs, string uiConfigPath)
         {
             OkCmd = ReactiveCommand.Create<string>(Ok);
@@ -82,7 +84,8 @@ namespace Scriper.ViewModels
             {
                 _scriperConfigPath = config;
                 _container = new ScriperLibContainer(config);
-                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath));
+                _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
+                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
                 DataVisible = true;
                 Title = config;
             }
@@ -101,9 +104,14 @@ namespace Scriper.ViewModels
                 _scriperConfigPath = _scriperConfigPath ?? "Config/defaultScriper.config";
 
                 _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
-                var uiConfig = MainVM.GetActualUIConfiguration();
+                var uiConfig = MainVM.ActualUiConfiguration;
                 uiConfig.Save(_uiConfigPath);
             }
+        }
+
+        public void Dispose()
+        {
+            _systemTrayMenu.Dispose();
         }
     }
 }

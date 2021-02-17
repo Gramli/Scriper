@@ -4,7 +4,7 @@ using NLog;
 using ReactiveUI;
 using Scriper.Configuration;
 using Scriper.Extensions;
-using Scriper.SystemTray.Windows;
+using Scriper.SystemTray;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
@@ -12,31 +12,30 @@ using ScriperLib.Extensions;
 using System;
 using System.Linq;
 using System.Reactive;
+using Scriper.AssetsAccess;
 
 namespace Scriper.ViewModels
 {
     public class ScriptManagerVM : ViewModelBase
     {
-        public IScriperLibContainer Container { get; private set; }
+        public IScriperLibContainer Container { get; }
         public AvaloniaList<ScriptVM> Scripts { get; private set; }
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
         public ReactiveCommand<string, Unit> EditScriptContentCmd { get; }
 
+        private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
+
         private readonly IScriptManager _scriptManager;
-
         private readonly IScriptRunner _scriptRunner;
-
-        private readonly Func<IScriperUIConfiguration> _getUIConfig;
+        private readonly IScriperUIConfiguration _uiConfig;
+        private readonly ISystemTrayMenu _systemTrayMenu;
+        private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
-
-        private IWindowsTrayIcon _windowsTrayIcon => WindowsTrayIcon.Current;
-
-        public ScriptManagerVM(IScriperLibContainer container, Func<IScriperUIConfiguration> getUIConfig)
+        public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
@@ -45,7 +44,8 @@ namespace Scriper.ViewModels
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
             EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
-            _getUIConfig = getUIConfig;
+            _systemTrayMenu = systemTrayMenu;
+            _uiConfig = uiConfig;
             InitializeScripts();
         }
 
@@ -80,7 +80,7 @@ namespace Scriper.ViewModels
                     var outputVM = new OutputVM();
                     var outputVC = new OutputVC(outputVM);
                     script.Outputs.Add(outputVM);
-                    var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC, AssetsExtensions.GetAssetsIcon("icons8_console.ico"));
+                    var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC, AvaloniaAssets.GetAssetsIcon("icons8_console.ico"));
                     dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
                     dialogWindow.Show();
                 }
@@ -101,7 +101,7 @@ namespace Scriper.ViewModels
                 var script = GetScriptVM(name).Script;
                 var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_edit_property.ico"));
+                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -150,7 +150,7 @@ namespace Scriper.ViewModels
                 var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
                 var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 525, "Add Script", scriptControl, AssetsExtensions.GetAssetsIcon("icons8_file_1.ico"));
+                var dialogWindow = new DialogWindow(600, 525, "Add Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -183,16 +183,14 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var config = _getUIConfig();
-
-                if (string.IsNullOrEmpty(config.TextEditor.Path))
+                if (string.IsNullOrEmpty(_uiConfig.TextEditor.Path))
                 {
                     MessageBoxExtensions.Show("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
                     return;
                 }
 
                 var scriptVM = GetScriptVM(name);
-                var scriptToRun = CreateOpenScriptEditorScript(scriptVM, config);
+                var scriptToRun = CreateOpenScriptEditorScript(scriptVM, _uiConfig);
                 _scriptRunner.Run(scriptToRun);
             }
             catch (Exception ex)
@@ -249,11 +247,11 @@ namespace Scriper.ViewModels
         {
             if (script.Configuration.InSystemTray)
             {
-                _windowsTrayIcon.TryAddContextMenuItem(script.Configuration.Name, RunScript);
+                _systemTrayMenu?.TryAddContextMenuItem(script.Configuration.Name, RunScript);
             }
             else
             {
-                _windowsTrayIcon.RemoveContextMenuItem(script.Configuration.Name);
+                _systemTrayMenu?.RemoveContextMenuItem(script.Configuration.Name);
             }
         }
     }

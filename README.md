@@ -48,11 +48,12 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * description - script description
 * path - script file path
 * arguments - script arguments
-* inSystemTray - *not implemented yet - blocked because of AvaloniaUI*
+* inSystemTray - allow to add script to system tray context menu and run it
 * outputWindow - determines if output window will be opened -> script output will be written there
 * TimeSchedules - *not implemented yet*
 * FileOuput
   * path - path to script output file -> script output will be written there
+* Order - define order of script in collection and UI
 
 ### Use The Scripts
 #### Javascript 
@@ -68,6 +69,15 @@ var result = 5*10;
 logf(result, '5*10={0}');
 ```
 
+### System Tray
+You can hide Scriper using hide button and then run scripts from System Tray context menu like in pictures. If you want to show Scriper window, just click Show in System Tray context menu. 
+![Scriper Hide](/Images/scriper_hide.png)
+![Scriper Edit](/Images/scriper_system_tray.png)
+![Scriper Edit](/Images/scriper_edit.png)
+
+### Order of Scripts
+By click on script icon you can change order of script -> its moved to up.
+![Scriper Hide](/Images/scriper_icon_click.png)
 
 
 ## Technologies and Tools Used
@@ -82,8 +92,6 @@ logf(result, '5*10={0}');
 * [Icons8](https://icons8.com)
 
   
-## Planned to v1.2
+## Planned to v1.3
 * TimeSchedule support
-* Windows - System Tray
-* Change Order of Scripts
 

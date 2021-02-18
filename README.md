@@ -4,15 +4,15 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ![Scriper Example](/Images/scriper.png)
 
 ## Menu
-[Features](#features)  
-[Download and Install](#download-and-install)  
-[Get Started](#get-started)  
-* [Configuration](#configuration)
-* [Use The Scripts](#sse-the-scripts)
-* [System Tray](#system-tray)
-* [Order of Scripts](#order-of-scripts)      
-[Technologies and Tools](#technologies-and-tools-used)  
-[Planned](#planned)  
+* [Features](#features)  
+* [Download and Install](#download-and-install)  
+* [Get Started](#get-started)  
+    * [Configuration](#configuration)
+    * [Use The Scripts](#sse-the-scripts)
+    * [System Tray](#system-tray)
+    * [Order of Scripts](#order-of-scripts)      
+* [Technologies and Tools](#technologies-and-tools-used)  
+* [Planned](#planned)  
 
 ## Features
 **Actual version supports these file extensions (scripts):**

@@ -1,5 +1,5 @@
 ﻿using Avalonia.Data.Converters;
-using Scriper.Extensions;
+using Scriper.AssetsAccess;
 using ScriperLib.Enums;
 using System;
 using System.Globalization;
@@ -8,26 +8,12 @@ namespace Scriper.Converters
 {
     public class ScriptTypeToImageConverter : IValueConverter
     {
+        private readonly ScriptTypeToAssetNameConverter scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            switch((ScriptType)value)
-            {
-                case ScriptType.PowerShell1:
-                case ScriptType.PowerShell2:
-                    return AssetsExtensions.GetAssetsImage("icons8_powershell_96px.png");
-                case ScriptType.PythonFile:
-                    return AssetsExtensions.GetAssetsImage("icons8_python_96px.png");
-                case ScriptType.WindowsProcess:
-                    return AssetsExtensions.GetAssetsImage("icons8_windows_xp_96px_1.png");
-                case ScriptType.ExeFile:
-                    return AssetsExtensions.GetAssetsImage("icons8_application_window_96px.png");
-                case ScriptType.Javascript:
-                    return AssetsExtensions.GetAssetsImage("icons8_javascript_96px.png");
-                case ScriptType.LinuxShell:
-                    return AssetsExtensions.GetAssetsImage("icons8_linux_96px.png");
-                default:
-                    return null;
-            }
+            var name = scriptTypeToAssetNameConverter.Convert((ScriptType)value);
+            return AvaloniaAssets.Instance.GetAssetsImage(name);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

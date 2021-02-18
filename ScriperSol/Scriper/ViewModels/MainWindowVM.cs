@@ -8,52 +8,45 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
+using Scriper.SystemTray;
+using Scriper.SystemTray.Windows;
 
 namespace Scriper.ViewModels
 {
-    public class MainWindowVM : ViewModelBase
+    public class MainWindowVM : ViewModelBase, IDisposable
     {
-        private MainVM mainVM;
+        private MainVM _mainVm;
         public MainVM MainVM
         {
-            get => mainVM;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref mainVM, value);
-            }
+            get => _mainVm;
+            set => this.RaiseAndSetIfChanged(ref _mainVm, value);
         }
 
-        private bool dataVisible = false;
+        private bool _dataVisible;
         public bool DataVisible
         {
-            get => dataVisible;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref dataVisible, value);
-            }
+            get => _dataVisible;
+            set => this.RaiseAndSetIfChanged(ref _dataVisible, value);
         }
 
-        private string title;
+        private string _title;
         public string Title
         {
-            get => title;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref title, $"Scriper: {Path.GetFileName(value)}");
-            }
+            get => _title;
+            set => this.RaiseAndSetIfChanged(ref _title, $"Scriper: {Path.GetFileName(value)}");
         }
 
         public List<string> Configs { get; private set; }
-
         public ReactiveCommand<string, Unit> OkCmd { get; }
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        private IScriperLibContainer _container;
-
         private readonly string _uiConfigPath;
 
+        private ISystemTrayMenu _systemTrayMenu;
+        private IScriperLibContainer _container;
         private string _scriperConfigPath;
+
         public MainWindowVM(List<string> configs, string uiConfigPath)
         {
             OkCmd = ReactiveCommand.Create<string>(Ok);
@@ -71,6 +64,24 @@ namespace Scriper.ViewModels
             }
         }
 
+        public void SaveConfigs()
+        {
+            if (_container == null)
+            {
+                return;
+            }
+
+            _scriperConfigPath ??= "Config/defaultScriper.config";
+            _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
+            var uiConfig = MainVM.ActualUiConfiguration;
+            uiConfig.Save(_uiConfigPath);
+        }
+
+        public void Dispose()
+        {
+            _systemTrayMenu.Dispose();
+        }
+
         private void Ok(string config)
         {
             Init(config);
@@ -82,7 +93,9 @@ namespace Scriper.ViewModels
             {
                 _scriperConfigPath = config;
                 _container = new ScriperLibContainer(config);
-                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath));
+                _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
+                AddCloseButtonToSystemTray();
+                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
                 DataVisible = true;
                 Title = config;
             }
@@ -93,17 +106,10 @@ namespace Scriper.ViewModels
             }
         }
 
-        public void SaveConfigs()
+        private void AddCloseButtonToSystemTray()
         {
-            if (_container != null)
-            {
-
-                _scriperConfigPath = _scriperConfigPath ?? "Config/defaultScriper.config";
-
-                _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
-                var uiConfig = MainVM.GetActualUIConfiguration();
-                uiConfig.Save(_uiConfigPath);
-            }
+            _systemTrayMenu.TryInsertClickContextMenuItem("Exit", (param) => App.Current.Close(), "icons8_close_window.ico");
+            _systemTrayMenu.InsertContextMenuSeparator("ExitSep");
         }
     }
 }

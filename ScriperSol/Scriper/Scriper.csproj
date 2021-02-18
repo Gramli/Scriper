@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>icons8_console.ico</ApplicationIcon>
 	<AssemblyVersion>1.1.0.0</AssemblyVersion>
+	<UseWindowsForms>true</UseWindowsForms> 
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -13,6 +14,7 @@
     <None Remove="Assets\icons8_add_file_96px.png" />
     <None Remove="Assets\icons8_administrative_tools.ico" />
     <None Remove="Assets\icons8_administrative_tools_96px.png" />
+    <None Remove="Assets\icons8_advertisement_page_96px.png" />
     <None Remove="Assets\icons8_application_window_96px.png" />
     <None Remove="Assets\icons8_cancel_96px.png" />
     <None Remove="Assets\icons8_close_window.ico" />
@@ -27,6 +29,7 @@
     <None Remove="Assets\icons8_info.ico" />
     <None Remove="Assets\icons8_javascript_96px.png" />
     <None Remove="Assets\icons8_linux_96px.png" />
+    <None Remove="Assets\icons8_minimize_window_96px.png" />
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />
@@ -53,6 +56,9 @@
     </None>
     <None Update="Config\ScriperUI.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="icons8_console.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

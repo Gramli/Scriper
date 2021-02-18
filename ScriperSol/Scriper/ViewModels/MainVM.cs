@@ -7,27 +7,31 @@ using ScriperLib;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
+using Scriper.SystemTray;
 
 namespace Scriper.ViewModels
 {
     public class MainVM : ViewModelBase
     {
-        public ScriptManagerVM ScriptManagerVM { get; private set; }
+        public ScriptManagerVM ScriptManagerVM { get; }
         public ReactiveCommand<string, Unit> CreateScriptCmd { get; }
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
-
         public ReactiveCommand<Unit, Unit> OpenSettingsCmd { get; }
+        public ReactiveCommand<Unit, Unit> HideCmd { get; }
+        public IScriperUIConfiguration ActualUiConfiguration { get; private set; }
 
         private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
 
-        private IScriperUIConfiguration _uiConfig;
-        public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig)
+        private readonly ISystemTrayMenu _systemTrayMenu;
+        public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
         {
-            _uiConfig = uiConfig;
-            ScriptManagerVM = new ScriptManagerVM(container, () => _uiConfig);
+            ActualUiConfiguration = uiConfig;
+            ScriptManagerVM = new ScriptManagerVM(container, uiConfig, systemTrayMenu);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
+            HideCmd = ReactiveCommand.Create(Hide);
+            _systemTrayMenu = systemTrayMenu;
         }
 
         public void Exit()
@@ -35,7 +39,21 @@ namespace Scriper.ViewModels
             App.Current.Close();
         }
 
-        public void CreateScript(string argument)
+        private void Hide()
+        {
+            var showItemName = "Show";
+            var showSeparatorName = "ShowSep";
+            _systemTrayMenu.InsertContextMenuSeparator(showSeparatorName);
+            _systemTrayMenu.TryInsertClickContextMenuItem(showItemName, (param) =>
+            { 
+                App.Current.Show();
+                _systemTrayMenu.RemoveContextMenuItem(showItemName);
+                _systemTrayMenu.RemoveContextMenuItem(showSeparatorName);
+            }, "icons8_advertisement_page_96px.png");
+            App.Current.Hide();
+        }
+
+        private void CreateScript(string argument)
         {
             try
             {
@@ -48,18 +66,18 @@ namespace Scriper.ViewModels
             }
         }
 
-        public void OpenSettings()
+        private void OpenSettings()
         {
             try
             {
-                var settingsVM = new SettingsVM(_uiConfig.DeepClone());
+                var settingsVM = new SettingsVM(ActualUiConfiguration.DeepClone());
                 var settingsWindow = new SettingsWindow(settingsVM);
 
                 settingsVM.Close += (sender, args) =>
                 {
                     if(!args.Cancel)
                     {
-                        _uiConfig = args.Result;
+                        ActualUiConfiguration = args.Result;
                     }
                     settingsWindow.Close();
                 };
@@ -71,11 +89,6 @@ namespace Scriper.ViewModels
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
             }
-        }
-
-        public IScriperUIConfiguration GetActualUIConfiguration()
-        {
-            return _uiConfig;
         }
     }
 }

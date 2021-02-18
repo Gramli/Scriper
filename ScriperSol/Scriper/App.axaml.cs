@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls.ApplicationLifetimes;
+﻿using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using NLog;
 using Scriper.Extensions;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Application = Avalonia.Application;
 
 namespace Scriper
 {
@@ -51,6 +51,7 @@ namespace Scriper
                 var mainWindow = (MainWindow)((IClassicDesktopStyleApplicationLifetime)sender).MainWindow;
                 var mainWindowVM = (MainWindowVM)mainWindow.DataContext;
                 mainWindowVM.SaveConfigs();
+                mainWindowVM.Dispose();
             }
             catch(Exception ex)
             {

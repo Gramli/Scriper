@@ -22,6 +22,22 @@ namespace Scriper.Extensions
             throw new ApplicationException("Application is not App type");
         }
 
+        public static void Hide(this Application application)
+        {
+            application.HandleDesktop((desktop) =>
+            {
+                desktop.MainWindow.Hide();
+            });
+        }
+
+        public static void Show(this Application application)
+        {
+            application.HandleDesktop((desktop) =>
+            {
+                desktop.MainWindow.Show();
+            });
+        }
+
         public static void CloseWindows(this Application application)
         {
             application.HandleDesktop((desktop) =>

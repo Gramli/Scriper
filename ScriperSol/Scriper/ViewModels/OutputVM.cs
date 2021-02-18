@@ -2,7 +2,6 @@
 using ReactiveUI;
 using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
-using ScriperLib.Exceptions;
 using ScriperLib.Outputs;
 using System.Text;
 using System.Timers;
@@ -13,35 +12,26 @@ namespace Scriper.ViewModels
     {
         public OutputType OutputType => OutputType.Console;
 
-        private IBrush foregroundColor = Brushes.White;
+        private IBrush _foregroundColor = Brushes.White;
         public IBrush ForegroundColor
         {
-            get { return foregroundColor; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref foregroundColor, value);
-            }
+            get => _foregroundColor;
+            set => this.RaiseAndSetIfChanged(ref _foregroundColor, value);
         }
 
 
-        private IBrush backgroundColor = Brushes.Black;
+        private IBrush _backgroundColor = Brushes.Black;
         public IBrush BackgroundColor
         {
-            get { return backgroundColor; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref backgroundColor, value);
-            }
+            get => _backgroundColor;
+            set => this.RaiseAndSetIfChanged(ref _backgroundColor, value);
         }
 
-        private string text;
+        private string _text;
         public string Text
         {
-            get { return text; }
-            set
-            {
-                this.RaiseAndSetIfChanged(ref text, value);
-            }
+            get => _text;
+            set => this.RaiseAndSetIfChanged(ref _text, value);
         }
         public IConfigurationElement Configuration { get; private set; }
 
@@ -67,7 +57,8 @@ namespace Scriper.ViewModels
                 return;
             }
 
-            throw new ConfigurationException("Expects IConsoleOutputConfiguration.");
+            Configuration = configuration;
+            //TODO init from configuration
         }
 
         public void WriteOutput(string outputText)

@@ -14,140 +14,137 @@ namespace Scriper.ViewModels
 {
     public class AddEditScriptVM : ViewModelBase, IClose<IScript>
     {
-        private string name;
+        private string _name;
         public string Name
         {
             get => ScriptConfiguration.Name;
             set
             {
                 ScriptConfiguration.Name = value;
-                this.RaiseAndSetIfChanged(ref name, value);
+                this.RaiseAndSetIfChanged(ref _name, value);
                 ClearInvalid();
             }
         }
 
-        private string errorText;
+        private string _errorText;
         public string ErrorText
         {
-            get { return errorText; }
+            get => _errorText;
             set
             {
-                if (errorText != value)
+                if (_errorText != value)
                 {
-                    this.RaiseAndSetIfChanged(ref errorText, value);
+                    this.RaiseAndSetIfChanged(ref _errorText, value);
                 }
             }
         }
 
-        private IBrush nameBackground = Brushes.White;
+        private IBrush _nameBackground = Brushes.White;
         public IBrush NameBackground
         {
-            get { return nameBackground; }
+            get => _nameBackground;
             set
             {
-                if (nameBackground != value)
+                if (_nameBackground != value)
                 {
-                    this.RaiseAndSetIfChanged(ref nameBackground, value);
+                    this.RaiseAndSetIfChanged(ref _nameBackground, value);
                 }
             }
         }
 
-        private IBrush configBackground = Brushes.White;
+        private IBrush _configBackground = Brushes.White;
         public IBrush ConfigBackground
         {
-            get { return configBackground; }
+            get => _configBackground;
             set
             {
-                if (configBackground != value)
+                if (_configBackground != value)
                 {
-                    this.RaiseAndSetIfChanged(ref configBackground, value);
+                    this.RaiseAndSetIfChanged(ref _configBackground, value);
                 }
             }
         }
 
-        private string description;
+        private string _description;
         public string Description
         {
             get => ScriptConfiguration.Description;
             set
             {
                 ScriptConfiguration.Description = value;
-                this.RaiseAndSetIfChanged(ref description, value);
+                this.RaiseAndSetIfChanged(ref _description, value);
             }
         }
 
-        private string arguments;
+        private string _arguments;
         public string Arguments
         {
             get => ScriptConfiguration.Arguments;
             set
             {
                 ScriptConfiguration.Arguments = value;
-                this.RaiseAndSetIfChanged(ref arguments, value);
+                this.RaiseAndSetIfChanged(ref _arguments, value);
             }
         }
 
-        private string configPath;
+        private string _configPath;
         public string ConfigPath
         {
             get => ScriptConfiguration.Path;
             set
             {
                 ScriptConfiguration.Path = value;
-                this.RaiseAndSetIfChanged(ref configPath, value);
+                this.RaiseAndSetIfChanged(ref _configPath, value);
                 ClearInvalid();
             }
         }
 
-        private bool fileOutput;
+        private bool _fileOutput;
         public bool FileOutput
         {
-            get => fileOutput;
+            get => _fileOutput;
             set
             {
-                if (fileOutput != value)
+                if (_fileOutput == value)
                 {
-                    ScriptConfiguration.FileOutputConfiguration = value ? _container.GetInstance<IFileOutputConfiguration>() : null;
-                    fileOutput = value;
-                    this.RaiseAndSetIfChanged(ref fileOutput, value);
+                    return;
                 }
+
+                ScriptConfiguration.FileOutputConfiguration = value ? _container.GetInstance<IFileOutputConfiguration>() : null;
+                _fileOutput = value;
+                this.RaiseAndSetIfChanged(ref _fileOutput, value);
             }
         }
 
-        private string fileOutputPath;
+        private string _fileOutputPath;
         public string FileOutputPath
         {
             get => ScriptConfiguration.FileOutputConfiguration?.Path;
             set
             {
                 ScriptConfiguration.Path = value;
-                this.RaiseAndSetIfChanged(ref fileOutputPath, value);
+                this.RaiseAndSetIfChanged(ref _fileOutputPath, value);
             }
         }
 
-        private bool outputWindow;
+        private bool _outputWindow;
         public bool OutputWindow
         {
             get => ScriptConfiguration.OutputWindow;
             set
             {
                 ScriptConfiguration.OutputWindow = value;
-                this.RaiseAndSetIfChanged(ref outputWindow, value);
+                this.RaiseAndSetIfChanged(ref _outputWindow, value);
             }
         }
 
         public IScriptConfiguration ScriptConfiguration { get; private set; }
-
         public event CloseEventHandler<IScript> Close;
-
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
-
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
-
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
 
         private readonly IScriperLibContainer _container;
-
         private readonly IScriptCreator _scriptCreator;
 
         public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration)
@@ -167,7 +164,7 @@ namespace Scriper.ViewModels
 
         public void Cancel()
         {
-            this.Close.Invoke(this, new CloseEventArgs<IScript>());
+            Close.Invoke(this, new CloseEventArgs<IScript>());
         }
 
         public void Ok()
@@ -191,7 +188,7 @@ namespace Scriper.ViewModels
             }
 
             var script = _scriptCreator.Create(ScriptConfiguration);
-            this.Close.Invoke(this, new CloseEventArgs<IScript>(script));
+            Close.Invoke(this, new CloseEventArgs<IScript>(script));
         }
 
         public async void OpenFile(string parameter)

@@ -10,25 +10,23 @@ namespace Scriper.ViewModels
 {
     public class SettingsVM : ViewModelBase, IClose<IScriperUIConfiguration>
     {
-        public event CloseEventHandler<IScriperUIConfiguration> Close;
-
-        private string textEditorPath;
+        private string _textEditorPath;
         public string TextEditorPath
         {
             get => UIConfig.TextEditor.Path;
             set
             {
                 UIConfig.TextEditor.Path = value;
-                this.RaiseAndSetIfChanged(ref textEditorPath, value);
+                this.RaiseAndSetIfChanged(ref _textEditorPath, value);
             }
         }
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
-
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
-
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
+        public IScriperUIConfiguration UIConfig { get;}
 
-        public IScriperUIConfiguration UIConfig { get; private set; }
+        public event CloseEventHandler<IScriperUIConfiguration> Close;
+
         public SettingsVM(IScriperUIConfiguration uiConfig)
         {
             UIConfig = uiConfig;
@@ -53,13 +51,13 @@ namespace Scriper.ViewModels
 
         public void Cancel()
         {
-            this.Close.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>());
+            Close?.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>());
         }
 
         public void Ok()
         {
 
-            this.Close.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>(UIConfig));
+            Close?.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>(UIConfig));
         }
     }
 }

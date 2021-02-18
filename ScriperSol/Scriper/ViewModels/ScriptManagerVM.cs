@@ -51,100 +51,6 @@ namespace Scriper.ViewModels
             InitializeScripts();
         }
 
-        private void InitializeScripts()
-        {
-            try
-            {
-                Scripts = new AvaloniaList<ScriptVM>();
-                foreach (var script in _scriptManager.Scripts)
-                {
-                    var vm = new ScriptVM(script);
-                    Scripts.Add(vm);
-                    EditContextMenuByInSystemTray(script);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
-        public void RunScript(string name)
-        {
-            try
-            {
-                var scriptVM = GetScriptVM(name);
-                var script = scriptVM.Script;
-
-                if (scriptVM.ScriptConfiguration.OutputWindow)
-                {
-                    var outputVM = new OutputVM();
-                    var outputVC = new OutputVC(outputVM);
-                    script.Outputs.Add(outputVM);
-                    var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC, AvaloniaAssets.GetAssetsIcon("icons8_console.ico"));
-                    dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
-                    dialogWindow.Show();
-                }
-                RunScript(script);
-                scriptVM.LastRun = DateTime.Now.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
-        public void EditScript(string name)
-        {
-            try
-            {
-                var script = GetScriptVM(name).Script;
-                var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
-                var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
-
-                scriptViewModel.Close += (sender, args) =>
-                {
-                    if (!args.Cancel)
-                    {
-                        var oldScriptVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
-                        var newScriptVM = new ScriptVM(args.Result);
-                        EditContextMenuByInSystemTray(oldScriptVM.Script);
-                        EditContextMenuByInSystemTray(newScriptVM.Script);
-                        Scripts.Replace(oldScriptVM, newScriptVM);
-                        _scriptManager.ReplaceScript(script, args.Result);
-                    }
-
-                    dialogWindow.Close();
-                };
-
-                dialogWindow.ShowDialog(App.Current.GetMainWindow());
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
-        public void RemoveScript(string name)
-        {
-            try
-            {
-                var scriptVM = GetScriptVM(name);
-                Scripts.Remove(scriptVM);
-                EditContextMenuByInSystemTray(scriptVM.Script);
-                _scriptManager.RemoveScript(scriptVM.Script);
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
-            }
-        }
-
         public void CreateScript()
         {
             try
@@ -181,7 +87,117 @@ namespace Scriper.ViewModels
             }
         }
 
-        public void EditScriptContent(string name)
+        public void MoveScriptUp(string name)
+        {
+            var scriptVM = Scripts.Single(x => x.ScriptConfiguration.Name == name);
+            var index = Scripts.IndexOf(scriptVM);
+            if (index > 0)
+            {
+                var newIndex = index - 1;
+                //move doesnt work in UI
+                //Scripts.Move(index, newOrder);
+                Scripts.Remove(scriptVM);
+                Scripts.Insert(newIndex, scriptVM);
+                scriptVM.ScriptConfiguration.Order = newIndex;
+                Scripts[index].ScriptConfiguration.Order = index;
+            }
+        }
+
+        private void InitializeScripts()
+        {
+            try
+            {
+                Scripts = new AvaloniaList<ScriptVM>();
+                foreach (var script in _scriptManager.Scripts)
+                {
+                    var vm = new ScriptVM(script);
+                    Scripts.Add(vm);
+                    EditContextMenuByInSystemTray(script);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private void RunScript(string name)
+        {
+            try
+            {
+                var scriptVM = GetScriptVM(name);
+                var script = scriptVM.Script;
+
+                if (scriptVM.ScriptConfiguration.OutputWindow)
+                {
+                    var outputVM = new OutputVM();
+                    var outputVC = new OutputVC(outputVM);
+                    script.Outputs.Add(outputVM);
+                    var dialogWindow = new DialogWindow(500, 500, script.Configuration.Name, outputVC, AvaloniaAssets.GetAssetsIcon("icons8_console.ico"));
+                    dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
+                    dialogWindow.Show();
+                }
+                RunScript(script);
+                scriptVM.LastRun = DateTime.Now.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private void EditScript(string name)
+        {
+            try
+            {
+                var script = GetScriptVM(name).Script;
+                var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
+                var scriptControl = new ScriptVC(scriptViewModel);
+                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
+
+                scriptViewModel.Close += (sender, args) =>
+                {
+                    if (!args.Cancel)
+                    {
+                        var oldScriptVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
+                        var newScriptVM = new ScriptVM(args.Result);
+                        EditContextMenuByInSystemTray(oldScriptVM.Script);
+                        EditContextMenuByInSystemTray(newScriptVM.Script);
+                        Scripts.Replace(oldScriptVM, newScriptVM);
+                        _scriptManager.ReplaceScript(script, args.Result);
+                    }
+
+                    dialogWindow.Close();
+                };
+
+                dialogWindow.ShowDialog(App.Current.GetMainWindow());
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private void RemoveScript(string name)
+        {
+            try
+            {
+                var scriptVM = GetScriptVM(name);
+                Scripts.Remove(scriptVM);
+                EditContextMenuByInSystemTray(scriptVM.Script);
+                _scriptManager.RemoveScript(scriptVM.Script);
+            }
+            catch (Exception ex)
+            {
+                MessageBoxExtensions.Show(ex.Message);
+                logger.Error(ex);
+            }
+        }
+
+        private void EditScriptContent(string name)
         {
             try
             {
@@ -199,22 +215,6 @@ namespace Scriper.ViewModels
             {
                 MessageBoxExtensions.Show(ex.Message);
                 logger.Error(ex);
-            }
-        }
-
-        public void MoveScriptUp(string name)
-        {
-            var scriptVM = Scripts.Single(x => x.ScriptConfiguration.Name == name);
-            var index = Scripts.IndexOf(scriptVM);
-            if (index > 0)
-            {
-                var newIndex = index - 1;
-                //move doesnt work in UI
-                //Scripts.Move(index, newOrder);
-                Scripts.Remove(scriptVM);
-                Scripts.Insert(newIndex, scriptVM);
-                scriptVM.ScriptConfiguration.Order = newIndex;
-                Scripts[index].ScriptConfiguration.Order = index;
             }
         }
 

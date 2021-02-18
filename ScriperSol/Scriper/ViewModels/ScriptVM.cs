@@ -16,7 +16,7 @@ namespace Scriper.ViewModels
         private string _lastRun;
         public string LastRun
         {
-            get { return ScriptConfiguration.LastRun; }
+            get => ScriptConfiguration.LastRun;
             set
             {
                 ScriptConfiguration.LastRun = value;

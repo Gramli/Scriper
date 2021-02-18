@@ -19,30 +19,21 @@ namespace Scriper.ViewModels
         public MainVM MainVM
         {
             get => _mainVm;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _mainVm, value);
-            }
+            set => this.RaiseAndSetIfChanged(ref _mainVm, value);
         }
 
         private bool _dataVisible;
         public bool DataVisible
         {
             get => _dataVisible;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _dataVisible, value);
-            }
+            set => this.RaiseAndSetIfChanged(ref _dataVisible, value);
         }
 
         private string _title;
         public string Title
         {
             get => _title;
-            set
-            {
-                this.RaiseAndSetIfChanged(ref _title, $"Scriper: {Path.GetFileName(value)}");
-            }
+            set => this.RaiseAndSetIfChanged(ref _title, $"Scriper: {Path.GetFileName(value)}");
         }
 
         public List<string> Configs { get; private set; }
@@ -75,15 +66,15 @@ namespace Scriper.ViewModels
 
         public void SaveConfigs()
         {
-            if (_container != null)
+            if (_container == null)
             {
-
-                _scriperConfigPath = _scriperConfigPath ?? "Config/defaultScriper.config";
-
-                _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
-                var uiConfig = MainVM.ActualUiConfiguration;
-                uiConfig.Save(_uiConfigPath);
+                return;
             }
+
+            _scriperConfigPath ??= "Config/defaultScriper.config";
+            _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
+            var uiConfig = MainVM.ActualUiConfiguration;
+            uiConfig.Save(_uiConfigPath);
         }
 
         public void Dispose()

@@ -7,6 +7,10 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 [Features](#features)  
 [Download and Install](#download-and-install)  
 [Get Started](#get-started)  
+* [Configuration](#configuration)
+* [Use The Scripts](#sse-the-scripts)
+* [System Tray](#system-tray)
+* [Order of Scripts](#order-of-scripts)      
 [Technologies and Tools](#technologies-and-tools-used)  
 [Planned](#planned)  
 
@@ -56,7 +60,7 @@ Mandatory attributes are **name** and **path**, name has to be unique, rest of a
 * Order - define order of script in collection and UI
 
 ### Use The Scripts
-#### Javascript 
+#### Javascript
 If you want to write to output just call log or logf function, the functions are defined in C# code.
 For example:
 ```js
@@ -70,7 +74,8 @@ logf(result, '5*10={0}');
 ```
 
 ### System Tray
-You can hide Scriper using hide button and then run scripts from System Tray context menu like in pictures. If you want to show Scriper window, just click Show in System Tray context menu. 
+You can hide Scriper using hide button and then run scripts from System Tray context menu like in pictures. If you want to show Scriper window, just click Show in System Tray context menu.
+
 ![Scriper Hide](/Images/scriper_hide.png)
 ![Scriper Edit](/Images/scriper_system_tray.png)
 ![Scriper Edit](/Images/scriper_edit.png)

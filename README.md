@@ -22,8 +22,8 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ## Download and Install
 ### release v1.1
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperInstaller.exe)
-* [MacOS](https://github.com/Gramli/Scriper/releases/download/v1.1/Scriper)
-* [Linux](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperLinux.7z)
+* [MacOS](https://github.com/Gramli/Scriper/releases/download/v1.1/Scriper) - NOT TESTED
+* [Linux](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperLinux.7z) - NOT TESTED
 
 ## Get Started
 All scripts are saved in configuration file. After first start application creates **defaultScriper.config**, where are saved added scripts. You can add script throught UI pressing "Add Script" button (most top left) or edit the config file (in case you understant xml). At start Scriper is looking for config files in Config directory which is in same folder as .exe file. In Config directory you can have more configs and pick which one you want to use, but every config file has to ends with **"Scriper.config"**. 

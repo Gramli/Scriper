@@ -24,6 +24,8 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
 
 ## Download and Install
+### release v1.2
+* [Windows](https://github.com/Gramli/Scriper/releases/download/v1.2/ScriperInstaller.exe)
 ### release v1.1
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperInstaller.exe)
 * [MacOS](https://github.com/Gramli/Scriper/releases/download/v1.1/Scriper) - NOT TESTED

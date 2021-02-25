@@ -101,4 +101,5 @@ By click on script icon you can change order of script -> its moved to up.
   
 ## Planned to v1.3
 * TimeSchedule support
+* Custom Icon selection
 

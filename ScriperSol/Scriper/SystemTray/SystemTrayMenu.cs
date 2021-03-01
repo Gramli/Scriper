@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Platform;
 using NLog;
+using Scriper.OperationSystem;
 using Scriper.SystemTray.Windows;
 using System;
 
@@ -20,15 +21,15 @@ namespace Scriper.SystemTray
 
         private void InitByOperationSystem()
         {
-            var operatingSystem =
-                AvaloniaLocator.Current.GetService<IRuntimePlatform>().GetRuntimeInfo().OperatingSystem;
-            switch (operatingSystem)
+            var operationSystemType = OperationSystemInformation.GetOperatingSystemType;
+
+            switch (operationSystemType)
             {
                 case OperatingSystemType.WinNT:
                     _osSpecificSystemTrayMenu = _windowsSystemTrayMenu;
                     break;
                 default:
-                    _logger.Log(LogLevel.Warn, $"Scriper do not support SystemTrayMenu for current operation system: {operatingSystem}");
+                    _logger.Log(LogLevel.Warn, $"Scriper do not support SystemTrayMenu for current operation system: {operationSystemType}");
                     return;
             }
 

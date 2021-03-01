@@ -1,7 +1,9 @@
-﻿using NLog;
+﻿using Avalonia.Platform;
+using NLog;
 using ReactiveUI;
 using Scriper.Configuration;
 using Scriper.Extensions;
+using Scriper.OperationSystem;
 using Scriper.SystemTray;
 using Scriper.Views;
 using ScriperLib;
@@ -18,6 +20,7 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
         public ReactiveCommand<Unit, Unit> OpenSettingsCmd { get; }
         public ReactiveCommand<Unit, Unit> HideCmd { get; }
+        public bool HidingEnabled {  get => OperationSystemInformation.GetOperatingSystemType == OperatingSystemType.WinNT; }
         public IScriperUIConfiguration ActualUiConfiguration { get; private set; }
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();

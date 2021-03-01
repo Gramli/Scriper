@@ -47,7 +47,7 @@
           <Image Source="/Assets/icons8_high_importance_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Classes="h1" Grid.Column="4" Grid.Row="0" Command="{Binding HideCmd}">
+      <Button Classes="h1" Grid.Column="4" Grid.Row="0" Command="{Binding HideCmd}" IsEnabled="{Binding HidingEnabled}">
         <Button.Content>
           <Image Source="/Assets/icons8_minimize_window_96px.png"/>
         </Button.Content>

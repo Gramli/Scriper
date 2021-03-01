@@ -2,7 +2,9 @@
 using DynamicData;
 using NLog;
 using ReactiveUI;
+using Scriper.AssetsAccess;
 using Scriper.Configuration;
+using Scriper.Converters;
 using Scriper.Extensions;
 using Scriper.SystemTray;
 using Scriper.Views;
@@ -12,8 +14,6 @@ using ScriperLib.Extensions;
 using System;
 using System.Linq;
 using System.Reactive;
-using Scriper.AssetsAccess;
-using Scriper.Converters;
 
 namespace Scriper.ViewModels
 {
@@ -35,7 +35,7 @@ namespace Scriper.ViewModels
         private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
         private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
 
-        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
         {
@@ -83,7 +83,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -118,7 +118,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -144,7 +144,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -177,7 +177,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -214,7 +214,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -227,7 +227,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 

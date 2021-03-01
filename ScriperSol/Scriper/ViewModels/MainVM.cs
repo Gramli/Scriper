@@ -2,12 +2,12 @@
 using ReactiveUI;
 using Scriper.Configuration;
 using Scriper.Extensions;
+using Scriper.SystemTray;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
-using Scriper.SystemTray;
 
 namespace Scriper.ViewModels
 {
@@ -20,7 +20,7 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> HideCmd { get; }
         public IScriperUIConfiguration ActualUiConfiguration { get; private set; }
 
-        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         private readonly ISystemTrayMenu _systemTrayMenu;
         public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
@@ -62,7 +62,7 @@ namespace Scriper.ViewModels
             catch (Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Scriper.ViewModels
             catch(Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
     }

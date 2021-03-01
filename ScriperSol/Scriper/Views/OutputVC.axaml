@@ -5,10 +5,9 @@
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="200"
              x:Class="Scriper.Views.OutputVC">
   <ScrollViewer>
-    <TextBlock Text="{Binding Text}" 
+    <TextBox Classes="noFoc" Text="{Binding Text}"
+             IsReadOnly="True"
              TextWrapping="Wrap" 
-             Foreground="{Binding ForegroundColor}" 
-             Background="Black"
              ScrollViewer.HorizontalScrollBarVisibility="Auto"
              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
   </ScrollViewer>

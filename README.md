@@ -26,6 +26,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ## Download and Install
 ### release v1.2
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.2/ScriperInstaller.exe)
+* [Linux](https://github.com/Gramli/Scriper/releases/download/v1.2/linux-x64-netcore3.1.7z)
 ### release v1.1
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.1/ScriperInstaller.exe)
 

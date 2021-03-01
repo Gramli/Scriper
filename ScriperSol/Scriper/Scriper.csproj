@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>icons8_console.ico</ApplicationIcon>
     <AssemblyVersion>1.2.2.0</AssemblyVersion>
-    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />

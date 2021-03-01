@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>icons8_console.ico</ApplicationIcon>
-	<AssemblyVersion>1.2.0.0</AssemblyVersion>
-	<UseWindowsForms>true</UseWindowsForms> 
+    <AssemblyVersion>1.2.1.0</AssemblyVersion>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />

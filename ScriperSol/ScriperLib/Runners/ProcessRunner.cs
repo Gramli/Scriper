@@ -23,6 +23,7 @@ namespace ScriperLib.Runners
                     RunExe(script);
                     break;
                 case ScriptType.WindowsProcess:
+                case ScriptType.LinuxShell:
                     RunBat(script);
                     break;
             }

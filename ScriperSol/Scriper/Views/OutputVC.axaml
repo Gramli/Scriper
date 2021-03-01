@@ -5,10 +5,8 @@
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="200"
              x:Class="Scriper.Views.OutputVC">
   <ScrollViewer>
-    <TextBox Text="{Binding Text}" 
-             IsReadOnly="True" 
+    <TextBlock Text="{Binding Text}" 
              TextWrapping="Wrap" 
-             AcceptsReturn="True" 
              Foreground="{Binding ForegroundColor}" 
              Background="Black"
              ScrollViewer.HorizontalScrollBarVisibility="Auto"

@@ -7,7 +7,8 @@
   <ScrollViewer>
     <TextBox Classes="noFoc" Text="{Binding Text}"
              IsReadOnly="True"
-             TextWrapping="Wrap" 
+             TextWrapping="Wrap"
+             FontWeight="Medium"
              ScrollViewer.HorizontalScrollBarVisibility="Auto"
              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
   </ScrollViewer>

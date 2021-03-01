@@ -5,19 +5,13 @@ using Scriper.Extensions;
 using Scriper.ViewModels;
 using Scriper.Views;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Application = Avalonia.Application;
 
 namespace Scriper
 {
     public class App : Application
     {
-        private readonly string _configNameEnd = "Scriper.config";
-        private readonly string _configUINameEnd = "ScriperUI.config";
-
-        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         public override void Initialize()
         {
@@ -26,14 +20,12 @@ namespace Scriper
 
         public override void OnFrameworkInitializationCompleted()
         {
-            var uiConfigPath = FindConfig(_configUINameEnd).SingleOrDefault();
-            var configPaths = FindConfig(_configNameEnd);
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowVM(configPaths, uiConfigPath),
+                    DataContext = new MainWindowVM(),
                 };
 
                 desktop.Exit += Desktop_Exit;
@@ -41,7 +33,7 @@ namespace Scriper
 
             base.OnFrameworkInitializationCompleted();
 
-            logger.Info($"Application Start: {DateTime.Now}");
+            _logger.Info($"Application Start: {DateTime.Now}");
         }
 
         private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
@@ -56,28 +48,11 @@ namespace Scriper
             catch(Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
 
             App.Current.CloseWindows();
-            NLogExtensions.LogFactory.Shutdown();
-        }
-
-        private List<string> FindConfig(string configNameEnd)
-        {
-            var result = new List<string>();
-            var dirName = @$"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}\Config";
-            var fileNames = Directory.GetFiles(dirName);
-
-            foreach(var fileName in fileNames)
-            {
-                if(fileName.EndsWith(configNameEnd))
-                {
-                    result.Add(fileName);
-                }
-            }
-
-            return result;
+            NLogFactoryProxy.Instance.Shutdown();
         }
     }
 }

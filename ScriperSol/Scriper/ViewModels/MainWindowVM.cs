@@ -1,15 +1,16 @@
 ﻿using NLog;
 using ReactiveUI;
 using Scriper.Configuration;
+using Scriper.Configuration.Finders;
 using Scriper.Extensions;
+using Scriper.SystemTray;
+using Scriper.SystemTray.Windows;
 using ScriperLib;
 using ScriperLib.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
-using Scriper.SystemTray;
-using Scriper.SystemTray.Windows;
 
 namespace Scriper.ViewModels
 {
@@ -36,32 +37,28 @@ namespace Scriper.ViewModels
             set => this.RaiseAndSetIfChanged(ref _title, $"Scriper: {Path.GetFileName(value)}");
         }
 
-        public List<string> Configs { get; private set; }
+        public IList<string> Configs { get; private set; }
         public ReactiveCommand<string, Unit> OkCmd { get; }
-
-        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
-
-        private readonly string _uiConfigPath;
 
         private ISystemTrayMenu _systemTrayMenu;
         private IScriperLibContainer _container;
         private string _scriperConfigPath;
+        private string _uiConfigPath;
 
-        public MainWindowVM(List<string> configs, string uiConfigPath)
+        private readonly ScriperConfigFinder _scriperConfigFinder;
+        private readonly ScriperUIConfigFinder _scriperUiConfigFinder;
+
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
+
+        public MainWindowVM()
         {
             OkCmd = ReactiveCommand.Create<string>(Ok);
-            _uiConfigPath = uiConfigPath;
+            _scriperConfigFinder = new ScriperConfigFinder();
+            _scriperUiConfigFinder = new ScriperUIConfigFinder();
 
-            if (configs.Count < 2)
-            {
-                var config = configs.Count > 0 ? configs[0] : null;
-                Init(config);
-            }
-            else
-            {
-                DataVisible = false;
-                Configs = configs;
-            }
+            InitUIConfig();
+            InitConfigs();
+
         }
 
         public void SaveConfigs()
@@ -71,7 +68,7 @@ namespace Scriper.ViewModels
                 return;
             }
 
-            _scriperConfigPath ??= "Config/defaultScriper.config";
+            _scriperConfigPath ??= _scriperConfigFinder.GetDefaultConfigPath();
             _container.GetInstance<IScriperConfiguration>().Save(_scriperConfigPath);
             var uiConfig = MainVM.ActualUiConfiguration;
             uiConfig.Save(_uiConfigPath);
@@ -82,12 +79,33 @@ namespace Scriper.ViewModels
             _systemTrayMenu.Dispose();
         }
 
-        private void Ok(string config)
+        private void InitUIConfig()
         {
-            Init(config);
+            _uiConfigPath = _scriperUiConfigFinder.FindConfig();
         }
 
-        private void Init(string config)
+        private void InitConfigs()
+        {
+            var configs = _scriperConfigFinder.FindConfigs();
+
+            if (configs.Count < 2)
+            {
+                var config = configs.Count > 0 ? configs[0] : null;
+                InitWithSelectedConfig(config);
+            }
+            else
+            {
+                DataVisible = false;
+                Configs = configs;
+            }
+        }
+
+        private void Ok(string config)
+        {
+            InitWithSelectedConfig(config);
+        }
+
+        private void InitWithSelectedConfig(string config)
         {
             try
             {
@@ -102,7 +120,7 @@ namespace Scriper.ViewModels
             catch(Exception ex)
             {
                 MessageBoxExtensions.Show(ex.Message);
-                logger.Error(ex);
+                _logger.Error(ex);
             }
         }
 

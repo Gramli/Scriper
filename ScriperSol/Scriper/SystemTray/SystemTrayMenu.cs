@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Platform;
 using NLog;
-using Scriper.Extensions;
 using Scriper.SystemTray.Windows;
 using System;
 
@@ -9,7 +8,7 @@ namespace Scriper.SystemTray
 {
     internal class SystemTrayMenu : ISystemTrayMenu
     {
-        private static readonly Logger logger = NLogExtensions.LogFactory.GetCurrentClassLogger();
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
         private readonly IWindowsSystemTrayMenu _windowsSystemTrayMenu;
         private IOperationSystemTrayMenu _osSpecificSystemTrayMenu;
 
@@ -29,7 +28,7 @@ namespace Scriper.SystemTray
                     _osSpecificSystemTrayMenu = _windowsSystemTrayMenu;
                     break;
                 default:
-                    logger.Log(LogLevel.Warn, $"Scriper do not support SystemTrayMenu for current operation system: {operatingSystem}");
+                    _logger.Log(LogLevel.Warn, $"Scriper do not support SystemTrayMenu for current operation system: {operatingSystem}");
                     return;
             }
 

@@ -4,11 +4,30 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="200"
              x:Class="Scriper.Views.OutputVC">
+  <UserControl.Resources>
+    <SolidColorBrush x:Key="consoleBackground">Black</SolidColorBrush>
+    <SolidColorBrush x:Key="consoleForeground">White</SolidColorBrush>
+  </UserControl.Resources>
+  <UserControl.Styles>
+    <Style Selector="TextBox.Console:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{DynamicResource consoleBackground}"/>
+      <Setter Property="Background" Value="{DynamicResource consoleBackground}" />
+    </Style>
+    <Style Selector="TextBox.Console:focus /template/ Border#PART_BorderElement">
+      <Setter Property="Background" Value="{DynamicResource consoleBackground}"/>
+      <Setter Property="BorderBrush" Value="{DynamicResource consoleBackground}"/>
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+  </UserControl.Styles>
   <ScrollViewer>
-    <TextBox Classes="noFoc" Text="{Binding Text}"
+    <TextBox Classes="Console"
+             Text="{Binding Text}"
              IsReadOnly="True"
+             AcceptsReturn="True" 
              TextWrapping="Wrap"
              FontWeight="Medium"
+             Background="{DynamicResource consoleBackground}"
+             Foreground="{DynamicResource consoleForeground}"
              ScrollViewer.HorizontalScrollBarVisibility="Auto"
              ScrollViewer.VerticalScrollBarVisibility="Auto"/>
   </ScrollViewer>

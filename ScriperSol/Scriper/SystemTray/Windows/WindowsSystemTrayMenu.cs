@@ -57,6 +57,16 @@ namespace Scriper.SystemTray.Windows
             _contextMenuStrip.Items.Insert(0, toolStripMenuSeparator);
         }
 
+        public bool TryRemoveContextMenuItem(string name)
+        {
+            if(_contextMenuStrip.Items.ContainsKey(name))
+            {
+                RemoveContextMenuItem(name);
+                return true;
+            }
+            return false;
+        }
+
         public void RemoveContextMenuItem(string name)
         {
             _contextMenuStrip.Items.RemoveByKey(name);

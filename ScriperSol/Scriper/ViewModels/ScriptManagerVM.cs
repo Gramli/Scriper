@@ -163,7 +163,7 @@ namespace Scriper.ViewModels
                     {
                         var oldScriptVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
                         var newScriptVM = new ScriptVM(args.Result);
-                        EditContextMenuByInSystemTray(oldScriptVM.Script);
+                        TryRemoveFromContextMenu(script);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                         Scripts.Replace(oldScriptVM, newScriptVM);
                         _scriptManager.ReplaceScript(script, args.Result);
@@ -254,8 +254,13 @@ namespace Scriper.ViewModels
             }
             else
             {
-                _systemTrayMenu?.RemoveContextMenuItem(script.Configuration.Name);
+                TryRemoveFromContextMenu(script);
             }
+        }
+
+        private void TryRemoveFromContextMenu(IScript script)
+        {
+            _systemTrayMenu?.TryRemoveContextMenuItem(script.Configuration.Name);
         }
     }
 }

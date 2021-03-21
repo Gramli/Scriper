@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Platform;
+﻿using Avalonia.Platform;
 using NLog;
 using Scriper.OperationSystem;
 using Scriper.SystemTray.Windows;
@@ -70,6 +69,16 @@ namespace Scriper.SystemTray
         public void InsertContextMenuSeparator(string name)
         {
             _osSpecificSystemTrayMenu?.InsertContextMenuSeparator(name);
+        }
+
+        public bool TryRemoveContextMenuItem(string name)
+        {
+            if(_osSpecificSystemTrayMenu is null)
+            {
+                return false;
+            }
+
+           return _osSpecificSystemTrayMenu.TryRemoveContextMenuItem(name);
         }
     }
 }

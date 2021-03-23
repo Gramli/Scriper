@@ -64,7 +64,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -89,7 +89,7 @@ namespace Scriper.ViewModels
             }
             catch(Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }

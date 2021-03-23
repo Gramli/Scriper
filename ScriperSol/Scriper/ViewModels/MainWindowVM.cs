@@ -76,7 +76,7 @@ namespace Scriper.ViewModels
 
         public void Dispose()
         {
-            _systemTrayMenu.Dispose();
+            _systemTrayMenu?.Dispose();
         }
 
         private void InitUIConfig()
@@ -107,21 +107,13 @@ namespace Scriper.ViewModels
 
         private void InitWithSelectedConfig(string config)
         {
-            try
-            {
-                _scriperConfigPath = config;
-                _container = new ScriperLibContainer(config);
-                _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
-                AddCloseButtonToSystemTray();
-                MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
-                DataVisible = true;
-                Title = config;
-            }
-            catch(Exception ex)
-            {
-                MessageBoxExtensions.Show(ex.Message);
-                _logger.Error(ex);
-            }
+            _scriperConfigPath = config;
+            _container = new ScriperLibContainer(config);
+            _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
+            AddCloseButtonToSystemTray();
+            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
+            DataVisible = true;
+            Title = config;
         }
 
         private void AddCloseButtonToSystemTray()

@@ -82,7 +82,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -117,7 +117,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -143,7 +143,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -176,7 +176,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -192,7 +192,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -203,7 +203,7 @@ namespace Scriper.ViewModels
             {
                 if (string.IsNullOrEmpty(_uiConfig.TextEditor.Path))
                 {
-                    MessageBoxExtensions.Show("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
+                    MessageBoxExtensions.ShowDialog("Text editor is not set. If you want to edit scripts from Scriper set path to your text editor in settings.");
                     return;
                 }
 
@@ -213,7 +213,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }
@@ -226,7 +226,7 @@ namespace Scriper.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
         }

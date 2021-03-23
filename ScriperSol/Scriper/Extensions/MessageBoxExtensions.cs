@@ -6,9 +6,9 @@ namespace Scriper.Extensions
 {
     public static class MessageBoxExtensions
     {
-        public static void Show(string message)
+        private static MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<string> CreateDefaultErrorMessageBox(string message)
         {
-            var messageBoxCustomWindow = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
+            return MessageBox.Avalonia.MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
             {
                 Icon = Icon.Error,
                 Style = Style.Windows,
@@ -17,8 +17,18 @@ namespace Scriper.Extensions
                 ContentTitle = "Error",
                 ButtonDefinitions = new[] { new ButtonDefinition { Name = "Ok", Type = ButtonType.Default }, }
             });
+        }
 
+        public static void ShowDialog(string message)
+        {
+            var messageBoxCustomWindow = CreateDefaultErrorMessageBox(message);
             messageBoxCustomWindow.ShowDialog(App.Current.GetMainWindow());
+        }
+
+        public static void Show(string message)
+        {
+            var messageBoxCustomWindow = CreateDefaultErrorMessageBox(message);
+            messageBoxCustomWindow.Show();
         }
     }
 }

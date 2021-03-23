@@ -20,20 +20,28 @@ namespace Scriper
 
         public override void OnFrameworkInitializationCompleted()
         {
-
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
+                try
                 {
-                    DataContext = new MainWindowVM(),
-                };
+                    desktop.MainWindow = new MainWindow
+                    {
+                        DataContext = new MainWindowVM(),
+                    };
 
-                desktop.Exit += Desktop_Exit;
+                    desktop.Exit += Desktop_Exit;
+
+                    base.OnFrameworkInitializationCompleted();
+
+                    _logger.Info($"Application Start: {DateTime.Now}");
+                }
+                catch (Exception ex)
+                {
+                    desktop.Shutdown(1);
+                    MessageBoxExtensions.Show(ex.Message);
+                    _logger.Error(ex);
+                }
             }
-
-            base.OnFrameworkInitializationCompleted();
-
-            _logger.Info($"Application Start: {DateTime.Now}");
         }
 
         private void Desktop_Exit(object sender, ControlledApplicationLifetimeExitEventArgs e)
@@ -45,9 +53,9 @@ namespace Scriper
                 mainWindowVM.SaveConfigs();
                 mainWindowVM.Dispose();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBoxExtensions.Show(ex.Message);
+                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
 

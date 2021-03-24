@@ -1,39 +1,14 @@
-﻿using Avalonia.Platform;
-using NLog;
-using Scriper.OperationSystem;
-using Scriper.SystemTray.Windows;
-using System;
+﻿using System;
 
 namespace Scriper.SystemTray
 {
     internal class SystemTrayMenu : ISystemTrayMenu
     {
-        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
-        private readonly IWindowsSystemTrayMenu _windowsSystemTrayMenu;
-        private IOperationSystemTrayMenu _osSpecificSystemTrayMenu;
+        private readonly IOperationSystemTrayMenu _osSpecificSystemTrayMenu;
 
-        public SystemTrayMenu(IWindowsSystemTrayMenu windowsSystemTrayMenu)
+        public SystemTrayMenu(IOperatingSystemTrayMenuFactory windowsSystemTrayMenuFactory)
         {
-            _windowsSystemTrayMenu = windowsSystemTrayMenu;
-            InitByOperationSystem();
-        }
-
-        private void InitByOperationSystem()
-        {
-            var operationSystemType = OperationSystemInformation.GetOperatingSystemType;
-
-            switch (operationSystemType)
-            {
-                case OperatingSystemType.WinNT:
-                    _osSpecificSystemTrayMenu = _windowsSystemTrayMenu;
-                    break;
-                default:
-                    _logger.Log(LogLevel.Warn, $"Scriper do not support SystemTrayMenu for current operation system: {operationSystemType}");
-                    return;
-            }
-
-            var appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
-            _osSpecificSystemTrayMenu.Init(appName);
+            _osSpecificSystemTrayMenu = windowsSystemTrayMenuFactory.CreateOperationSystemTrayMenu();
         }
 
         public void Dispose()
@@ -73,12 +48,7 @@ namespace Scriper.SystemTray
 
         public bool TryRemoveContextMenuItem(string name)
         {
-            if(_osSpecificSystemTrayMenu is null)
-            {
-                return false;
-            }
-
-           return _osSpecificSystemTrayMenu.TryRemoveContextMenuItem(name);
+           return _osSpecificSystemTrayMenu?.TryRemoveContextMenuItem(name) ?? false;
         }
     }
 }

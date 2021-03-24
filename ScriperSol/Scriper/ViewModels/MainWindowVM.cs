@@ -1,10 +1,8 @@
-﻿using NLog;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Scriper.Configuration;
 using Scriper.Configuration.Finders;
 using Scriper.Extensions;
 using Scriper.SystemTray;
-using Scriper.SystemTray.Windows;
 using ScriperLib;
 using ScriperLib.Configuration;
 using System;
@@ -47,8 +45,6 @@ namespace Scriper.ViewModels
 
         private readonly ScriperConfigFinder _scriperConfigFinder;
         private readonly ScriperUIConfigFinder _scriperUiConfigFinder;
-
-        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         public MainWindowVM()
         {
@@ -109,7 +105,7 @@ namespace Scriper.ViewModels
         {
             _scriperConfigPath = config;
             _container = new ScriperLibContainer(config);
-            _systemTrayMenu = new SystemTrayMenu(new WindowsSystemTrayMenu());
+            _systemTrayMenu = new SystemTrayMenu(new OperatingSystemTrayMenuFactory());
             AddCloseButtonToSystemTray();
             MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
             DataVisible = true;

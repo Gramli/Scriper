@@ -6,12 +6,15 @@ namespace ScriperLib.ScriptScheduler
 {
     public class TaskScheduleAdapter : ITaskScheduleAdapter
     {
+
+        //private running
+        //run in some hidden mode, so pass arguments from Scriper
         public void Delete(string scriptName)
         {
             throw new NotImplementedException();
         }
 
-        public void Get(string scriptName)
+        public IScriptConfiguration Get(string scriptName)
         {
             throw new NotImplementedException();
         }

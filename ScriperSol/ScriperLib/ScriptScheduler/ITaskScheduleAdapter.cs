@@ -6,7 +6,6 @@ namespace ScriperLib.ScriptScheduler
     {
         void Register(IScriptConfiguration scriptConfiguration);
         void Delete(string scriptName);
-
-        void Get(string scriptName);
+        IScriptConfiguration Get(string scriptName);
     }
 }

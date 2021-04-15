@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ScriperLib.Configuration.Base;
+using ScriperLib.Enums;
 
 namespace ScriperLib.Configuration
 {
@@ -8,6 +9,7 @@ namespace ScriperLib.Configuration
     {
         DateTime Time { get; set; }
 
+        ScriptTriggerType ScriptTriggerType { get; set; }
         ICollection<DayOfWeek> RepeatInDays { get; }
     }
 }

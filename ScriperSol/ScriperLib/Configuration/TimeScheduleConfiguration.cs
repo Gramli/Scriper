@@ -16,8 +16,9 @@ namespace ScriperLib.Configuration
         [ConfigurationElement("ScriptTriggerType", true)]
         public ScriptTriggerType ScriptTriggerType { get; set; }
 
-        [ConfigurationCollection("RepeatInDays", "DayOfWeek")]
-        public ICollection<DayOfWeek> RepeatInDays { get; private set; }
+        [ConfigurationElement("DaysInterval", false)]
+        public short DaysInterval { get; set; }
+
         public TimeScheduleConfiguration(XElement element) 
             : base(element)
         {

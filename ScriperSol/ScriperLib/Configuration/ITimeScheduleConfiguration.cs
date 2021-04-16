@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using ScriperLib.Configuration.Base;
+﻿using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
+using System;
 
 namespace ScriperLib.Configuration
 {
     public interface ITimeScheduleConfiguration : IConfigurationElement
     {
         DateTime Time { get; set; }
-
         ScriptTriggerType ScriptTriggerType { get; set; }
-        ICollection<DayOfWeek> RepeatInDays { get; }
+        short DaysInterval { get; set; }
     }
 }

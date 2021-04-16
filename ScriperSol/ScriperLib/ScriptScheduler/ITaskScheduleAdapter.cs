@@ -4,7 +4,7 @@ namespace ScriperLib.ScriptScheduler
 {
     public interface ITaskScheduleAdapter
     {
-        void Register(IScriptConfiguration scriptConfiguration);
+        void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration);
         void Delete(string scriptName);
         IScriptConfiguration Get(string scriptName);
     }

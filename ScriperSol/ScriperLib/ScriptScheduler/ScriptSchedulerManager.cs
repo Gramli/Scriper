@@ -11,6 +11,7 @@ namespace ScriperLib.ScriptScheduler
         {
 
         }
+
         public void Add(IScriptConfiguration scriptConfiguration)
         {
             throw new NotImplementedException();

@@ -2,11 +2,11 @@
 
 namespace Scriper.SystemTray
 {
-    internal class SystemTrayMenu : ISystemTrayMenu
+    internal class SystemTrayMenuAdapter : ISystemTrayMenu
     {
         private readonly IOperationSystemTrayMenu _osSpecificSystemTrayMenu;
 
-        public SystemTrayMenu(IOperatingSystemTrayMenuFactory windowsSystemTrayMenuFactory)
+        public SystemTrayMenuAdapter(IOperatingSystemTrayMenuFactory windowsSystemTrayMenuFactory)
         {
             _osSpecificSystemTrayMenu = windowsSystemTrayMenuFactory.CreateOperationSystemTrayMenu();
         }

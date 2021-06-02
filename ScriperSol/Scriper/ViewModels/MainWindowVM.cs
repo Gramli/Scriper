@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
+using Scriper.SystemStartUp;
 
 namespace Scriper.ViewModels
 {
@@ -105,9 +106,10 @@ namespace Scriper.ViewModels
         {
             _scriperConfigPath = config;
             _container = new ScriperLibContainer(config);
-            _systemTrayMenu = new SystemTrayMenu(new OperatingSystemTrayMenuFactory());
+            _systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
+            var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
             AddCloseButtonToSystemTray();
-            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu);
+            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu, systemStartUp);
             DataVisible = true;
             Title = config;
         }

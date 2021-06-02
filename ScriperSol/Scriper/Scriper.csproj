@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ApplicationIcon>icons8_console.ico</ApplicationIcon>
+    <ApplicationIcon>Scriper.ico</ApplicationIcon>
     <AssemblyVersion>1.2.3.0</AssemblyVersion>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -68,8 +68,8 @@
     <None Update="Config\ScriperUI.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="icons8_console.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <None Update="Scriper.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

@@ -10,17 +10,18 @@ InstallDir $PROGRAMFILES\Scriper
 
 !include LogicLib.nsh
 !include "MUI.nsh"
+!include nsdialogs.nsh
 
 Page Directory "" "" RemoveExceptConfig
-Page RunAtStart RunAtStartPage RunAtStartPageLeave
+Page Custom RunAtStartPage RunAtStartPageLeave "Windows StartUp"
 Page InstFiles
  
 var runAtStartState
 
 Function RunAtStartPage
 nsDialogs::Create 1018
-Pop $0
-${NSD_CreateCheckbox} 8 80 50u 10u "Do you want to run Scriper at Windows startup?"
+${NSD_CreateLabel} 4 0 100% 12u "Do you want to run Scriper at Windows startup?"
+${NSD_CreateCheckbox} 8 20 100u 15u "Run at Windows startup."
 Pop $runAtStartState
 nsDialogs::Show
 FunctionEnd
@@ -28,7 +29,7 @@ FunctionEnd
 Function RunAtStartPageLeave
 ${NSD_GetState} $runAtStartState $0
 	${If} $0 == 1
-		CreateShortCut "$SMPROGRAMS\Startup\$Scriper.lnk" "$INSTDIR\Scriper.exe"
+		CreateShortCut "$SMPROGRAMS\Startup\Scriper.lnk" "$INSTDIR\Scriper.exe"
 	${EndIf}
 FunctionEnd
 

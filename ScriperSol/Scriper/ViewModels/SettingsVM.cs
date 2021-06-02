@@ -25,19 +25,8 @@ namespace Scriper.ViewModels
         private bool _inStartUp;
         public bool InStartUp
         {
-            get => _systemStartUp.IsStartUp;
-            set
-            {
-                if (value)
-                {
-                    _systemStartUp.AddToStartUp();
-                }
-                else
-                {
-                    _systemStartUp.RemoveFromStartUp();
-                }
-                this.RaiseAndSetIfChanged(ref _inStartUp, value);
-            }
+            get => _inStartUp;
+            set => this.RaiseAndSetIfChanged(ref _inStartUp, value);
         }
 
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
@@ -56,6 +45,7 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
             _systemStartUp = systemStartUp;
+            _inStartUp = systemStartUp.IsStartUp;
         }
 
         public async void OpenFile(string parameter)
@@ -79,6 +69,15 @@ namespace Scriper.ViewModels
 
         public void Ok()
         {
+            if (_inStartUp)
+            {
+                _systemStartUp.AddToStartUp();
+            }
+            else
+            {
+                _systemStartUp.RemoveFromStartUp();
+            }
+
             Close?.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>(UIConfig));
         }
     }

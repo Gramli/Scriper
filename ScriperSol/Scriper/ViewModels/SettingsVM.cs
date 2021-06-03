@@ -5,6 +5,7 @@ using Scriper.Configuration;
 using Scriper.Extensions;
 using System.IO;
 using System.Reactive;
+using Scriper.SystemStartUp;
 
 namespace Scriper.ViewModels
 {
@@ -20,6 +21,14 @@ namespace Scriper.ViewModels
                 this.RaiseAndSetIfChanged(ref _textEditorPath, value);
             }
         }
+
+        private bool _inStartUp;
+        public bool InStartUp
+        {
+            get => _inStartUp;
+            set => this.RaiseAndSetIfChanged(ref _inStartUp, value);
+        }
+
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
@@ -27,12 +36,16 @@ namespace Scriper.ViewModels
 
         public event CloseEventHandler<IScriperUIConfiguration> Close;
 
-        public SettingsVM(IScriperUIConfiguration uiConfig)
+        private readonly ISystemStartUp _systemStartUp;
+
+        public SettingsVM(IScriperUIConfiguration uiConfig, ISystemStartUp systemStartUp)
         {
             UIConfig = uiConfig;
             CancelCmd = ReactiveCommand.Create(Cancel);
             OkCmd = ReactiveCommand.Create(Ok);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
+            _systemStartUp = systemStartUp;
+            _inStartUp = systemStartUp.IsStartUp;
         }
 
         public async void OpenFile(string parameter)
@@ -56,6 +69,14 @@ namespace Scriper.ViewModels
 
         public void Ok()
         {
+            if (_inStartUp)
+            {
+                _systemStartUp.AddToStartUp();
+            }
+            else
+            {
+                _systemStartUp.RemoveFromStartUp();
+            }
 
             Close?.Invoke(this, new CloseEventArgs<IScriperUIConfiguration>(UIConfig));
         }

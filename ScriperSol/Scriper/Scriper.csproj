@@ -2,8 +2,8 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ApplicationIcon>icons8_console.ico</ApplicationIcon>
-    <AssemblyVersion>1.2.3.0</AssemblyVersion>
+    <ApplicationIcon>Scriper.ico</ApplicationIcon>
+    <AssemblyVersion>1.2.4.0</AssemblyVersion>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
@@ -37,6 +37,17 @@
     <None Remove="Assets\icons8_windows_xp_96px_1.png" />
   </ItemGroup>
   <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.0" />
     <PackageReference Include="Avalonia.Controls.DataGrid" Version="0.10.0" />
     <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
@@ -57,8 +68,8 @@
     <None Update="Config\ScriperUI.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="icons8_console.ico">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    <None Update="Scriper.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

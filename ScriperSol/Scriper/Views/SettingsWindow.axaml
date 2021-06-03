@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Width="520"
-        Height="240"
+        Height="335"
         CanResize="False"        
         x:Class="Scriper.Views.SettingsWindow"
         Title="Settings"
@@ -35,6 +35,10 @@
           <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
+          <RowDefinition Height="5"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
+          <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
           <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
@@ -44,12 +48,16 @@
         <TextBox Grid.Row="3" Grid.ColumnSpan="3" Text="{Binding TextEditorPath, Mode=TwoWay}" Classes="TextH1" Margin="10,0,10,0"/>
         <Button Grid.Row="4" Grid.Column="3" Classes="btnColor" Content="Change" Command="{Binding OpenFileCmd}" Margin="0,0,10,0" CommandParameter="ScriptPath" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         
-        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="6" Grid.ColumnSpan="3" Command="{Binding OkCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Border Grid.Row="6" Grid.ColumnSpan="2"  Margin="5,0,5,0" Height="1" Background="Black"/>
+        <TextBlock Grid.Row="7" Text="StartUp" Margin="10,0,10,0" Classes="h2"/>
+        <CheckBox Content="Run Scriper at StartUp" Margin="10,0,10,0" Classes="btnColor" Grid.Row="8" Grid.ColumnSpan="3" IsChecked="{Binding InStartUp}"/>
+
+        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="10" Grid.ColumnSpan="3" Command="{Binding OkCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <Button.Content>
             <Image Source="/Assets/icons8_ok_96px.png"/>
           </Button.Content>
         </Button>
-        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="7" Grid.ColumnSpan="3" Command="{Binding CancelCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Button Margin="10,0,10,0" Classes="btnColor" Grid.Row="11" Grid.ColumnSpan="3" Command="{Binding CancelCmd}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
           <Button.Content>
             <Image Source="/Assets/icons8_cancel_96px.png"/>
           </Button.Content>

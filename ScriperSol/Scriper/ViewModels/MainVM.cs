@@ -10,6 +10,7 @@ using ScriperLib;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
+using Scriper.SystemStartUp;
 
 namespace Scriper.ViewModels
 {
@@ -26,7 +27,9 @@ namespace Scriper.ViewModels
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         private readonly ISystemTrayMenu _systemTrayMenu;
-        public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
+        private readonly ISystemStartUp _systemStartUp; 
+
+        public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu, ISystemStartUp systemStartUp)
         {
             ActualUiConfiguration = uiConfig;
             ScriptManagerVM = new ScriptManagerVM(container, uiConfig, systemTrayMenu);
@@ -35,6 +38,7 @@ namespace Scriper.ViewModels
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
             HideCmd = ReactiveCommand.Create(Hide);
             _systemTrayMenu = systemTrayMenu;
+            _systemStartUp = systemStartUp;
         }
 
         public void Exit()
@@ -73,7 +77,7 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var settingsVM = new SettingsVM(ActualUiConfiguration.DeepClone());
+                var settingsVM = new SettingsVM(ActualUiConfiguration.DeepClone(), _systemStartUp);
                 var settingsWindow = new SettingsWindow(settingsVM);
 
                 settingsVM.Close += (sender, args) =>

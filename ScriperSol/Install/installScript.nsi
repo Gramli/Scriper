@@ -9,9 +9,29 @@ DirText "Scriper Installer. It will install all needed files and directories to 
 InstallDir $PROGRAMFILES\Scriper
 
 !include LogicLib.nsh
+!include "MUI.nsh"
+!include nsdialogs.nsh
 
 Page Directory "" "" RemoveExceptConfig
+Page Custom RunAtStartPage RunAtStartPageLeave "Windows StartUp"
 Page InstFiles
+ 
+var runAtStartState
+
+Function RunAtStartPage
+nsDialogs::Create 1018
+${NSD_CreateLabel} 4 0 100% 12u "Do you want to run Scriper at Windows startup?"
+${NSD_CreateCheckbox} 8 20 100u 15u "Run at Windows startup."
+Pop $runAtStartState
+nsDialogs::Show
+FunctionEnd
+ 
+Function RunAtStartPageLeave
+${NSD_GetState} $runAtStartState $0
+	${If} $0 == 1
+		CreateShortCut "$SMPROGRAMS\Startup\Scriper.lnk" "$INSTDIR\Scriper.exe"
+	${EndIf}
+FunctionEnd
 
 Function RemoveExceptConfig
 ${If} ${FileExists} "$InstDir\*"
@@ -59,6 +79,7 @@ Section "Uninstall"
 Delete $INSTDIR\ScriperUninstaller.exe
 Delete "$DESKTOP\Scriper.lnk"
 Delete "$SMPROGRAMS\Scriper.lnk"
+Delete "$SMPROGRAMS\Startup\Scriper.lnk"
 DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper"
 Delete $INSTDIR\*.*
  

@@ -35,7 +35,7 @@ namespace ScriperLib.Configuration
         public int Order { get; set; } = -1;
 
         [ConfigurationCollection("TimeSchedules", "TimeSchedule")]
-        public ICollection<ITimeScheduleConfiguration> TimeScheduleConfigurations { get; private set; }
+        public ICollection<ITimeTriggerConfiguration> TimeScheduleConfigurations { get; private set; }
 
         [ConfigurationElement("FileOuput")]
         public IFileOutputConfiguration FileOutputConfiguration { get; set; }
@@ -48,7 +48,7 @@ namespace ScriperLib.Configuration
 
         public ScriptConfiguration()
         {
-            TimeScheduleConfigurations = new List<ITimeScheduleConfiguration>();
+            TimeScheduleConfigurations = new List<ITimeTriggerConfiguration>();
         }
     }
 }

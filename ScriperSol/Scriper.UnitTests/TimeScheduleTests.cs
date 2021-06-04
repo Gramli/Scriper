@@ -15,7 +15,7 @@ namespace Scriper.UnitTests
         {
             var scriperLibContainer = new ScriperLibContainer(filePath);
             var scriptConfig = scriperLibContainer.GetInstance<IScriptConfiguration>();
-            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeScheduleConfiguration>();
+            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeTriggerConfiguration>();
 
             timeScheduleConfig.Time = DateTime.Now.AddMinutes(10);
             timeScheduleConfig.ScriptTriggerType = ScriperLib.Enums.ScriptTriggerType.Time;
@@ -23,8 +23,8 @@ namespace Scriper.UnitTests
             scriptConfig.TimeScheduleConfigurations.Add(timeScheduleConfig);
 
             var scriptScheduleManager = scriperLibContainer.GetInstance<IScriptSchedulerManager>();
-            scriptScheduleManager.Add(scriptConfig);
-            
+            scriptScheduleManager.Add("","", scriptConfig);
+
             //Check Added
 
             //Remove at end
@@ -35,7 +35,7 @@ namespace Scriper.UnitTests
         {
             var scriperLibContainer = new ScriperLibContainer(filePath);
             var scriptConfig = scriperLibContainer.GetInstance<IScriptConfiguration>();
-            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeScheduleConfiguration>();
+            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeTriggerConfiguration>();
 
             timeScheduleConfig.Time = DateTime.Now.AddMinutes(10);
             timeScheduleConfig.ScriptTriggerType = ScriperLib.Enums.ScriptTriggerType.Time;
@@ -43,12 +43,11 @@ namespace Scriper.UnitTests
             scriptConfig.TimeScheduleConfigurations.Add(timeScheduleConfig);
 
             var scriptScheduleManager = scriperLibContainer.GetInstance<IScriptSchedulerManager>();
-            scriptScheduleManager.Add(scriptConfig);
+            scriptScheduleManager.Add("", "", scriptConfig);
 
 
             var timeScheduleConfigLoaded = scriptScheduleManager.Get(scriptConfig.Name);
 
-            Assert.Equals(timeScheduleConfig.RepeatInDays, timeScheduleConfigLoaded.RepeatInDays);
             Assert.Equals(timeScheduleConfig.Time, timeScheduleConfigLoaded.Time);
             Assert.Equals(timeScheduleConfig.ScriptTriggerType, timeScheduleConfigLoaded.ScriptTriggerType);
 
@@ -60,7 +59,7 @@ namespace Scriper.UnitTests
         {
             var scriperLibContainer = new ScriperLibContainer(filePath);
             var scriptConfig = scriperLibContainer.GetInstance<IScriptConfiguration>();
-            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeScheduleConfiguration>();
+            var timeScheduleConfig = scriperLibContainer.GetInstance<ITimeTriggerConfiguration>();
 
             timeScheduleConfig.Time = DateTime.Now.AddMinutes(10);
             timeScheduleConfig.ScriptTriggerType = ScriperLib.Enums.ScriptTriggerType.Time;
@@ -68,7 +67,7 @@ namespace Scriper.UnitTests
             scriptConfig.TimeScheduleConfigurations.Add(timeScheduleConfig);
 
             var scriptScheduleManager = scriperLibContainer.GetInstance<IScriptSchedulerManager>();
-            scriptScheduleManager.Add(scriptConfig);
+            scriptScheduleManager.Add("", "", scriptConfig);
 
             //Check Added
 

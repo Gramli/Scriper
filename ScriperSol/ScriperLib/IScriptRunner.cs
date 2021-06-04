@@ -1,6 +1,4 @@
-﻿using ScriperLib.Enums;
-using ScriperLib.Runners;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace ScriperLib
 {

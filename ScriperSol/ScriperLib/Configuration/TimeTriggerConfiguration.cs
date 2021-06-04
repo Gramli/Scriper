@@ -8,22 +8,28 @@ using ScriperLib.Enums;
 namespace ScriperLib.Configuration
 {
     [Serializable]
-    internal class TimeScheduleConfiguration : ConfigurationElement, ITimeScheduleConfiguration
+    internal class TimeTriggerConfiguration : ConfigurationElement, ITimeTriggerConfiguration
     {
         [ConfigurationElement("Time", true)]
         public DateTime Time { get; set; }
 
+        [ConfigurationElement("Delay", false)]
+        public long DelayInSeconds { get; set; }
+
         [ConfigurationElement("ScriptTriggerType", true)]
         public ScriptTriggerType ScriptTriggerType { get; set; }
 
-        [ConfigurationElement("DaysInterval", false)]
-        public short DaysInterval { get; set; }
+        [ConfigurationElement("Interval", false)]
+        public short Interval { get; set; }
 
-        public TimeScheduleConfiguration(XElement element) 
+        [ConfigurationCollection("DaysOfTheWeek", "Name")]
+        public ICollection<string> DaysOfTheWeek { get; set; }
+
+        public TimeTriggerConfiguration(XElement element) 
             : base(element)
         {
         }
-        public TimeScheduleConfiguration()
+        public TimeTriggerConfiguration()
         {
 
         }

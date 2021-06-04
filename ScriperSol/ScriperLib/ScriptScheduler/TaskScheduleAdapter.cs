@@ -10,17 +10,11 @@ namespace ScriperLib.ScriptScheduler
 {
     public class TaskScheduleAdapter : ITaskScheduleAdapter
     {
-
         //private running
         //run in some hidden mode, so pass arguments from Scriper
         public void Delete(string scriptName)
         {
             TaskService.Instance.RootFolder.DeleteTask(scriptName);
-        }
-
-        public IScriptConfiguration Get(string scriptName)
-        {
-            throw new NotImplementedException();
         }
 
         public void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration)
@@ -49,14 +43,26 @@ namespace ScriperLib.ScriptScheduler
                 switch (trigger)
                 {
                     case DailyTrigger dailyTrigger:
-
-                        dailyTrigger.DaysInterval = timeScheduleConfig.DaysInterval;
+                        dailyTrigger.DaysInterval = timeScheduleConfig.Interval;
+                        break;
+                    case TimeTrigger timeTrigger:
+                        timeTrigger.EndBoundary = timeScheduleConfig.Time.AddDays(1);
+                        break;
+                    case WeeklyTrigger weeklyTrigger:
+                        weeklyTrigger.WeeksInterval = timeScheduleConfig.Interval;
+                        var daysOfTheWeek =
+                            timeScheduleConfig.DaysOfTheWeek.Select(day => (DaysOfTheWeek) Enum.Parse(typeof(DaysOfTheWeek), day));
+                        weeklyTrigger.DaysOfWeek = daysOfTheWeek.Aggregate((x,y) => x | y);
+                        break;
+                    case LogonTrigger logonTrigger:
+                        logonTrigger.Delay = TimeSpan.FromSeconds(timeScheduleConfig.DelayInSeconds);
+                        break;
+                    default:
                         break;
                 }
 
                 return trigger;
             });
         }
-
     }
 }

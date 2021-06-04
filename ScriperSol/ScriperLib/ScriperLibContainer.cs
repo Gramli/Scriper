@@ -4,6 +4,7 @@ using ScriperLib.Extensions;
 using ScriperLib.Outputs;
 using ScriperLib.Runners;
 using ScriperLib.Scripts;
+using ScriperLib.ScriptScheduler;
 using SimpleInjector;
 
 namespace ScriperLib
@@ -42,8 +43,9 @@ namespace ScriperLib
             _container.Register<IScriptCreator, ScriptCreator>();
             _container.Register<IScriptManager, ScriptManager>();
             _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
-            _container.Register<ITimeScheduleConfiguration>(() => new TimeScheduleConfiguration());
+            _container.Register<ITimeTriggerConfiguration>(() => new TimeTriggerConfiguration());
             _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
+            _container.Register<IScriptTaskSchedulerRunner, ScriptTaskSchedulerRunner>();
 
             _container.Verify();
         }

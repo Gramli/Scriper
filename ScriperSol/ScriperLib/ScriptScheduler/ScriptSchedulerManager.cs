@@ -1,30 +1,31 @@
 ﻿using ScriperLib.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ScriperLib.ScriptScheduler
 {
     public class ScriptSchedulerManager : IScriptSchedulerManager
     {
-        public ScriptSchedulerManager()
-        {
+        private readonly ITaskScheduleAdapter _taskScheduleAdapter;
 
+        public ScriptSchedulerManager(ITaskScheduleAdapter taskScheduleAdapter)
+        {
+            _taskScheduleAdapter = taskScheduleAdapter;
         }
 
-        public void Add(IScriptConfiguration scriptConfiguration)
+        public void Add(string runnerAppPath, string configPath, IScriptConfiguration scriptConfiguration)
         {
-            throw new NotImplementedException();
+            var arguments = $"{configPath} {scriptConfiguration.Name}";
+            _taskScheduleAdapter.Register(runnerAppPath, arguments, scriptConfiguration);
         }
 
-        public ITimeScheduleConfiguration Get(string scriptName)
+        public ITimeTriggerConfiguration Get(string scriptName)
         {
             throw new NotImplementedException();
         }
 
         public void Remove(string scriptName)
         {
-            throw new NotImplementedException();
+            _taskScheduleAdapter.Delete(scriptName);
         }
     }
 }

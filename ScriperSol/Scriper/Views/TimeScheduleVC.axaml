@@ -4,5 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.TimeScheduleVC">
-  Welcome to Avalonia!
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="45"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="35"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <ListBox Grid.Row="0" Grid.ColumnSpan="2" SelectionMode="Single" SelectionChanged="OnSelectionChanged"/>
+    <ContentControl x:Name="contentControl" Grid.Row="1" Grid.ColumnSpan="2"/>
+    <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+  </Grid>
 </UserControl>

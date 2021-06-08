@@ -2,19 +2,15 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace Scriper.Views
+namespace Scriper.Views.Triggers
 {
-    public class TimeScheduleVC : UserControl
+    public partial class TimeTriggerVC : UserControl
     {
-        public TimeScheduleVC()
+        public TimeTriggerVC()
         {
             InitializeComponent();
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

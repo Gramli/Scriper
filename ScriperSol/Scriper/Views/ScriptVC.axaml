@@ -72,7 +72,8 @@
     <StackPanel Background="LightBlue">
       <DockPanel>
         <TextBlock Text="Time Schedule" Classes="h1" />
-        <CheckBox Name="TimeSchedule" IsChecked="False" IsEnabled="False"/>
+        <CheckBox Name="timeSchedule" IsChecked="False"/>
+        <Button Click="OnTimeScheduleClick" IsEnabled="{Binding #timeSchedule.IsChecked}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit"/>
       </DockPanel>
     </StackPanel>
     <DockPanel>

@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
+using System;
 
 namespace Scriper.Views
 {
@@ -14,6 +16,11 @@ namespace Scriper.Views
             : this()
         {
             this.DataContext = viewModelBase;
+        }
+
+        private void OnTimeScheduleClick(object sender, RoutedEventArgs args)
+        {
+
         }
 
         private void InitializeComponent()

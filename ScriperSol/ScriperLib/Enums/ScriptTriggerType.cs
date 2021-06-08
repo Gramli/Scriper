@@ -6,9 +6,9 @@
         Daily = 2,
         Weekly = 3,
         Monthly = 4,
-        Idle = 6,
-        Registration = 7,
-        Boot = 8,
+        //Idle = 6,
+        //Registration = 7,
+        //Boot = 8,
         Logon = 9,
     }
 }

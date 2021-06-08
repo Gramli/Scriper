@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+    <Folder Include="Views\Triggers\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\icons8_add_file_96px.png" />

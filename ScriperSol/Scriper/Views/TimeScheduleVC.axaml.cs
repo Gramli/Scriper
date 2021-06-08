@@ -6,15 +6,13 @@ namespace Scriper.Views
 {
     public class TimeScheduleVC : UserControl
     {
+        //there is only map of VM and VC
+        //catch VM event about trigger type change
         public TimeScheduleVC()
         {
             InitializeComponent();
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

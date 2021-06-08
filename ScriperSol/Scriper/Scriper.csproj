@@ -3,7 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>Scriper.ico</ApplicationIcon>
-    <AssemblyVersion>1.2.10.0</AssemblyVersion>
+    <AssemblyVersion>1.2.11.0</AssemblyVersion>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>

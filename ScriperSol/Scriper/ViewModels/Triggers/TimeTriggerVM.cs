@@ -4,7 +4,7 @@ using System;
 
 namespace Scriper.ViewModels.Triggers
 {
-    class TimeTrigger : Trigger
+    class TimeTriggerVM : TriggerVM
     {
         private DateTime _time;
 
@@ -18,7 +18,7 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
-        public TimeTrigger(ITimeTriggerConfiguration configuration)
+        public TimeTriggerVM(ITimeTriggerConfiguration configuration)
             : base(configuration)
         {
         }

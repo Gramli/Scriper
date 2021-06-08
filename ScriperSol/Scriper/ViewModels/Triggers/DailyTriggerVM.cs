@@ -4,7 +4,7 @@ using ScriperLib.Configuration;
 
 namespace Scriper.ViewModels.Triggers
 {
-    public class DailyTrigger : Trigger
+    public class DailyTriggerVM : TriggerVM
     {
         private DateTime _time;
         public override DateTime Time
@@ -28,7 +28,7 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
-        public DailyTrigger(ITimeTriggerConfiguration configuration) 
+        public DailyTriggerVM(ITimeTriggerConfiguration configuration) 
             : base(configuration)
         {
         }

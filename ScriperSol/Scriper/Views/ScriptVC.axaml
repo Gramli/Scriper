@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
-             d:DesignHeight="525"
+             d:DesignHeight="575"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
@@ -70,10 +70,22 @@
       </DockPanel>
     </StackPanel>
     <StackPanel Background="LightBlue">
-      <DockPanel>
+      <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Time Schedule" Classes="h1" />
         <CheckBox Name="timeSchedule" IsChecked="False"/>
-        <Button Click="OnTimeScheduleClick" IsEnabled="{Binding #timeSchedule.IsChecked}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit"/>
+      </DockPanel>
+      <DockPanel Margin="20,0,0,0" IsEnabled="{Binding #timeSchedule.IsChecked}">
+        <ListBox Items="{Binding ScriptConfiguration.TimeScheduleConfigurations}" Width="300" SelectedItem="{Binding SelectedTimeScheduleConfigurationName}" SelectionMode="Single">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock Text="{Binding Name}"/>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit" Command="{Binding EditTimeScheduleCmd}"/>
+      </DockPanel>
+      <DockPanel Margin="20,0,0,0" IsEnabled="{Binding #timeSchedule.IsChecked}">
+        <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Add New" Command="{Binding CreateNewTimeSchedule}"/>
       </DockPanel>
     </StackPanel>
     <DockPanel>

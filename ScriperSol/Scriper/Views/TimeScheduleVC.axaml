@@ -14,7 +14,7 @@
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <ListBox Grid.Row="0" Grid.ColumnSpan="2" SelectionMode="Single" SelectionChanged="OnSelectionChanged"/>
+    <ListBox Grid.Row="0" Grid.ColumnSpan="2" Items="{Binding TriggerTypes}" SelectedItem="{Binding SelectedTriggerType}" SelectionMode="Single"/>
     <ContentControl x:Name="contentControl" Grid.Row="1" Grid.ColumnSpan="2"/>
     <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
     <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

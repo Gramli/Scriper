@@ -18,11 +18,6 @@ namespace Scriper.Views
             this.DataContext = viewModelBase;
         }
 
-        private void OnTimeScheduleClick(object sender, RoutedEventArgs args)
-        {
-
-        }
-
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);

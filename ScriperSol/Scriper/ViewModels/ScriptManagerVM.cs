@@ -58,7 +58,7 @@ namespace Scriper.ViewModels
                 var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
                 var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 525, "Add Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+                var dialogWindow = new DialogWindow(600, 575, "Add Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -155,7 +155,7 @@ namespace Scriper.ViewModels
                 var script = GetScriptVM(name).Script;
                 var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 525, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
+                var dialogWindow = new DialogWindow(600, 575, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {

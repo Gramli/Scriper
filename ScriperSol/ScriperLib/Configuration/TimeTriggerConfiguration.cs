@@ -10,6 +10,9 @@ namespace ScriperLib.Configuration
     [Serializable]
     internal class TimeTriggerConfiguration : ConfigurationElement, ITimeTriggerConfiguration
     {
+        [ConfigurationElement("Name", true)]
+        public string Name { get; set; }
+
         [ConfigurationElement("Time", true)]
         public DateTime Time { get; set; }
 
@@ -29,6 +32,7 @@ namespace ScriperLib.Configuration
             : base(element)
         {
         }
+
         public TimeTriggerConfiguration()
         {
 

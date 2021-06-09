@@ -1,4 +1,7 @@
-﻿using ReactiveUI;
+﻿using System.Linq;
+using System.Reactive;
+using ReactiveUI;
+using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Enums;

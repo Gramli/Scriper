@@ -7,6 +7,7 @@ namespace ScriperLib.Configuration
 {
     public interface ITimeTriggerConfiguration : IConfigurationElement
     {
+        string Name { get; set; }
         ScriptTriggerType ScriptTriggerType { get; set; }
         DateTime Time { get; set; }
         long DelayInSeconds { get; set; }

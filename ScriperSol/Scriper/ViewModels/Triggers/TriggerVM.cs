@@ -5,8 +5,6 @@ namespace Scriper.ViewModels.Triggers
 {
     public abstract class TriggerVM : ViewModelBase
     {
-        public abstract DateTime Time { get; set; }
-
         protected ITimeTriggerConfiguration _configuration;
 
         protected TriggerVM(ITimeTriggerConfiguration configuration)

@@ -32,6 +32,7 @@ namespace Scriper.Views
                 case ScriptTriggerType.Daily:
                     break;
                 case ScriptTriggerType.Logon:
+                    contentControl.Content = new LogonTriggerVC();
                     break;
                 case ScriptTriggerType.Monthly:
                     break;

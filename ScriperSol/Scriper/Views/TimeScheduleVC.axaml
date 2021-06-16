@@ -7,6 +7,7 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="45"/>
+      <RowDefinition Height="45"/>
       <RowDefinition Height="*"/>
       <RowDefinition Height="35"/>
     </Grid.RowDefinitions>
@@ -14,9 +15,10 @@
       <ColumnDefinition/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <ListBox Grid.Row="0" Grid.ColumnSpan="2" Items="{Binding TriggerTypes}" SelectedItem="{Binding SelectedTriggerType}" SelectionMode="Single"/>
-    <ContentControl x:Name="contentControl" Grid.Row="1" Grid.ColumnSpan="2"/>
-    <Button Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-    <Button Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <TextBlock Grid.Row="0" Text="Select Trigger Type" VerticalAlignment="Center" FontWeight="Bold"/>
+    <ComboBox Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Items="{Binding TriggerTypes}" SelectedItem="{Binding SelectedTriggerType}"/>
+    <ContentControl x:Name="contentControl" Grid.Row="2" Grid.ColumnSpan="2"/>
+    <Button Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
   </Grid>
 </UserControl>

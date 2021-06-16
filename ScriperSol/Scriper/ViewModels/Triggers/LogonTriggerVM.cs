@@ -8,17 +8,6 @@ namespace Scriper.ViewModels.Triggers
 {
     public class LogonTriggerVM : TriggerVM
     {
-        private DateTime _time;
-        public override DateTime Time
-        {
-            get => _time;
-            set
-            {
-                _time = value;
-                this.RaiseAndSetIfChanged(ref _time, value);
-            }
-        }
-
         private long _delay;
         public long Delay
         {
@@ -36,7 +25,6 @@ namespace Scriper.ViewModels.Triggers
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
             _configuration.DelayInSeconds = Delay;
-            _configuration.Time = Time;
 
             return _configuration;
         }

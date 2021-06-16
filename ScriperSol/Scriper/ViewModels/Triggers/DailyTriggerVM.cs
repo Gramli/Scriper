@@ -7,7 +7,7 @@ namespace Scriper.ViewModels.Triggers
     public class DailyTriggerVM : TriggerVM
     {
         private DateTime _time;
-        public override DateTime Time
+        public DateTime Time
         {
             get => _time;
             set

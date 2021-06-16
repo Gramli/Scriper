@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="160"
-             x:Class="Scriper.Views.Triggers.TimeTriggerVC">
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Scriper.Views.Triggers.LogonTriggerVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
       <Setter Property="FontSize" Value="14"/>
@@ -19,12 +19,8 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="35"/>
       <RowDefinition Height="35"/>
-      <RowDefinition Height="35"/>
-      <RowDefinition Height="35"/>
     </Grid.RowDefinitions>
-    <TextBlock Text="Date" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
-    <DatePicker Grid.Row="1" Grid.ColumnSpan="2"/>
-     <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
-     <TimePicker Grid.Row="3" Grid.ColumnSpan="2"/>
+    <TextBlock Text="Seconds" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <NumericUpDown Value="{Binding Delay}" Increment="60" Minimum="0" Maximum="1000"  Grid.Row="1" Grid.ColumnSpan="2"/>
   </Grid>
 </UserControl>

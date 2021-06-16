@@ -8,7 +8,7 @@ namespace Scriper.ViewModels.Triggers
     public class WeeklyTriggerVM : TriggerVM
     {
         private DateTime _time;
-        public override DateTime Time
+        public DateTime Time
         {
             get => _time;
             set

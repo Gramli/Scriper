@@ -42,11 +42,13 @@ namespace Scriper.Views
                     contentControl.Content = new LogonTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Monthly:
+                    contentControl.Content = new MonthlyTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Time:
                     contentControl.Content = new TimeTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Weekly:
+                    contentControl.Content = new WeeklyTriggerVC(eventArgs.TriggerVM);
                     break;
             }
         }

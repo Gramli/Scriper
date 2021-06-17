@@ -1,49 +1,30 @@
-﻿using ReactiveUI;
+﻿using Microsoft.Scripting.Utils;
+using Microsoft.Win32.TaskScheduler;
 using ScriperLib.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Microsoft.Scripting.Utils;
+using System.Linq;
 
 namespace Scriper.ViewModels.Triggers
 {
-    public class WeeklyTriggerVM : TriggerVM
+    public class MonthlyTriggerVM : TriggerVM
     {
-        private DateTime _time;
-        public DateTime Time
-        {
-            get => _time;
-            set
-            {
-                _time = value;
-                this.RaiseAndSetIfChanged(ref _time, value);
-            }
-        }
+        public IEnumerable<int> DaysOfMonth { get; } = new int[31].Select((item, index) => index);
+        public ObservableCollection<int> SelectedDaysOfMonth { get; } = new ObservableCollection<int>();
 
-        private short _interval;
-        public short Interval
-        {
-            get => _interval;
-            set
-            {
-                _interval = value;
-                this.RaiseAndSetIfChanged(ref _interval, value);
-            }
-        }
+        public IEnumerable<string> MonthsOfYear { get; } = Enum.GetValues(typeof(MonthsOfTheYear)).Select(item => item.ToString());
+        public ObservableCollection<string> SelectedMonthsOfYear { get; } = new ObservableCollection<string>();
 
-        public IEnumerable<string> DaysOfWeek { get; } = Enum.GetValues(typeof(DayOfWeek)).Select(item => item.ToString());
-        public ObservableCollection<string> SelectedDaysOfWeek { get; } = new ObservableCollection<string>();
-
-        public WeeklyTriggerVM(ITimeTriggerConfiguration configuration) : base(configuration)
+        public MonthlyTriggerVM(ITimeTriggerConfiguration configuration) 
+            : base(configuration)
         {
+
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
-            _configuration.Time = Time;
-            _configuration.Interval = Interval;
-
-            return _configuration;
+            throw new NotImplementedException();
         }
     }
 }

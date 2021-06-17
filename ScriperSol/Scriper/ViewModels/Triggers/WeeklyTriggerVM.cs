@@ -34,7 +34,8 @@ namespace Scriper.ViewModels.Triggers
         public IEnumerable<string> DaysOfWeek { get; } = Enum.GetValues(typeof(DayOfWeek)).Select(item => item.ToString());
         public ObservableCollection<string> SelectedDaysOfWeek { get; } = new ObservableCollection<string>();
 
-        public WeeklyTriggerVM(ITimeTriggerConfiguration configuration) : base(configuration)
+        public WeeklyTriggerVM(ITimeTriggerConfiguration configuration) 
+            : base(configuration)
         {
         }
 

@@ -57,6 +57,8 @@ namespace ScriperLib.ScriptScheduler
                     case LogonTrigger logonTrigger:
                         logonTrigger.Delay = TimeSpan.FromSeconds(timeScheduleConfig.DelayInSeconds);
                         break;
+                    case MonthlyTrigger monthlyTrigger:
+                        break;
                     default:
                         break;
                 }

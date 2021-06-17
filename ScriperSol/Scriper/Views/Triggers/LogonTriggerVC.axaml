@@ -20,7 +20,7 @@
       <RowDefinition Height="35"/>
       <RowDefinition Height="35"/>
     </Grid.RowDefinitions>
-    <TextBlock Text="Delay in Seconds" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <TextBlock Text="Delay in Seconds after Logon" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
     <NumericUpDown Value="{Binding Delay}" Increment="60" Minimum="0" Maximum="1000"  Grid.Row="1" Grid.ColumnSpan="2"/>
   </Grid>
 </UserControl>

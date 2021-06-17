@@ -4,5 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.Triggers.MonthlyTriggerVC">
-  Welcome to Avalonia!
+  <UserControl.Styles>
+  <Style Selector="TextBlock.h1">
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="150"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+    </Grid.RowDefinitions>
+    <TextBlock Text="Run On Last Day Of Month " Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <CheckBox Grid.Row="1" Grid.ColumnSpan="2"/>
+    <TextBlock Text="Moths of the Year " Classes="h1" Grid.Row="2" Grid.Column="0"/>
+    <ListBox  Grid.Row="3" Grid.Column="0" Items="{Binding MonthsOfYear}" SelectedItems="{Binding SelectedMonthsOfYear}"/>
+    <TextBlock Text="Days Of the Month " Classes="h1" Grid.Row="2" Grid.Column="1"/>
+    <ListBox  Grid.Row="3" Grid.Column="1" Items="{Binding DaysOfMonth}" SelectedItems="{Binding SelectedDaysOfMonth}"/>
+    <TextBlock Text="Time " Classes="h1" Grid.Row="4" Grid.ColumnSpan="2"/>
+    <TimePicker Grid.Row="5" Grid.ColumnSpan="2"/>
+  </Grid>
 </UserControl>

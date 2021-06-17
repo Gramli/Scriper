@@ -61,7 +61,7 @@ namespace Scriper.ViewModels
                 case ScriptTriggerType.Weekly:
                     return new WeeklyTriggerVM(_timeTriggerConfiguration);
                 case ScriptTriggerType.Monthly:
-                    break;
+                    return new MonthlyTriggerVM(_timeTriggerConfiguration);
             }
 
             return null;

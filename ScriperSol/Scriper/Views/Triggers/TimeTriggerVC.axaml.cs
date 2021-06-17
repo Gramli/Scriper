@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Scriper.ViewModels;
 
 namespace Scriper.Views.Triggers
 {
@@ -9,6 +10,12 @@ namespace Scriper.Views.Triggers
         public TimeTriggerVC()
         {
             InitializeComponent();
+        }
+
+        public TimeTriggerVC(ViewModelBase viewModel)
+            : this()
+        {
+            this.DataContext = viewModel;
         }
 
         private void InitializeComponent()

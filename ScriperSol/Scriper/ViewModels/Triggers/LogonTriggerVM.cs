@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ReactiveUI;
+﻿using ReactiveUI;
 using ScriperLib.Configuration;
 
 namespace Scriper.ViewModels.Triggers
@@ -21,7 +18,9 @@ namespace Scriper.ViewModels.Triggers
 
         public LogonTriggerVM(ITimeTriggerConfiguration configuration) : base(configuration)
         {
+
         }
+
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
             _configuration.DelayInSeconds = Delay;

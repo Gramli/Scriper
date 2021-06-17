@@ -2,6 +2,8 @@
 using ScriperLib.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Microsoft.Scripting.Utils;
 
 namespace Scriper.ViewModels.Triggers
 {
@@ -29,12 +31,8 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
-        private IList<string> _daysOfWeek;
-        public IList<string> DaysOfWeek
-        {
-            get => _daysOfWeek;
-            set { _daysOfWeek = value; }
-        }
+        public IEnumerable<string> DaysOfWeek { get; } = Enum.GetValues(typeof(DayOfWeek)).Select(item => item.ToString());
+        public ObservableCollection<string> SelectedDaysOfWeek { get; } = new ObservableCollection<string>();
 
         public WeeklyTriggerVM(ITimeTriggerConfiguration configuration) : base(configuration)
         {

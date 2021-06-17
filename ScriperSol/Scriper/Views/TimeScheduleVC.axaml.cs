@@ -21,6 +21,12 @@ namespace Scriper.Views
         {
             timeScheduleVm.OnTriggerChanged += OnTriggerChanged;
             this.DataContext = timeScheduleVm;
+            InitializeContentControl(timeScheduleVm);
+        }
+
+        private void InitializeContentControl(TimeScheduleVM timeScheduleVm)
+        {
+            timeScheduleVm.InvokeSelection();
         }
 
         private void OnTriggerChanged(object sender, TriggerChangedEventArgs eventArgs)
@@ -30,14 +36,15 @@ namespace Scriper.Views
             switch (eventArgs.ScriptTriggerType)
             {
                 case ScriptTriggerType.Daily:
+                    contentControl.Content = new DailyTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Logon:
-                    contentControl.Content = new LogonTriggerVC();
+                    contentControl.Content = new LogonTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Monthly:
                     break;
                 case ScriptTriggerType.Time:
-                    contentControl.Content = new TimeTriggerVC();
+                    contentControl.Content = new TimeTriggerVC(eventArgs.TriggerVM);
                     break;
                 case ScriptTriggerType.Weekly:
                     break;

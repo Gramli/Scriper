@@ -7,7 +7,6 @@ namespace Scriper.ViewModels.Triggers
     class TimeTriggerVM : TriggerVM
     {
         private DateTime _time;
-
         public DateTime Time
         {
             get => _time;
@@ -18,6 +17,17 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
+        private DateTime _date;
+        public DateTime Date
+        {
+            get => _date;
+            set
+            {
+                _date = value;
+                this.RaiseAndSetIfChanged(ref _date, value);
+            }
+        }
+
         public TimeTriggerVM(ITimeTriggerConfiguration configuration)
             : base(configuration)
         {
@@ -25,8 +35,7 @@ namespace Scriper.ViewModels.Triggers
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
-            _configuration.Time = Time;
-
+            _configuration.Time = new DateTime(Date.Year, Date.Month, Date.Day, Time.Hour, Time.Minute, Time.Second);
             return _configuration;
         }
     }

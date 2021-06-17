@@ -24,7 +24,7 @@
     </Grid.RowDefinitions>
     <TextBlock Text="Date" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
     <DatePicker Grid.Row="1" Grid.ColumnSpan="2"/>
-     <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
-     <TimePicker Grid.Row="3" Grid.ColumnSpan="2"/>
+    <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
+    <TimePicker Grid.Row="3" Grid.ColumnSpan="2"/>
   </Grid>
 </UserControl>

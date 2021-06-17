@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Microsoft.Scripting.Utils;
 using ReactiveUI;
 using ScriperLib.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Scriper.ViewModels.Triggers
 {
@@ -35,9 +39,8 @@ namespace Scriper.ViewModels.Triggers
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
-            _configuration.Interval = Interval;
-            _configuration.Time = Time;
-
+            _configuration.Time = new DateTime(0,0,0, Time.Hour, Time.Minute, Time.Second);
+            _configuration.DaysOfTheWeek = SelectedDaysOfWeek.ToList();
             return _configuration;
         }
     }

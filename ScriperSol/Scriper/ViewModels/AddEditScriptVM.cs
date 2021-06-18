@@ -172,7 +172,7 @@ namespace Scriper.ViewModels
 
         public void Cancel()
         {
-            Close.Invoke(this, new CloseEventArgs<IScript>());
+            Close?.Invoke(this, new CloseEventArgs<IScript>());
         }
 
         public void Ok()
@@ -196,7 +196,7 @@ namespace Scriper.ViewModels
             }
 
             var script = _scriptCreator.Create(ScriptConfiguration);
-            Close.Invoke(this, new CloseEventArgs<IScript>(script));
+            Close?.Invoke(this, new CloseEventArgs<IScript>(script));
         }
 
         public async void OpenFile(string parameter)
@@ -236,7 +236,7 @@ namespace Scriper.ViewModels
         {
             var timeScheduleVM = new TimeScheduleVM(_container, ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
-            var dialogWindow = new DialogWindow(500, 500, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+            var dialogWindow = new DialogWindow(500, 600, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
             dialogWindow.Closed += (sender, eventArgs) =>
                 {
                     ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;

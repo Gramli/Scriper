@@ -25,8 +25,14 @@ namespace ScriperLib.Configuration
         [ConfigurationElement("Interval", false)]
         public short Interval { get; set; }
 
-        [ConfigurationCollection("DaysOfTheWeek", "Name")]
-        public ICollection<string> DaysOfTheWeek { get; set; }
+        [ConfigurationCollection("DaysOfTheWeek", "Day")]
+        public ICollection<string> DaysOfTheWeek { get; set; } = new List<string>();
+
+        [ConfigurationCollection("DaysOfMonth", "DayNumber")]
+        public ICollection<int> DaysOfMonth { get; set; } = new List<int>();
+
+        [ConfigurationCollection("MonthsOfYear", "Month")]
+        public ICollection<string> MonthsOfYear { get; set; } = new List<string>();
 
         public TimeTriggerConfiguration(XElement element) 
             : base(element)

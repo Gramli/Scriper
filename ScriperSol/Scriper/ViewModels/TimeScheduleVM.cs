@@ -130,6 +130,8 @@ namespace Scriper.ViewModels
             newTimeTriggerConfiguration.DelayInSeconds = SelectedTimeTriggerConfiguration.DelayInSeconds;
             newTimeTriggerConfiguration.Interval = SelectedTimeTriggerConfiguration.Interval;
             newTimeTriggerConfiguration.DaysOfTheWeek = SelectedTimeTriggerConfiguration.DaysOfTheWeek;
+            newTimeTriggerConfiguration.DaysOfMonth = SelectedTimeTriggerConfiguration.DaysOfMonth;
+            newTimeTriggerConfiguration.MonthsOfYear = SelectedTimeTriggerConfiguration.MonthsOfYear;
         }
 
         private void ApplyChanges()

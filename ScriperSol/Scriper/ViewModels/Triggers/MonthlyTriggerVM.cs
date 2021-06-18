@@ -23,20 +23,24 @@ namespace Scriper.ViewModels.Triggers
         }
 
         public IEnumerable<int> DaysOfMonth { get; } = new int[31].Select((item, index) => index);
-        public ObservableCollection<int> SelectedDaysOfMonth { get; } = new ObservableCollection<int>();
+        public ObservableCollection<int> SelectedDaysOfMonth { get; }
 
         public IEnumerable<string> MonthsOfYear { get; } = Enum.GetValues(typeof(MonthsOfTheYear)).Select(item => item.ToString());
-        public ObservableCollection<string> SelectedMonthsOfYear { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> SelectedMonthsOfYear { get; }
 
         public MonthlyTriggerVM(ITimeTriggerConfiguration configuration) 
             : base(configuration)
         {
             Time = configuration.Time.TimeOfDay;
+            SelectedDaysOfMonth = new ObservableCollection<int>(configuration.DaysOfMonth);
+            SelectedMonthsOfYear = new ObservableCollection<string>(configuration.MonthsOfYear);
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
             _configuration.Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Time.Hours, Time.Minutes, Time.Seconds);
+            _configuration.DaysOfMonth = SelectedDaysOfMonth.ToList();
+            _configuration.MonthsOfYear = SelectedMonthsOfYear.ToList();
 
             return _configuration;
         }

@@ -13,5 +13,7 @@ namespace ScriperLib.Configuration
         long DelayInSeconds { get; set; }
         short Interval { get; set; }
         ICollection<string> DaysOfTheWeek { get; set; }
+        ICollection<int> DaysOfMonth { get; set; }
+        ICollection<string> MonthsOfYear { get; set; }
     }
 }

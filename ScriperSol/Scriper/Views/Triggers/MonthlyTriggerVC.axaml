@@ -27,9 +27,9 @@
     <TextBlock Text="Run On Last Day Of Month " Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
     <CheckBox Grid.Row="1" Grid.ColumnSpan="2"/>
     <TextBlock Text="Moths of the Year " Classes="h1" Grid.Row="2" Grid.Column="0"/>
-    <ListBox  Grid.Row="3" Grid.Column="0" Items="{Binding MonthsOfYear}" SelectedItems="{Binding SelectedMonthsOfYear}"/>
+    <ListBox  Grid.Row="3" Grid.Column="0" Items="{Binding MonthsOfYear}" SelectedItems="{Binding SelectedMonthsOfYear}" SelectionMode="Multiple,Toggle"/>
     <TextBlock Text="Days Of the Month " Classes="h1" Grid.Row="2" Grid.Column="1"/>
-    <ListBox  Grid.Row="3" Grid.Column="1" Items="{Binding DaysOfMonth}" SelectedItems="{Binding SelectedDaysOfMonth}"/>
+    <ListBox  Grid.Row="3" Grid.Column="1" Items="{Binding DaysOfMonth}" SelectedItems="{Binding SelectedDaysOfMonth}" SelectionMode="Multiple,Toggle"/>
     <TextBlock Text="Time " Classes="h1" Grid.Row="4" Grid.ColumnSpan="2"/>
     <TimePicker Grid.Row="5" Grid.ColumnSpan="2"/>
   </Grid>

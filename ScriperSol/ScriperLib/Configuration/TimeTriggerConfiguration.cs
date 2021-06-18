@@ -14,7 +14,7 @@ namespace ScriperLib.Configuration
         public string Name { get; set; }
 
         [ConfigurationElement("Time", true)]
-        public DateTime Time { get; set; }
+        public DateTime Time { get; set; } = DateTime.Now;
 
         [ConfigurationElement("Delay", false)]
         public long DelayInSeconds { get; set; }

@@ -1,5 +1,3 @@
-using System.Management.Automation.Remoting;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
@@ -20,6 +18,7 @@ namespace Scriper.Views
         :this()
         {
             timeScheduleVm.OnTriggerChanged += OnTriggerChanged;
+            timeScheduleVm.OnTriggerApplied += TimeScheduleVm_OnTriggerApplied;
             this.DataContext = timeScheduleVm;
             InitializeContentControl(timeScheduleVm);
         }
@@ -27,6 +26,12 @@ namespace Scriper.Views
         private void InitializeContentControl(TimeScheduleVM timeScheduleVm)
         {
             timeScheduleVm.InvokeSelection();
+        }
+
+        private void TimeScheduleVm_OnTriggerApplied(object sender, System.EventArgs e)
+        {
+            var contentControl = this.FindControl<ContentControl>("contentControl");
+            contentControl.Content = null;
         }
 
         private void OnTriggerChanged(object sender, TriggerChangedEventArgs eventArgs)

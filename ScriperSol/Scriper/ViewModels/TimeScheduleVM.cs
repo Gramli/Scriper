@@ -4,7 +4,11 @@ using ScriperLib.Configuration;
 using ScriperLib.Enums;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive;
 using Scriper.ViewModels.Triggers;
+using ScriperLib;
 
 namespace Scriper.ViewModels
 {
@@ -24,8 +28,16 @@ namespace Scriper.ViewModels
     public class TimeScheduleVM : ViewModelBase
     {
         public event EventHandler<TriggerChangedEventArgs> OnTriggerChanged;
+        public event EventHandler OnTriggerApplied; 
 
         public IEnumerable<string> TriggerTypes { get; } =  Enum.GetValues(typeof(ScriptTriggerType)).Select(item => item.ToString());
+
+        private string _triggerName;
+        public string TriggerName
+        {
+            get => _triggerName;
+            set => this.RaiseAndSetIfChanged(ref _triggerName, value);
+        }
 
         private string _selectedTriggerType;
         public string SelectedTriggerType
@@ -33,43 +45,151 @@ namespace Scriper.ViewModels
             get => _selectedTriggerType;
             set
             {
+                if (value is null)
+                {
+                    return;
+                }
                 var actual = (ScriptTriggerType)Enum.Parse(typeof(ScriptTriggerType), value);
-                OnTriggerChanged?.Invoke(this, new TriggerChangedEventArgs(actual, GeTriggerVM(actual)));
+                _actualTriggerVm = GeTriggerVM(actual);
+                OnTriggerChanged?.Invoke(this, new TriggerChangedEventArgs(actual, _actualTriggerVm));
                 this.RaiseAndSetIfChanged(ref _selectedTriggerType, value);
             }
         }
 
-        private readonly ITimeTriggerConfiguration _timeTriggerConfiguration;
+        private bool _editingVisisble;
 
-        public TimeScheduleVM(ITimeTriggerConfiguration timeTriggerConfiguration)
+        public bool EditingVisisble
         {
-            _timeTriggerConfiguration = timeTriggerConfiguration;
-            SelectedTriggerType = string.IsNullOrEmpty(_timeTriggerConfiguration.Name) ? 
-                ScriptTriggerType.Time.ToString() : _timeTriggerConfiguration.ScriptTriggerType.ToString();
+            get => _editingVisisble;
+            set => this.RaiseAndSetIfChanged(ref _editingVisisble, value);
+        }
+
+        public ObservableCollection<ITimeTriggerConfiguration> TimeTriggerConfigurations { get; }
+
+        private ITimeTriggerConfiguration _selectedTimeTriggerConfiguration;
+        public ITimeTriggerConfiguration SelectedTimeTriggerConfiguration
+        {
+            get => _selectedTimeTriggerConfiguration;
+            set
+            {
+                this.RaiseAndSetIfChanged(ref _selectedTimeTriggerConfiguration, value);
+                EditingVisisble = value != null;
+                SelectedTriggerType = value?.ScriptTriggerType.ToString();
+                TriggerName = value?.Name;
+            }
+        }
+
+        public ReactiveCommand<Unit, Unit> CreateNewTriggerConfigurationCmd { get; }
+        public ReactiveCommand<string, Unit> DeleteNonSelectedTriggerConfigurationCmd { get; }
+        public ReactiveCommand<Unit, Unit> ApplyChangesCmd { get; }
+        public ReactiveCommand<Unit, Unit> DeleteCmd { get; }
+
+        private readonly IScriperLibContainer _container;
+        private TriggerVM _actualTriggerVm;
+
+        public TimeScheduleVM(IScriperLibContainer container, ICollection<ITimeTriggerConfiguration> timeTriggerConfigurations)
+        {
+            _container = container;
+            TimeTriggerConfigurations = new ObservableCollection<ITimeTriggerConfiguration>(timeTriggerConfigurations);
+            SelectedTimeTriggerConfiguration = TimeTriggerConfigurations.FirstOrDefault();
+            EditingVisisble = SelectedTimeTriggerConfiguration != null;
+            CreateNewTriggerConfigurationCmd = ReactiveCommand.Create(CreateNewTriggerConfiguration);
+            DeleteNonSelectedTriggerConfigurationCmd = ReactiveCommand.Create<string>(DeleteNonSelectedTriggerConfiguration);
+            ApplyChangesCmd = ReactiveCommand.Create(ApplyChanges);
+            DeleteCmd = ReactiveCommand.Create(Delete);
         }
 
         private TriggerVM GeTriggerVM(ScriptTriggerType type)
         {
+            var newTimeTriggerConfiguration = _container.GetInstance<ITimeTriggerConfiguration>();
+            CopySelectedTimeTriggerConfiguration(newTimeTriggerConfiguration);
+
+
             switch (type)
             {
                 case ScriptTriggerType.Daily:
-                    return new DailyTriggerVM(_timeTriggerConfiguration);
+                    return new DailyTriggerVM(newTimeTriggerConfiguration);
                 case ScriptTriggerType.Logon:
-                    return new LogonTriggerVM(_timeTriggerConfiguration);
+                    return new LogonTriggerVM(newTimeTriggerConfiguration);
                 case ScriptTriggerType.Time:
-                    return new TimeTriggerVM(_timeTriggerConfiguration);
+                    return new TimeTriggerVM(newTimeTriggerConfiguration);
                 case ScriptTriggerType.Weekly:
-                    return new WeeklyTriggerVM(_timeTriggerConfiguration);
+                    return new WeeklyTriggerVM(newTimeTriggerConfiguration);
                 case ScriptTriggerType.Monthly:
-                    return new MonthlyTriggerVM(_timeTriggerConfiguration);
+                    return new MonthlyTriggerVM(newTimeTriggerConfiguration);
             }
 
             return null;
         }
 
+        private void CopySelectedTimeTriggerConfiguration(ITimeTriggerConfiguration newTimeTriggerConfiguration)
+        {
+            newTimeTriggerConfiguration.Name = SelectedTimeTriggerConfiguration.Name;
+            newTimeTriggerConfiguration.ScriptTriggerType = SelectedTimeTriggerConfiguration.ScriptTriggerType;
+            newTimeTriggerConfiguration.Time = SelectedTimeTriggerConfiguration.Time;
+            newTimeTriggerConfiguration.DelayInSeconds = SelectedTimeTriggerConfiguration.DelayInSeconds;
+            newTimeTriggerConfiguration.Interval = SelectedTimeTriggerConfiguration.Interval;
+            newTimeTriggerConfiguration.DaysOfTheWeek = SelectedTimeTriggerConfiguration.DaysOfTheWeek;
+        }
+
+        private void ApplyChanges()
+        {
+            //Check trigger name
+
+            var editedConfiguration = _actualTriggerVm.GetTriggerConfiguration();
+            editedConfiguration.Name = TriggerName;
+            editedConfiguration.ScriptTriggerType = (ScriptTriggerType)Enum.Parse(typeof(ScriptTriggerType), SelectedTriggerType);
+            TimeTriggerConfigurations.Remove(TimeTriggerConfigurations.First(item => item.Name == editedConfiguration.Name));
+            TimeTriggerConfigurations.Add(editedConfiguration);
+            this.SelectedTimeTriggerConfiguration = null;
+            OnTriggerApplied?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Delete()
+        {
+            var editedConfiguration = _actualTriggerVm.GetTriggerConfiguration();
+            TimeTriggerConfigurations.Remove(TimeTriggerConfigurations.First(item => item.Name == editedConfiguration.Name));
+            this.SelectedTimeTriggerConfiguration = null;
+            OnTriggerApplied?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void CreateNewTriggerConfiguration()
+        {
+            var newTimeTriggerConfiguration = _container.GetInstance<ITimeTriggerConfiguration>();
+            newTimeTriggerConfiguration.Name = GenerateName("New Trigger");
+            newTimeTriggerConfiguration.ScriptTriggerType = ScriptTriggerType.Time;
+            TimeTriggerConfigurations.Add(newTimeTriggerConfiguration);
+            SelectedTimeTriggerConfiguration = newTimeTriggerConfiguration;
+        }
+
+        private string GenerateName(string name)
+        {
+            var index = 0;
+            var editableName = name;
+            while (TimeTriggerConfigurations.Any(item=> item.Name == editableName))
+            {
+                editableName = $"{name}{index}";
+                index++;
+            }
+
+            return editableName;
+        }
+
+        private void DeleteNonSelectedTriggerConfiguration(string name)
+        {
+            if (SelectedTimeTriggerConfiguration.Name == name)
+            {
+                Delete();
+                return;
+            }
+
+            TimeTriggerConfigurations.Remove(TimeTriggerConfigurations.Single(item => item.Name == name));
+        }
+
         public void InvokeSelection()
         {
             SelectedTriggerType = _selectedTriggerType;
+            TriggerName = _triggerName;
         }
     }
 }

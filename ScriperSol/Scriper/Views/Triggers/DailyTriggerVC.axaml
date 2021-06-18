@@ -25,6 +25,6 @@
     <TextBlock Text="Interval" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
     <NumericUpDown Value="{Binding Interval}" Increment="1" Minimum="0" Maximum="7"  Grid.Row="1" Grid.ColumnSpan="2" ToolTip.Tip="An interval of 1 produces a daily schedule. An interval of 2 produces an every-other day schedule."/>
     <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
-    <TimePicker Grid.Row="3" Grid.ColumnSpan="2"/>
+    <TimePicker Grid.Row="3" Grid.ColumnSpan="2" SelectedTime="{Binding Time, Mode =TwoWay}"/>
   </Grid>
 </UserControl>

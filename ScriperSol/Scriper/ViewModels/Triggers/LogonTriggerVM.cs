@@ -18,7 +18,7 @@ namespace Scriper.ViewModels.Triggers
 
         public LogonTriggerVM(ITimeTriggerConfiguration configuration) : base(configuration)
         {
-
+            Delay = configuration.DelayInSeconds;
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()

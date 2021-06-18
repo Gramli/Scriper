@@ -2,23 +2,43 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
              x:Class="Scriper.Views.TimeScheduleVC">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="45"/>
       <RowDefinition Height="45"/>
+      <RowDefinition Height="45"/>
+      <RowDefinition Height="45"/>
       <RowDefinition Height="*"/>
-      <RowDefinition Height="35"/>
+      <RowDefinition Height="45"/>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>
       <ColumnDefinition/>
+      <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <TextBlock Grid.Row="0" Text="Select Trigger Type" VerticalAlignment="Center" FontWeight="Bold"/>
-    <ComboBox Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Items="{Binding TriggerTypes}" SelectedItem="{Binding SelectedTriggerType}"/>
-    <ContentControl x:Name="contentControl" Grid.Row="2" Grid.ColumnSpan="2"/>
-    <Button Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-    <Button Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <Button Content="Add New" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding CreateNewTriggerConfigurationCmd}"/>
+    <ListBox Grid.Row="1" Grid.RowSpan="5" Items="{Binding TimeTriggerConfigurations}" SelectedItem="{Binding SelectedTimeTriggerConfiguration}">
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <TextBlock Text="{Binding Name}">
+              <TextBlock.ContextMenu>
+                <ContextMenu>
+                  <MenuItem Header="Add New" Command="{Binding $parent[UserControl].DataContext.CreateNewTriggerConfigurationCmd}"/>
+                  <MenuItem Header="Delete" Command="{Binding $parent[UserControl].DataContext.DeleteNonSelectedTriggerConfigurationCmd}" CommandParameter="{Binding Name}"/>
+                </ContextMenu>
+              </TextBlock.ContextMenu>
+            </TextBlock>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+    <TextBlock IsVisible="{Binding EditingVisisble}" Grid.Row="0" Grid.Column="1" Text="Trigger Name" VerticalAlignment="Center" FontWeight="Bold"/>
+    <TextBox IsVisible="{Binding EditingVisisble}" Grid.Row="1" Grid.Column="1" Text="{Binding TriggerName}" HorizontalAlignment="Stretch" Grid.ColumnSpan="2"/>
+    <TextBlock IsVisible="{Binding EditingVisisble}" Grid.Row="2" Grid.Column="1" Text="Select Trigger Type" VerticalAlignment="Center" FontWeight="Bold"/>
+    <ComboBox IsVisible="{Binding EditingVisisble}" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" Items="{Binding TriggerTypes}" SelectedItem="{Binding SelectedTriggerType}"/>
+    <ContentControl x:Name="contentControl" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"/>
+    <Button IsVisible="{Binding EditingVisisble}" Grid.Row="5" Grid.Column="1" Content="Save Changes" Command="{Binding ApplyChangesCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+    <Button IsVisible="{Binding EditingVisisble}" Grid.Row="5" Grid.Column="2" Content="Delete" Command="{Binding DeleteCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
   </Grid>
 </UserControl>

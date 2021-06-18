@@ -6,8 +6,8 @@ namespace Scriper.ViewModels.Triggers
 {
     class TimeTriggerVM : TriggerVM
     {
-        private DateTime _time;
-        public DateTime Time
+        private TimeSpan _time;
+        public TimeSpan Time
         {
             get => _time;
             set
@@ -17,8 +17,8 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
-        private DateTime _date;
-        public DateTime Date
+        private DateTimeOffset _date;
+        public DateTimeOffset Date
         {
             get => _date;
             set
@@ -31,11 +31,13 @@ namespace Scriper.ViewModels.Triggers
         public TimeTriggerVM(ITimeTriggerConfiguration configuration)
             : base(configuration)
         {
+            Time = configuration.Time.TimeOfDay;
+            Date = new DateTimeOffset(configuration.Time);
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
-            _configuration.Time = new DateTime(Date.Year, Date.Month, Date.Day, Time.Hour, Time.Minute, Time.Second);
+            _configuration.Time = new DateTime(Date.Year, Date.Month, Date.Day, Time.Hours, Time.Minutes, Time.Seconds);
             return _configuration;
         }
     }

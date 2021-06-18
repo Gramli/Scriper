@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using Avalonia.Controls;
 using Avalonia.Media;
 using ReactiveUI;
 using Scriper.Closing;
@@ -8,6 +9,7 @@ using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Extensions;
 using System.IO;
+using System.Linq;
 using System.Reactive;
 using Scriper.AssetsAccess;
 using Scriper.Views;
@@ -140,19 +142,11 @@ namespace Scriper.ViewModels
             }
         }
 
-        private ITimeTriggerConfiguration _selectedTimeScheduleConfigurationName;
-        public ITimeTriggerConfiguration SelectedTimeScheduleConfigurationName
-        {
-            get => _selectedTimeScheduleConfigurationName;
-            set => this.RaiseAndSetIfChanged(ref _selectedTimeScheduleConfigurationName, value);
-        }
-
         public IScriptConfiguration ScriptConfiguration { get; private set; }
         public event CloseEventHandler<IScript> Close;
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
-        public ReactiveCommand<Unit, Unit> CreateNewTimeScheduleCmd { get; }
         public ReactiveCommand<Unit, Unit> EditTimeScheduleCmd { get; }
 
         private readonly IScriperLibContainer _container;
@@ -174,7 +168,6 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule);
-            CreateNewTimeScheduleCmd = ReactiveCommand.Create(CreateNewTimeSchedule);
         }
 
         public void Cancel()
@@ -241,22 +234,16 @@ namespace Scriper.ViewModels
 
         private void EditTimeSchedule()
         {
-            ShowTimeScheduleDialog("Edit Time Schedule Configuration",
-                SelectedTimeScheduleConfigurationName);
-        }
-
-        private void CreateNewTimeSchedule()
-        {
-            ShowTimeScheduleDialog("Add New Time Schedule Configuration",
-                _container.GetInstance<ITimeTriggerConfiguration>());
-        }
-
-        private void ShowTimeScheduleDialog(string tittle, ITimeTriggerConfiguration configuration)
-        {
-            var timeScheduleVM = new TimeScheduleVM(configuration);
+            var timeScheduleVM = new TimeScheduleVM(_container, ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
-            var dialogWindow = new DialogWindow(500,500, tittle, timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+            var dialogWindow = new DialogWindow(500, 500, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+            dialogWindow.Closed += (sender, eventArgs) =>
+                {
+                    ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;
+                };
+            
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
+            
         }
 
         private void ClearInvalid()

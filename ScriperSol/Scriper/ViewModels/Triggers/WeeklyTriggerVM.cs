@@ -3,14 +3,15 @@ using ScriperLib.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.Scripting.Utils;
 
 namespace Scriper.ViewModels.Triggers
 {
     public class WeeklyTriggerVM : TriggerVM
     {
-        private DateTime _time;
-        public DateTime Time
+        private TimeSpan _time;
+        public TimeSpan Time
         {
             get => _time;
             set
@@ -32,18 +33,21 @@ namespace Scriper.ViewModels.Triggers
         }
 
         public IEnumerable<string> DaysOfWeek { get; } = Enum.GetValues(typeof(DayOfWeek)).Select(item => item.ToString());
-        public ObservableCollection<string> SelectedDaysOfWeek { get; } = new ObservableCollection<string>();
+        public ObservableCollection<string> SelectedDaysOfWeek { get; }
 
         public WeeklyTriggerVM(ITimeTriggerConfiguration configuration) 
             : base(configuration)
         {
+            Time = configuration.Time.TimeOfDay;
+            Interval = configuration.Interval;
+            SelectedDaysOfWeek = new ObservableCollection<string>(configuration.DaysOfTheWeek);
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()
         {
-            _configuration.Time = Time;
+            _configuration.Time = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, Time.Hours, Time.Minutes, Time.Seconds);
             _configuration.Interval = Interval;
-
+            _configuration.DaysOfTheWeek = SelectedDaysOfWeek.ToList();
             return _configuration;
         }
     }

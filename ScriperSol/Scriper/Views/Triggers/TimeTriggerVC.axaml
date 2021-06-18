@@ -23,8 +23,8 @@
       <RowDefinition Height="35"/>
     </Grid.RowDefinitions>
     <TextBlock Text="Date" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
-    <DatePicker Grid.Row="1" Grid.ColumnSpan="2"/>
+    <DatePicker Grid.Row="1" Grid.ColumnSpan="2" SelectedDate="{Binding Date, Mode=TwoWay}"/>
     <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
-    <TimePicker Grid.Row="3" Grid.ColumnSpan="2"/>
+    <TimePicker Grid.Row="3" Grid.ColumnSpan="2" SelectedTime="{Binding Time, Mode=TwoWay}"/>
   </Grid>
 </UserControl>

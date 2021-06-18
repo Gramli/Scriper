@@ -15,7 +15,7 @@ namespace ScriperLib.Configuration
         string LastRun { get; set; }
         int Order { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
-        ICollection<ITimeTriggerConfiguration> TimeScheduleConfigurations { get; }
+        ICollection<ITimeTriggerConfiguration> TimeScheduleConfigurations { get; set; }
 
     }
 }

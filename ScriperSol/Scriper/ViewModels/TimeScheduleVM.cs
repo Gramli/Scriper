@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reactive;
 using Scriper.ViewModels.Triggers;
 using ScriperLib;
+using Scriper.Closing;
 
 namespace Scriper.ViewModels
 {
@@ -25,10 +26,11 @@ namespace Scriper.ViewModels
         }
     }
 
-    public class TimeScheduleVM : ViewModelBase
+    public class TimeScheduleVM : ViewModelBase, IClose<ITimeTriggerConfiguration>
     {
         public event EventHandler<TriggerChangedEventArgs> OnTriggerChanged;
-        public event EventHandler OnTriggerApplied; 
+        public event EventHandler OnTriggerApplied;
+        public event CloseEventHandler<ITimeTriggerConfiguration> Close;
 
         public IEnumerable<string> TriggerTypes { get; } =  Enum.GetValues(typeof(ScriptTriggerType)).Select(item => item.ToString());
 
@@ -136,8 +138,6 @@ namespace Scriper.ViewModels
 
         private void ApplyChanges()
         {
-            //Check trigger name
-
             var editedConfiguration = _actualTriggerVm.GetTriggerConfiguration();
             editedConfiguration.Name = TriggerName;
             editedConfiguration.ScriptTriggerType = (ScriptTriggerType)Enum.Parse(typeof(ScriptTriggerType), SelectedTriggerType);

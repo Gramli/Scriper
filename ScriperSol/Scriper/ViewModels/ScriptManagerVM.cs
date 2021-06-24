@@ -34,6 +34,9 @@ namespace Scriper.ViewModels
         private readonly ISystemTrayMenu _systemTrayMenu;
         private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
         private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
+        private readonly int _editDialogHeight = 530;
+        private readonly int _editDialogWidth = 600;
+
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -58,7 +61,7 @@ namespace Scriper.ViewModels
                 var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
                 var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 575, "Add Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+                var dialogWindow = new DialogWindow(_editDialogWidth, _editDialogHeight, "Add Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -155,7 +158,7 @@ namespace Scriper.ViewModels
                 var script = GetScriptVM(name).Script;
                 var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = new DialogWindow(600, 575, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
+                var dialogWindow = new DialogWindow(_editDialogWidth, _editDialogHeight, "Edit Script", scriptControl, AvaloniaAssets.GetAssetsIcon("icons8_edit_property.ico"));
 
                 scriptViewModel.Close += (sender, args) =>
                 {

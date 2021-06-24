@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
-             d:DesignHeight="575"
+             d:DesignHeight="530"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
@@ -69,15 +69,10 @@
         <CheckBox Name="OutputWindowe" IsChecked="{Binding OutputWindow}"/>
       </DockPanel>
     </StackPanel>
-    <StackPanel Background="LightBlue">
-      <DockPanel Margin="20,0,0,0">
+    <DockPanel Background="LightBlue">
         <TextBlock Text="Time Schedule" Classes="h1" />
-        <CheckBox Name="timeSchedule" IsChecked="False"/>
-      </DockPanel>
-      <DockPanel Margin="20,0,0,0" IsEnabled="{Binding #timeSchedule.IsChecked}">
         <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit" Command="{Binding EditTimeScheduleCmd}"/>
-      </DockPanel>
-    </StackPanel>
+    </DockPanel>
     <DockPanel>
       <TextBlock Text="{Binding ErrorText}" TextAlignment="Center" Foreground="Red"/>
     </DockPanel>

@@ -236,7 +236,7 @@ namespace Scriper.ViewModels
         {
             var timeScheduleVM = new TimeScheduleVM(_container, ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
-            var dialogWindow = new DialogWindow(500, 600, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_file_1.ico"));
+            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_schedule.ico"));
             dialogWindow.Closed += (sender, eventArgs) =>
                 {
                     ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;

@@ -22,6 +22,17 @@ namespace Scriper.ViewModels.Triggers
             }
         }
 
+        private bool _lastDayInMonth;
+        public bool LastDayInMonth
+        {
+            get => _lastDayInMonth;
+            set
+            {
+                _lastDayInMonth = value;
+                this.RaiseAndSetIfChanged(ref _lastDayInMonth, value);
+            }
+        }
+
         public IEnumerable<int> DaysOfMonth { get; } = new int[31].Select((item, index) => index);
         public ObservableCollection<int> SelectedDaysOfMonth { get; }
 

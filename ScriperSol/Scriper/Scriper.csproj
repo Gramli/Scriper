@@ -33,6 +33,7 @@
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />
+    <None Remove="Assets\icons8_schedule.ico" />
     <None Remove="Assets\icons8_user_manual_96px.png" />
     <None Remove="Assets\icons8_windows_xp_96px_1.png" />
   </ItemGroup>

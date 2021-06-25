@@ -10,19 +10,19 @@ namespace ScriperLib.Configuration
     [Serializable]
     internal class TimeTriggerConfiguration : ConfigurationElement, ITimeTriggerConfiguration
     {
-        [ConfigurationElement("Name", true)]
+        [ConfigurationAttribute("Name", true)]
         public string Name { get; set; }
 
-        [ConfigurationElement("Time", true)]
+        [ConfigurationAttribute("Time", true)]
         public DateTime Time { get; set; } = DateTime.Now;
 
-        [ConfigurationElement("Delay", false)]
+        [ConfigurationAttribute("Delay", false)]
         public long DelayInSeconds { get; set; }
 
-        [ConfigurationElement("ScriptTriggerType", true)]
+        [ConfigurationAttribute("ScriptTriggerType", true)]
         public ScriptTriggerType ScriptTriggerType { get; set; }
 
-        [ConfigurationElement("Interval", false)]
+        [ConfigurationAttribute("Interval", false)]
         public short Interval { get; set; }
 
         [ConfigurationCollection("DaysOfTheWeek", "Day")]

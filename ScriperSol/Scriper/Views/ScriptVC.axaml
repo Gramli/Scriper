@@ -59,7 +59,7 @@
       </DockPanel>
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
-        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath}" Width="330" Classes="TextH1"/>
+        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="330" Classes="TextH1"/>
         <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
       </DockPanel>
     </StackPanel>

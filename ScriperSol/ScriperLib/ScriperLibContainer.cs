@@ -46,6 +46,8 @@ namespace ScriperLib
             _container.Register<ITimeTriggerConfiguration>(() => new TimeTriggerConfiguration());
             _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
             _container.Register<IScriptTaskSchedulerRunner, ScriptTaskSchedulerRunner>();
+            _container.Register<ITaskScheduleAdapter, TaskScheduleAdapter>();
+            _container.Register<IScriptSchedulerManager, ScriptSchedulerManager>();
 
             _container.Verify();
         }

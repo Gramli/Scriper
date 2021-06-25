@@ -1,5 +1,4 @@
 ﻿using ScriperLib.Configuration;
-using System;
 
 namespace ScriperLib.ScriptScheduler
 {
@@ -16,11 +15,6 @@ namespace ScriperLib.ScriptScheduler
         {
             var arguments = $"{configPath} {scriptConfiguration.Name}";
             _taskScheduleAdapter.Register(runnerAppPath, arguments, scriptConfiguration);
-        }
-
-        public ITimeTriggerConfiguration Get(string scriptName)
-        {
-            throw new NotImplementedException();
         }
 
         public void Remove(string scriptName)

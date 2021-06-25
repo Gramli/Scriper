@@ -6,7 +6,5 @@ namespace ScriperLib.ScriptScheduler
     {
         void Add(string runnerAppPath, string configPath, IScriptConfiguration scriptConfiguration);
         void Remove(string scriptName);
-
-        ITimeTriggerConfiguration Get(string scriptName);
     }
 }

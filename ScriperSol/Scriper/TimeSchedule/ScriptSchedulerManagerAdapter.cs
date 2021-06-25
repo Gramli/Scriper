@@ -1,11 +1,9 @@
-﻿using ScriperLib.Configuration;
-using ScriperLib.ScriptScheduler;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
+using ScriperLib.Configuration;
+using ScriperLib.ScriptScheduler;
 
-namespace Scriper.Models
+namespace Scriper.TimeSchedule
 {
     internal class ScriptSchedulerManagerAdapter : IScriptSchedulerManagerAdapter
     {
@@ -17,17 +15,23 @@ namespace Scriper.Models
         {
             _scriptSchedulerManager = scriptSchedulerManager;
             _configPath = configPath;
-            _runnerExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, System.AppDomain.CurrentDomain.FriendlyName);
+            _runnerExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{AppDomain.CurrentDomain.FriendlyName}.exe");
         }
 
         public void Add(IScriptConfiguration scriptConfiguration)
         {
-            throw new NotImplementedException();
+            _scriptSchedulerManager.Add(_runnerExe, _configPath, scriptConfiguration);
         }
 
         public void Remove(string scriptName)
         {
-            throw new NotImplementedException();
+            _scriptSchedulerManager.Remove(scriptName);
+        }
+
+        public void Replace(IScriptConfiguration scriptConfiguration)
+        {
+            Remove(scriptConfiguration.Name);
+            Add(scriptConfiguration);
         }
     }
 }

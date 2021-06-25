@@ -1,11 +1,11 @@
 ﻿using ScriperLib.Configuration;
-using ScriperLib.ScriptScheduler;
 
-namespace Scriper.Models
+namespace Scriper.TimeSchedule
 {
-    internal interface IScriptSchedulerManagerAdapter
+    public interface IScriptSchedulerManagerAdapter
     {
         void Add(IScriptConfiguration scriptConfiguration);
         void Remove(string scriptName);
+        void Replace(IScriptConfiguration scriptConfiguration);
     }
 }

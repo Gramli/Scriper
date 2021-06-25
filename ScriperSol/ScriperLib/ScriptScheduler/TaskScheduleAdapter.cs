@@ -14,7 +14,7 @@ namespace ScriperLib.ScriptScheduler
         //run in some hidden mode, so pass arguments from Scriper
         public void Delete(string scriptName)
         {
-            TaskService.Instance.RootFolder.DeleteTask(scriptName);
+            TaskService.Instance.RootFolder.DeleteTask(scriptName, false);
         }
 
         public void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration)

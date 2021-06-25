@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿using System.IO;
+using System.Linq;
+using Avalonia;
 using Avalonia.ReactiveUI;
 using ScriperLib;
 using ScriperLib.ScriptScheduler;
@@ -14,16 +16,10 @@ namespace Scriper
         {
             if (args.Length > 0)
             {
-                var splittedArgs = args[0].Split(" ");
-                if (splittedArgs.Length <= 1)
-                {
-                    return;
-                }
-
-                var configPath = splittedArgs[0];
+                var configPath = args[0];
                 var container = new ScriperLibContainer(configPath);
                 var runner = container.GetInstance<IScriptTaskSchedulerRunner>();
-                var scriptName = splittedArgs[1];
+                var scriptName = string.Join(" ", args[1..]);
                 runner.Run(scriptName);
 
                 return;

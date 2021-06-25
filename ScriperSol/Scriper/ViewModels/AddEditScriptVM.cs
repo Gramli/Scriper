@@ -126,7 +126,7 @@ namespace Scriper.ViewModels
             get => ScriptConfiguration.FileOutputConfiguration?.Path;
             set
             {
-                ScriptConfiguration.Path = value;
+                ScriptConfiguration.FileOutputConfiguration.Path = value;
                 this.RaiseAndSetIfChanged(ref _fileOutputPath, value);
             }
         }

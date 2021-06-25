@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
 using Scriper.SystemStartUp;
+using Scriper.TimeSchedule;
+using ScriperLib.ScriptScheduler;
 
 namespace Scriper.ViewModels
 {
@@ -108,8 +110,9 @@ namespace Scriper.ViewModels
             _container = new ScriperLibContainer(config);
             _systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
             var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
+            var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
             AddCloseButtonToSystemTray();
-            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu, systemStartUp);
+            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu, systemStartUp, timeScheduleManager);
             DataVisible = true;
             Title = config;
         }

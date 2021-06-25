@@ -14,6 +14,7 @@ using ScriperLib.Extensions;
 using System;
 using System.Linq;
 using System.Reactive;
+using Scriper.TimeSchedule;
 
 namespace Scriper.ViewModels
 {
@@ -32,15 +33,15 @@ namespace Scriper.ViewModels
         private readonly IScriptRunner _scriptRunner;
         private readonly IScriperUIConfiguration _uiConfig;
         private readonly ISystemTrayMenu _systemTrayMenu;
+        private readonly IScriptSchedulerManagerAdapter _schedulerManagerAdapter;
         private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
         private readonly string _openScriptEditorScript = "OpenScriptEditorScript";
         private readonly int _editDialogHeight = 530;
         private readonly int _editDialogWidth = 600;
 
-
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
-        public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu)
+        public ScriptManagerVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu, IScriptSchedulerManagerAdapter schedulerManagerAdapter)
         {
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
@@ -50,6 +51,7 @@ namespace Scriper.ViewModels
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
             EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
             _systemTrayMenu = systemTrayMenu;
+            _schedulerManagerAdapter = schedulerManagerAdapter;
             _uiConfig = uiConfig;
             InitializeScripts();
         }
@@ -73,6 +75,7 @@ namespace Scriper.ViewModels
                             return;
                         }
                         _scriptManager.AddScript(args.Result);
+                        _schedulerManagerAdapter.Replace(args.Result.Configuration);
                         var newScriptVM = new ScriptVM(args.Result);
                         Scripts.Add(newScriptVM);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
@@ -170,6 +173,7 @@ namespace Scriper.ViewModels
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                         Scripts.Replace(oldScriptVM, newScriptVM);
                         _scriptManager.ReplaceScript(script, args.Result);
+                        _schedulerManagerAdapter.Replace(args.Result.Configuration);
                     }
 
                     dialogWindow.Close();

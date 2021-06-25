@@ -46,10 +46,10 @@ namespace Scriper.UnitTests
             scriptScheduleManager.Add("", "", scriptConfig);
 
 
-            var timeScheduleConfigLoaded = scriptScheduleManager.Get(scriptConfig.Name);
+            //var timeScheduleConfigLoaded = scriptScheduleManager.Get(scriptConfig.Name);
 
-            Assert.Equals(timeScheduleConfig.Time, timeScheduleConfigLoaded.Time);
-            Assert.Equals(timeScheduleConfig.ScriptTriggerType, timeScheduleConfigLoaded.ScriptTriggerType);
+            //Assert.Equals(timeScheduleConfig.Time, timeScheduleConfigLoaded.Time);
+            //Assert.Equals(timeScheduleConfig.ScriptTriggerType, timeScheduleConfigLoaded.ScriptTriggerType);
 
             //Remove at end
         }

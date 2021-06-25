@@ -10,8 +10,10 @@ namespace ScriperLib.ScriptScheduler
 {
     public class TaskScheduleAdapter : ITaskScheduleAdapter
     {
-        //private running
-        //run in some hidden mode, so pass arguments from Scriper
+
+        //FIX REMOVING
+        //FIX REMOVING TRIGGERS
+        //TASK CAN HAVE MANY TRIGGERS SO FOR SCRIPT IS ONE TASK WITH TRIGGERS AND SCRIPPER DEFINE TRIGGERS ONLY
         public void Delete(string scriptName)
         {
             TaskService.Instance.RootFolder.DeleteTask(scriptName, false);
@@ -58,6 +60,11 @@ namespace ScriperLib.ScriptScheduler
                         logonTrigger.Delay = TimeSpan.FromSeconds(timeScheduleConfig.DelayInSeconds);
                         break;
                     case MonthlyTrigger monthlyTrigger:
+                        monthlyTrigger.RunOnLastDayOfMonth = monthlyTrigger.RunOnLastDayOfMonth;
+                        var monthsOfTheYear = timeScheduleConfig.MonthsOfYear.Select(month =>
+                            (MonthsOfTheYear) Enum.Parse(typeof(MonthsOfTheYear), month));
+                        monthlyTrigger.MonthsOfYear = monthsOfTheYear.Aggregate((x, y) => x | y);
+                        monthlyTrigger.DaysOfMonth = timeScheduleConfig.DaysOfMonth.ToArray();
                         break;
                     default:
                         break;

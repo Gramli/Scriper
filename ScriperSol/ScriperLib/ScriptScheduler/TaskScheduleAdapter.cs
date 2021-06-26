@@ -10,10 +10,6 @@ namespace ScriperLib.ScriptScheduler
 {
     public class TaskScheduleAdapter : ITaskScheduleAdapter
     {
-
-        //FIX REMOVING
-        //FIX REMOVING TRIGGERS
-        //TASK CAN HAVE MANY TRIGGERS SO FOR SCRIPT IS ONE TASK WITH TRIGGERS AND SCRIPPER DEFINE TRIGGERS ONLY
         public void Delete(string scriptName)
         {
             TaskService.Instance.RootFolder.DeleteTask(scriptName, false);
@@ -21,6 +17,11 @@ namespace ScriperLib.ScriptScheduler
 
         public void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration)
         {
+            if(!scriptConfiguration.TimeScheduleConfigurations.Any())
+            {
+                return;
+            }
+
             var taskDefinition = TaskService.Instance.NewTask();
             taskDefinition.RegistrationInfo.Description = scriptConfiguration.Description;
 

@@ -31,6 +31,6 @@
     <TextBlock Text="Days Of the Month " Classes="h1" Grid.Row="2" Grid.Column="1"/>
     <ListBox IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="3" Grid.Column="1" Items="{Binding DaysOfMonth}" SelectedItems="{Binding SelectedDaysOfMonth}" SelectionMode="Multiple,Toggle"/>
     <TextBlock Text="Time " Classes="h1" Grid.Row="4" Grid.ColumnSpan="2"/>
-    <TimePicker IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="5" Grid.ColumnSpan="2"/>
+    <TimePicker IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="5" Grid.ColumnSpan="2" SelectedTime="{Binding Time, Mode=TwoWay}"/>
   </Grid>
 </UserControl>

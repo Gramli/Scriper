@@ -179,6 +179,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Close();
                 };
 
+                //TODO FIX Catching of dialog errors
                 dialogWindow.ShowDialog(App.Current.GetMainWindow());
             }
             catch (Exception ex)
@@ -196,6 +197,7 @@ namespace Scriper.ViewModels
                 Scripts.Remove(scriptVM);
                 EditContextMenuByInSystemTray(scriptVM.Script);
                 _scriptManager.RemoveScript(scriptVM.Script);
+                _schedulerManagerAdapter.Remove(scriptVM.ScriptConfiguration.Name);
             }
             catch (Exception ex)
             {

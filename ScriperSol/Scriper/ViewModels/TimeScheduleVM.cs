@@ -106,7 +106,6 @@ namespace Scriper.ViewModels
             var newTimeTriggerConfiguration = _container.GetInstance<ITimeTriggerConfiguration>();
             CopySelectedTimeTriggerConfiguration(newTimeTriggerConfiguration);
 
-
             switch (type)
             {
                 case ScriptTriggerType.Daily:
@@ -141,7 +140,7 @@ namespace Scriper.ViewModels
             var editedConfiguration = _actualTriggerVm.GetTriggerConfiguration();
             editedConfiguration.Name = TriggerName;
             editedConfiguration.ScriptTriggerType = (ScriptTriggerType)Enum.Parse(typeof(ScriptTriggerType), SelectedTriggerType);
-            TimeTriggerConfigurations.Remove(TimeTriggerConfigurations.First(item => item.Name == editedConfiguration.Name));
+            TimeTriggerConfigurations.Remove(TimeTriggerConfigurations.First(item => item.Name == SelectedTimeTriggerConfiguration.Name));
             TimeTriggerConfigurations.Add(editedConfiguration);
             this.SelectedTimeTriggerConfiguration = null;
             OnTriggerApplied?.Invoke(this, EventArgs.Empty);

@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
+using System;
 
 namespace Scriper.Views
 {

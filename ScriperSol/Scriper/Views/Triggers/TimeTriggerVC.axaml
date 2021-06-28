@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="160"
+             x:Class="Scriper.Views.Triggers.TimeTriggerVC">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+    </Grid.RowDefinitions>
+    <TextBlock Text="Date" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <DatePicker Grid.Row="1" Grid.ColumnSpan="2" SelectedDate="{Binding Date, Mode=TwoWay}"/>
+    <TextBlock Text="Time" Grid.Row="2" Grid.ColumnSpan="2" Classes="h1"/>
+    <TimePicker Grid.Row="3" Grid.ColumnSpan="2" SelectedTime="{Binding Time, Mode=TwoWay}"/>
+  </Grid>
+</UserControl>

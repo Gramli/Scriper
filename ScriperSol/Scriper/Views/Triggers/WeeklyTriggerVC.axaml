@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Scriper.Views.Triggers.WeeklyTriggerVC">
+  <UserControl.Styles>
+    <Style Selector="TextBlock.h1">
+      <Setter Property="FontSize" Value="14"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="150"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+    </Grid.RowDefinitions>
+    <TextBlock Text="Days of the Week" Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <ListBox Grid.Row="1" Grid.ColumnSpan="2" Items="{Binding DaysOfWeek}" SelectedItems="{Binding SelectedDaysOfWeek}" SelectionMode="Multiple,Toggle"/>
+    <TextBlock Text="Interval" Classes="h1" Grid.Row="3" Grid.ColumnSpan="2"/>
+    <NumericUpDown Value="{Binding Interval}" Increment="1" Minimum="0" Maximum="7" Grid.Row="4" Grid.ColumnSpan="2" ToolTip.Tip="An interval of 1 produces a weekly schedule. An interval of 2 produces an every-other week schedule."/>
+    <TextBlock Text="Time" Grid.Row="5" Grid.ColumnSpan="2" Classes="h1"/>
+    <TimePicker Grid.Row="6" Grid.ColumnSpan="2" SelectedTime="{Binding Time}"/>
+  </Grid>
+</UserControl>

@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.Collections.Generic;
+using Avalonia.Controls;
 using Avalonia.Media;
 using ReactiveUI;
 using Scriper.Closing;
@@ -8,7 +9,12 @@ using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Extensions;
 using System.IO;
+using System.Linq;
 using System.Reactive;
+using Scriper.AssetsAccess;
+using Scriper.Views;
+using System;
+using NLog;
 
 namespace Scriper.ViewModels
 {
@@ -122,7 +128,7 @@ namespace Scriper.ViewModels
             get => ScriptConfiguration.FileOutputConfiguration?.Path;
             set
             {
-                ScriptConfiguration.Path = value;
+                ScriptConfiguration.FileOutputConfiguration.Path = value;
                 this.RaiseAndSetIfChanged(ref _fileOutputPath, value);
             }
         }
@@ -143,9 +149,14 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
+        public ReactiveCommand<Unit, Unit> EditTimeScheduleCmd { get; }
 
         private readonly IScriperLibContainer _container;
         private readonly IScriptCreator _scriptCreator;
+
+        private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
+
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration)
            : this(container)
@@ -157,14 +168,15 @@ namespace Scriper.ViewModels
         {
             _container = container;
             _scriptCreator = container.GetInstance<IScriptCreator>();
-            CancelCmd = ReactiveCommand.Create(Cancel);
-            OkCmd = ReactiveCommand.Create(Ok);
-            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
+            CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
+            OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
+            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
+            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger); ;
         }
 
         public void Cancel()
         {
-            Close.Invoke(this, new CloseEventArgs<IScript>());
+            Close?.Invoke(this, new CloseEventArgs<IScript>());
         }
 
         public void Ok()
@@ -188,7 +200,7 @@ namespace Scriper.ViewModels
             }
 
             var script = _scriptCreator.Create(ScriptConfiguration);
-            Close.Invoke(this, new CloseEventArgs<IScript>(script));
+            Close?.Invoke(this, new CloseEventArgs<IScript>(script));
         }
 
         public async void OpenFile(string parameter)
@@ -222,6 +234,26 @@ namespace Scriper.ViewModels
         {
             ConfigBackground = Brushes.Salmon;
             ErrorText = message;
+        }
+
+        private void EditTimeSchedule()
+        {
+            var timeScheduleVM = new TimeScheduleVM(_container, ScriptConfiguration.TimeScheduleConfigurations);
+            var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
+            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_schedule.ico"));
+            dialogWindow.Closed += (sender, eventArgs) =>
+                {
+                    ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;
+                };
+            
+            dialogWindow.ShowDialog(App.Current.GetMainWindow());
+            
+        }
+
+        private void CatchCommandException(Exception ex)
+        {
+            MessageBoxExtensions.ShowDialog(ex.Message);
+            _logger.Error(ex);
         }
 
         private void ClearInvalid()

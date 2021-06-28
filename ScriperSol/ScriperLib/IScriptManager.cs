@@ -8,6 +8,8 @@ namespace ScriperLib
         IScriptManagerConfiguration Configuration { get; }
         IReadOnlyCollection<IScript> Scripts { get; }
 
+        IScript GetScript(string scriptName);
+
         void AddScript(IScriptConfiguration scriptConfiguration);
 
         void AddScript(IScript script);

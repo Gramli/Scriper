@@ -3,11 +3,10 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <ApplicationIcon>Scriper.ico</ApplicationIcon>
-    <AssemblyVersion>1.2.4.0</AssemblyVersion>
+    <AssemblyVersion>1.2.15.0</AssemblyVersion>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +32,7 @@
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />
+    <None Remove="Assets\icons8_schedule.ico" />
     <None Remove="Assets\icons8_user_manual_96px.png" />
     <None Remove="Assets\icons8_windows_xp_96px_1.png" />
   </ItemGroup>

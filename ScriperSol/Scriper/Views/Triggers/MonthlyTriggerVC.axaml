@@ -1,0 +1,36 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Scriper.Views.Triggers.MonthlyTriggerVC">
+  <UserControl.Styles>
+  <Style Selector="TextBlock.h1">
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="FontWeight" Value="Bold"/>
+    <Setter Property="VerticalAlignment" Value="Center"/>
+  </Style>
+  </UserControl.Styles>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="150"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="35"/>
+    </Grid.RowDefinitions>
+    <TextBlock Text="Run On Last Day Of Month " Classes="h1" Grid.Row="0" Grid.ColumnSpan="2"/>
+    <CheckBox Name="lastDayOfMonth" IsChecked="{Binding LastDayInMonth}" Grid.Row="1" Grid.ColumnSpan="2"/>
+    <TextBlock Text="Moths of the Year " Classes="h1" Grid.Row="2" Grid.Column="0"/>
+    <ListBox IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="3" Grid.Column="0" Items="{Binding MonthsOfYear}" SelectedItems="{Binding SelectedMonthsOfYear}" SelectionMode="Multiple,Toggle"/>
+    <TextBlock Text="Days Of the Month " Classes="h1" Grid.Row="2" Grid.Column="1"/>
+    <ListBox IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="3" Grid.Column="1" Items="{Binding DaysOfMonth}" SelectedItems="{Binding SelectedDaysOfMonth}" SelectionMode="Multiple,Toggle"/>
+    <TextBlock Text="Time " Classes="h1" Grid.Row="4" Grid.ColumnSpan="2"/>
+    <TimePicker IsEnabled="{Binding !#lastDayOfMonth.IsChecked}" Grid.Row="5" Grid.ColumnSpan="2" SelectedTime="{Binding Time, Mode=TwoWay}"/>
+  </Grid>
+</UserControl>

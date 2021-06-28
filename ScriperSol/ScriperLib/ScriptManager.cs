@@ -1,5 +1,6 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Exceptions;
+using ScriperLib.ScriptScheduler;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -80,6 +81,11 @@ namespace ScriperLib
 
             RemoveScript(oldScript);
             AddScript(newScript);
+        }
+
+        public IScript GetScript(string scriptName)
+        {
+            return _scripts.SingleOrDefault(script => script.Configuration.Name == scriptName) ?? throw new ConfigurationException($"Script with name {scriptName} does not exist.");
         }
     }
 }

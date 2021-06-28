@@ -45,10 +45,7 @@ namespace ScriperLib.Runners
 
         public Task<IScriptResult> RunAsync(IScript script)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                return Run(script);
-            });
+            return Task.Factory.StartNew(() => Run(script));
         }
 
         private void WriteOutputs(ICollection<IOutput> outputs, string message)

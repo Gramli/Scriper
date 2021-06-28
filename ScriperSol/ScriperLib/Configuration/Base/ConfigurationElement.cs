@@ -110,7 +110,7 @@ namespace ScriperLib.Configuration.Base
             foreach (var item in iEnumerable)
             {
                 var itemType = item.GetType();
-                if (itemType.IsValueType)
+                if (itemType.IsValueType || itemType == typeof(string))
                 {
                     collectionElement.Add(new XElement(collectionAttribute.CollectionItemName, item));
                 }
@@ -232,7 +232,7 @@ namespace ScriperLib.Configuration.Base
 
         private object CreateInstanceOfProperty(Type propertyType, XElement element)
         {
-            if (propertyType.IsValueType)
+            if (propertyType.IsValueType || propertyType == typeof(string))
             {
                 return propertyType.IsEnum ? Enum.Parse(propertyType, element.Value) : Convert.ChangeType(element.Value, propertyType, CultureInfo.InvariantCulture);
             }

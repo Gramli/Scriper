@@ -40,7 +40,10 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * [TaskScheduler](https://github.com/dahall/TaskScheduler)
 
   
-## Planned to v1.3
+## Planned to v1.3 - release soon
 * TimeSchedule support
+
+## Planned to v1.4
+* Python Modules
 * Custom Icon selection
 

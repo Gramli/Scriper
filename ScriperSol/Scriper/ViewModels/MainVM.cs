@@ -10,6 +10,7 @@ using ScriperLib;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
+using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.TimeSchedule;
 
@@ -30,10 +31,15 @@ namespace Scriper.ViewModels
         private readonly ISystemTrayMenu _systemTrayMenu;
         private readonly ISystemStartUp _systemStartUp;
 
-        public MainVM(IScriperLibContainer container, IScriperUIConfiguration uiConfig, ISystemTrayMenu systemTrayMenu, ISystemStartUp systemStartUp, IScriptSchedulerManagerAdapter schedulerManagerAdapter)
+        public MainVM(IScriperLibContainer container, 
+            IScriperUIConfiguration uiConfig,
+            ISystemTrayMenu systemTrayMenu,
+            ISystemStartUp systemStartUp, 
+            IScriptSchedulerManagerAdapter schedulerManagerAdapter,
+            IOpenEditorScriptCreator openEditorScriptCreator)
         {
             ActualUiConfiguration = uiConfig;
-            ScriptManagerVM = new ScriptManagerVM(container, uiConfig, systemTrayMenu, schedulerManagerAdapter);
+            ScriptManagerVM = new ScriptManagerVM(container, systemTrayMenu, schedulerManagerAdapter, openEditorScriptCreator);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);

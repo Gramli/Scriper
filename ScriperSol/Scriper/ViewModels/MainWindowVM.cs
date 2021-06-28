@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
+using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.TimeSchedule;
 using ScriperLib.ScriptScheduler;
@@ -111,8 +112,10 @@ namespace Scriper.ViewModels
             _systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
             var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
             var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
+            var uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
+            var scriptEditorCreator = new OpenEditorScriptCreator(_container, uiConfig);
             AddCloseButtonToSystemTray();
-            MainVM = new MainVM(_container, ScriperUIConfiguration.Load(_uiConfigPath), _systemTrayMenu, systemStartUp, timeScheduleManager);
+            MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator);
             DataVisible = true;
             Title = config;
         }

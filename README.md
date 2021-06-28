@@ -5,9 +5,10 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ## Menu
 * [Features](#features)  
+* [Wiki](https://github.com/Gramli/Scriper/wiki)    
 * [Download and Install](#download-and-install)    
 * [Technologies and Tools](#technologies-and-tools-used)  
-* [Planned](#planned)  
+* [Planned](#planned)
 
 ## Features
 **Actual version supports these file extensions (scripts):**

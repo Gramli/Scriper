@@ -37,6 +37,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * [Jint](https://github.com/sebastienros/jint)
 * [NSIS](https://nsis.sourceforge.io/Download)
 * [Icons8](https://icons8.com)
+* [TaskScheduler](https://github.com/dahall/TaskScheduler)
 
   
 ## Planned to v1.3

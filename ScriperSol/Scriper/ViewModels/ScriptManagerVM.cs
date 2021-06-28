@@ -46,10 +46,10 @@ namespace Scriper.ViewModels
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
             _scriptRunner = container.GetInstance<IScriptRunner>();
-            EditScriptCmd = ReactiveCommand.Create<string>(EditScript);
-            RunScriptCmd = ReactiveCommand.Create<string>(RunScript);
-            RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript);
-            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent);
+            EditScriptCmd = ReactiveCommand.Create<string>(EditScript).CatchError(_logger); ;
+            RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger); ;
+            RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger); ;
+            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent).CatchError(_logger); ;
             _systemTrayMenu = systemTrayMenu;
             _schedulerManagerAdapter = schedulerManagerAdapter;
             _uiConfig = uiConfig;
@@ -154,7 +154,7 @@ namespace Scriper.ViewModels
             }
         }
 
-        private void EditScript(string name)
+        private async void EditScript(string name)
         {
             try
             {
@@ -179,8 +179,7 @@ namespace Scriper.ViewModels
                     dialogWindow.Close();
                 };
 
-                //TODO FIX Catching of dialog errors
-                dialogWindow.ShowDialog(App.Current.GetMainWindow());
+                await dialogWindow.ShowDialog(App.Current.GetMainWindow());
             }
             catch (Exception ex)
             {

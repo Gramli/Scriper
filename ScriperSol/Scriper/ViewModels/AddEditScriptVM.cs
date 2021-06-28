@@ -13,6 +13,8 @@ using System.Linq;
 using System.Reactive;
 using Scriper.AssetsAccess;
 using Scriper.Views;
+using System;
+using NLog;
 
 namespace Scriper.ViewModels
 {
@@ -154,6 +156,8 @@ namespace Scriper.ViewModels
 
         private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
+        private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
+
         public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration)
            : this(container)
         {
@@ -164,10 +168,10 @@ namespace Scriper.ViewModels
         {
             _container = container;
             _scriptCreator = container.GetInstance<IScriptCreator>();
-            CancelCmd = ReactiveCommand.Create(Cancel);
-            OkCmd = ReactiveCommand.Create(Ok);
-            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile);
-            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule);
+            CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
+            OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
+            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
+            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger); ;
         }
 
         public void Cancel()
@@ -244,6 +248,12 @@ namespace Scriper.ViewModels
             
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
             
+        }
+
+        private void CatchCommandException(Exception ex)
+        {
+            MessageBoxExtensions.ShowDialog(ex.Message);
+            _logger.Error(ex);
         }
 
         private void ClearInvalid()

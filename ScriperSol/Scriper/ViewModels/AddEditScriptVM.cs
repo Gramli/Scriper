@@ -250,12 +250,6 @@ namespace Scriper.ViewModels
             
         }
 
-        private void CatchCommandException(Exception ex)
-        {
-            MessageBoxExtensions.ShowDialog(ex.Message);
-            _logger.Error(ex);
-        }
-
         private void ClearInvalid()
         {
             NameBackground = Brushes.White;

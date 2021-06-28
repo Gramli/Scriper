@@ -148,7 +148,7 @@ namespace Scriper.ViewModels
             }
         }
 
-        private async void EditScript(string name)
+        private void EditScript(string name)
         {
             try
             {
@@ -166,14 +166,14 @@ namespace Scriper.ViewModels
                         TryRemoveFromContextMenu(script);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                         Scripts.Replace(oldScriptVM, newScriptVM);
-                        _scriptManager.ReplaceScript(script, args.Result);
                         _schedulerManagerAdapter.Replace(args.Result.Configuration);
+                        _scriptManager.ReplaceScript(script, args.Result);
                     }
 
                     dialogWindow.Close();
                 };
 
-                await dialogWindow.ShowDialog(App.Current.GetMainWindow());
+                dialogWindow.ShowDialog(App.Current.GetMainWindow());
             }
             catch (Exception ex)
             {

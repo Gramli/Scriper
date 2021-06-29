@@ -32,7 +32,7 @@ namespace Scriper.ViewModels.Triggers
             : base(configuration)
         {
             Time = configuration.Time.TimeOfDay;
-            Interval = configuration.Interval;
+            Interval = configuration.Interval == 0 ? (short)1 : configuration.Interval;
         }
 
         public override ITimeTriggerConfiguration GetTriggerConfiguration()

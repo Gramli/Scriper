@@ -6,5 +6,6 @@ namespace ScriperLib.ScriptScheduler
     {
         void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration);
         void Delete(string scriptName);
+        void DeleteFolder();
     }
 }

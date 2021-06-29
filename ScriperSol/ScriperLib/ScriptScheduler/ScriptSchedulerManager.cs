@@ -11,9 +11,9 @@ namespace ScriperLib.ScriptScheduler
             _taskScheduleAdapter = taskScheduleAdapter;
         }
 
-        public void Add(string runnerAppPath, string configPath, IScriptConfiguration scriptConfiguration)
+        public void Add(string command, string runnerAppPath, string configPath, IScriptConfiguration scriptConfiguration)
         {
-            var arguments = $"{configPath} {scriptConfiguration.Name}";
+            var arguments = $"{command} {configPath} {scriptConfiguration.Name}";
             _taskScheduleAdapter.Register(runnerAppPath, arguments, scriptConfiguration);
         }
 

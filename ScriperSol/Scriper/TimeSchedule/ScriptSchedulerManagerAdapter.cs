@@ -10,6 +10,7 @@ namespace Scriper.TimeSchedule
         private readonly IScriptSchedulerManager _scriptSchedulerManager;
         private readonly string _configPath;
         private readonly string _runnerExe;
+        private readonly string _command = "-run";
 
         public ScriptSchedulerManagerAdapter(string configPath, IScriptSchedulerManager scriptSchedulerManager)
         {
@@ -20,7 +21,7 @@ namespace Scriper.TimeSchedule
 
         public void Add(IScriptConfiguration scriptConfiguration)
         {
-            _scriptSchedulerManager.Add(_runnerExe, _configPath, scriptConfiguration);
+            _scriptSchedulerManager.Add(_command,_runnerExe, _configPath, scriptConfiguration);
         }
 
         public void Remove(string scriptName)

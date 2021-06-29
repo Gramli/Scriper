@@ -12,6 +12,8 @@ InstallDir $PROGRAMFILES\Scriper
 !include "MUI.nsh"
 !include nsdialogs.nsh
 
+RequestExecutionLevel admin
+
 Page Directory "" "" RemoveExceptConfig
 Page Custom RunAtStartPage RunAtStartPageLeave "Windows StartUp"
 Page InstFiles
@@ -81,6 +83,7 @@ Delete "$DESKTOP\Scriper.lnk"
 Delete "$SMPROGRAMS\Scriper.lnk"
 Delete "$SMPROGRAMS\Startup\Scriper.lnk"
 DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper"
+Exec "$INSTDIR\Scriper.exe -un"
 Delete $INSTDIR\*.*
  
 # Delete the directory

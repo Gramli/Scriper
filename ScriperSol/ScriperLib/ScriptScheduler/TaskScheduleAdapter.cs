@@ -4,15 +4,18 @@ using ScriperLib.Configuration;
 using ScriperLib.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ScriperLib.ScriptScheduler
 {
     public class TaskScheduleAdapter : ITaskScheduleAdapter
     {
+        private const string folderName = "ScriperTasks";
+
         public void Delete(string scriptName)
         {
-            TaskService.Instance.RootFolder.DeleteTask(scriptName, false);
+            TaskService.Instance.RootFolder.DeleteTask(GetTaskName(scriptName), false);
         }
 
         public void Register(string runnerExe, string arguments, IScriptConfiguration scriptConfiguration)
@@ -31,7 +34,12 @@ namespace ScriperLib.ScriptScheduler
             var exeAction = new ExecAction(runnerExe, arguments, null);
             taskDefinition.Actions.Add(exeAction);
 
-            TaskService.Instance.RootFolder.RegisterTaskDefinition(scriptConfiguration.Name, taskDefinition, TaskCreation.CreateOrUpdate, Environment.UserName);
+            TaskService.Instance.RootFolder.RegisterTaskDefinition(GetTaskName(scriptConfiguration.Name), taskDefinition, TaskCreation.CreateOrUpdate, Environment.UserName);
+        }
+
+        public void DeleteFolder()
+        {
+            TaskService.Instance.RootFolder.DeleteFolder($@"\{folderName}");
         }
 
         private IEnumerable<Trigger> CreateTriggers(IScriptConfiguration scriptConfiguration)
@@ -73,6 +81,11 @@ namespace ScriperLib.ScriptScheduler
 
                 return trigger;
             });
+        }
+
+        private string GetTaskName(string scriptName)
+        {
+            return Path.Combine(folderName, scriptName);
         }
     }
 }

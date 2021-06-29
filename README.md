@@ -17,6 +17,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Python - .py - [IronPython](https://github.com/IronLanguages/ironpython2)
 * Exe - .exe -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
 * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
+* Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1) - on Windows You need to Enable the Linux Bash Shell in Windows 10
 
 ## Download and Install
 ### release v1.2

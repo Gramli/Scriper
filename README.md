@@ -16,7 +16,6 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * PowerShell - .ps1, .ps2 -  [System.Management.Automation](https://www.nuget.org/packages/Microsoft.PowerShell.SDK/)
 * Python - .py - [IronPython](https://github.com/IronLanguages/ironpython2)
 * Exe - .exe -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
-* Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
 * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
 
 ## Download and Install

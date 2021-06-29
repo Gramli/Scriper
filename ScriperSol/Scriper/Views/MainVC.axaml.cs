@@ -26,7 +26,7 @@ namespace Scriper.Views
 
         private void OnManualClick(object sender, RoutedEventArgs e)
         {
-            BrowserExtensions.OpenBrowserByPlatform("https://github.com/Gramli/Scriper");
+            BrowserExtensions.OpenBrowserByPlatform("https://github.com/Gramli/Scriper/wiki");
         }
     }
 }

@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Scriper.ViewModels;assembly=Scriper"
-        mc:Ignorable="d" Width="500" Height="250"
+        mc:Ignorable="d" Width="500" Height="300"
         x:Class="Scriper.Views.AboutWindow"
         Icon="/Assets/icons8_info.ico"
         Title="About"
@@ -34,6 +34,8 @@
       <RowDefinition Height="25"/>
       <RowDefinition Height="25"/>
       <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="45"/>
     </Grid.RowDefinitions>
     <Image Grid.RowSpan="4" Source="/Assets/icons8_console_100px.png" Width="100" Height="100"/>
     <TextBlock Grid.Column="1" Text="Scriper" Classes="h1"/>
@@ -41,5 +43,7 @@
     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Version}" Classes="h2"/>
     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Author}" Classes="h3"/>
     <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Text}" Width="345" TextWrapping="Wrap" Classes="h3"/>
+    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ReportText}" Width="345" TextWrapping="Wrap" Classes="h3"/>
+    <Button Grid.Row="6" Grid.Column="1" Content="Report Issue" Background="{DynamicResource btnAppColor}" Click="OnReportClick"/>
   </Grid>
 </Window>

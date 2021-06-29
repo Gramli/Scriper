@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
 using System;
+using Avalonia.Interactivity;
+using ScriperLib.Extensions;
 
 namespace Scriper.Views
 {
@@ -18,6 +20,11 @@ namespace Scriper.Views
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+
+        private void OnReportClick(object sender, RoutedEventArgs e)
+        {
+            BrowserExtensions.OpenBrowserByPlatform("https://github.com/Gramli/Scriper/discussions");
         }
     }
 }

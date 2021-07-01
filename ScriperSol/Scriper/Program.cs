@@ -13,7 +13,6 @@ namespace Scriper
             if (args.Length > 0)
             {
                 var command = args[0];
-
                 switch (command)
                 {
                     case "-run":

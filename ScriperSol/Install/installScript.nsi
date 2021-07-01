@@ -78,12 +78,12 @@ SectionEnd
 Section "Uninstall"
  
 # Always delete uninstaller first
+ExecWait '"$INSTDIR\Scriper.exe" -un'
 Delete $INSTDIR\ScriperUninstaller.exe
 Delete "$DESKTOP\Scriper.lnk"
 Delete "$SMPROGRAMS\Scriper.lnk"
 Delete "$SMPROGRAMS\Startup\Scriper.lnk"
 DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper"
-Exec "$INSTDIR\Scriper.exe -un"
 Delete $INSTDIR\*.*
  
 # Delete the directory

@@ -39,6 +39,11 @@ namespace ScriperLib.ScriptScheduler
 
         public void DeleteFolder()
         {
+            var scriperFolder = TaskService.Instance.RootFolder.SubFolders.Single(item => item.Name == folderName);
+            foreach(var task in scriperFolder.AllTasks)
+            {
+                scriperFolder.DeleteTask(task.Name);
+            }
             TaskService.Instance.RootFolder.DeleteFolder($@"\{folderName}");
         }
 

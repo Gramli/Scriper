@@ -22,7 +22,7 @@ namespace Scriper.UnitTests
             scriptConfig.TimeScheduleConfigurations.Add(timeScheduleConfig);
 
             var scriptScheduleManager = scriperLibContainer.GetInstance<IScriptSchedulerManager>();
-            scriptScheduleManager.Add("something","something", scriptConfig);
+            scriptScheduleManager.Add("-run","something","something", scriptConfig);
 
             TaskService.Instance.RootFolder.DeleteTask(scriptConfig.Name);
         }

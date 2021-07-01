@@ -1,22 +1,20 @@
-﻿using System.Collections.Generic;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
+using NLog;
 using ReactiveUI;
+using Scriper.AssetsAccess;
 using Scriper.Closing;
 using Scriper.Extensions;
+using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Extensions;
 using System.IO;
-using System.Linq;
 using System.Reactive;
-using Scriper.AssetsAccess;
-using Scriper.Views;
-using System;
-using NLog;
 
 namespace Scriper.ViewModels
+
 {
     public class AddEditScriptVM : ViewModelBase, IClose<IScript>
     {

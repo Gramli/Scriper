@@ -15,7 +15,7 @@ namespace Scriper
             var configPath = args[0];
             var container = new ScriperLibContainer(configPath);
             var runner = container.GetInstance<IScriptTaskSchedulerRunner>();
-            var scriptName = string.Join(" ", args[1..]);
+            var scriptName = args[1];
             runner.Run(scriptName);
         }
     }

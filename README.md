@@ -20,6 +20,8 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1) - on Windows You need to Enable the Linux Bash Shell in Windows 10
 
 ## Download and Install
+### release v1.3
+* [Windows](https://github.com/Gramli/Scriper/releases/download/v1.3/ScriperInstaller.exe)
 ### release v1.2
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.2/ScriperInstaller.exe)
 * [Linux](https://github.com/Gramli/Scriper/releases/download/v1.2/linux-x64-netcore3.1.7z)

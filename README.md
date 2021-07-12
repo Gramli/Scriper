@@ -3,6 +3,8 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ![Scriper Example](/Images/scriper.png)
 
+[![CodeFactor](https://www.codefactor.io/repository/github/gramli/scriper/badge/master)](https://www.codefactor.io/repository/github/gramli/scriper/overview/master)
+
 ## Menu
 * [Features](#features)  
 * [Wiki](https://github.com/Gramli/Scriper/wiki)    

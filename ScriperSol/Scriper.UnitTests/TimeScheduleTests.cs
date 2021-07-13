@@ -10,6 +10,7 @@ namespace Scriper.UnitTests
     public class TimeScheduleTests : TestsBase
     {
         [Test]
+        [Ignore("Test with administration privilegies for Windows")]
         public void AddAndRemove()
         {
             var scriperLibContainer = new ScriperLibContainer(filePath);

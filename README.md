@@ -3,6 +3,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 
 ![Scriper Example](/Images/scriper.png)
 
+[![Gitter](https://badges.gitter.im/ScriperApp/community.svg)](https://gitter.im/ScriperApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![CodeFactor](https://www.codefactor.io/repository/github/gramli/scriper/badge/master)](https://www.codefactor.io/repository/github/gramli/scriper/overview/master)
 
 ## Menu

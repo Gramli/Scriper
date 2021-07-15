@@ -25,7 +25,5 @@ namespace Scriper
         {
             _logFactory.Shutdown();
         }
-
-
     }
 }

@@ -241,8 +241,6 @@ namespace ScriperLib.Configuration.Base
             }
 
             return Activator.CreateInstance(instanceType, element);
-
-
         }
 
         private void SetCollectionProperty(PropertyInfo property, ConfigurationCollectionAttribute attribute, bool mandatory, XElement element)
@@ -284,7 +282,6 @@ namespace ScriperLib.Configuration.Base
                 var childItemInstance = CreateInstanceOfProperty(argumentType, childElement);
                 addMethod.Invoke(propertyValue, new[] { childItemInstance });
             }
-
         }
     }
 }

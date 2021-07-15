@@ -41,7 +41,6 @@ namespace ScriperLib.Configuration
 
         public TimeTriggerConfiguration()
         {
-
         }
     }
 }

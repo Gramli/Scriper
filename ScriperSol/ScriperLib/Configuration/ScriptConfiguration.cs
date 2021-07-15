@@ -42,9 +42,7 @@ namespace ScriperLib.Configuration
 
         public ScriptConfiguration(XElement element)
             : base(element)
-        {
-
-        }
+        { }
 
         public ScriptConfiguration()
         {

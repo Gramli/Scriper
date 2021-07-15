@@ -17,6 +17,5 @@ namespace Scriper.Closing
             Result = result;
             Cancel = false;
         }
-
     }
 }

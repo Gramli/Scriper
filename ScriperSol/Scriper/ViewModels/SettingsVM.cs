@@ -32,7 +32,7 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> CancelCmd { get; }
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
-        public IScriperUIConfiguration UIConfig { get;}
+        public IScriperUIConfiguration UIConfig { get; }
 
         public event CloseEventHandler<IScriperUIConfiguration> Close;
 

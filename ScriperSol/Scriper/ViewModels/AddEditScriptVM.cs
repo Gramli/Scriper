@@ -14,7 +14,6 @@ using System.IO;
 using System.Reactive;
 
 namespace Scriper.ViewModels
-
 {
     public class AddEditScriptVM : ViewModelBase, IClose<IScript>
     {
@@ -169,7 +168,7 @@ namespace Scriper.ViewModels
             CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
-            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger); ;
+            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
         }
 
         public void Cancel()
@@ -245,7 +244,6 @@ namespace Scriper.ViewModels
                 };
             
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
-            
         }
 
         private void ClearInvalid()

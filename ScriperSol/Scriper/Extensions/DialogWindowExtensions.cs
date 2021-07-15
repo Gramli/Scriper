@@ -23,6 +23,5 @@ namespace Scriper.Extensions
         {
             return new DialogWindow(_scriptDialogWidth, _scriptDialogHeight, "Edit Script", control, AvaloniaAssets.Instance.GetAssetsIcon("icons8_edit_property.ico"));
         }
-
     }
 }

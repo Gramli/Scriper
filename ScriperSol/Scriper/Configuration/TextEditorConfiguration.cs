@@ -14,7 +14,6 @@ namespace Scriper.Configuration
         public TextEditorConfiguration(XElement sourceElement)
             : base(sourceElement)
         {
-
         }
     }
 }

@@ -8,7 +8,7 @@ namespace ScriperLib
 {
     public interface IScript
     {
-        ScriptType ScriptType {get;}
+        ScriptType ScriptType {get; }
         IScriptConfiguration Configuration { get; }
         ICollection<IOutput> Outputs { get; }
         void InitFromConfiguration(IScriptConfiguration configuration, Func<IEnumerable<IOutput>> _outputs);

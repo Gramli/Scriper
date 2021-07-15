@@ -16,7 +16,6 @@ namespace Scriper.Configuration
         private ScriperUIConfiguration(XElement source)
             :base(source)
         {
-
         }
 
         public void Save(string path)

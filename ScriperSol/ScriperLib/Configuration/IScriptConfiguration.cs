@@ -16,6 +16,5 @@ namespace ScriperLib.Configuration
         int Order { get; set; }
         IFileOutputConfiguration FileOutputConfiguration { get; set; }
         ICollection<ITimeTriggerConfiguration> TimeScheduleConfigurations { get; set; }
-
     }
 }

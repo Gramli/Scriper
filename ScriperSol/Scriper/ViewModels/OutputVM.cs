@@ -19,7 +19,6 @@ namespace Scriper.ViewModels
             set => this.RaiseAndSetIfChanged(ref _foregroundColor, value);
         }
 
-
         private IBrush _backgroundColor = Brushes.Black;
         public IBrush BackgroundColor
         {

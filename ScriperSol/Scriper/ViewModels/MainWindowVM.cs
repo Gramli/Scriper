@@ -58,7 +58,6 @@ namespace Scriper.ViewModels
 
             InitUIConfig();
             InitConfigs();
-
         }
 
         public void SaveConfigs()

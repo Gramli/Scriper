@@ -31,10 +31,7 @@ namespace ScriperLib.Configuration.Base
             Parse(element);
         }
 
-        protected internal ConfigurationElement()
-        {
-
-        }
+        protected internal ConfigurationElement() { }
 
         public void Parse(XElement element)
         {
@@ -214,7 +211,6 @@ namespace ScriperLib.Configuration.Base
             }
 
             throw new ConfigurationException("Attribut is not enum or value type");
-
         }
 
         private void SetElementProperty(PropertyInfo property, string attributeName, bool mandatory, XElement element)

@@ -40,10 +40,10 @@ namespace Scriper.ViewModels
             Container = container;
             _scriptManager = container.GetInstance<IScriptManager>();
             _scriptRunner = container.GetInstance<IScriptRunner>();
-            EditScriptCmd = ReactiveCommand.Create<string>(EditScript).CatchError(_logger); ;
-            RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger); ;
-            RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger); ;
-            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent).CatchError(_logger); ;
+            EditScriptCmd = ReactiveCommand.Create<string>(EditScript).CatchError(_logger);
+            RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger);
+            RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger);
+            EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent).CatchError(_logger);
             _systemTrayMenu = systemTrayMenu;
             _schedulerManagerAdapter = schedulerManagerAdapter;
             _openEditorScriptCreator = openEditorScriptCreator;

@@ -13,7 +13,7 @@ namespace ScriperLib.Runners
         public ScriptType[] ScriptTypes => new[] { ScriptType.PowerShell1, ScriptType.PowerShell2 };
 
         public IScriptResult Run(IScript script)
-        {
+        { 
             using var powerShell = PowerShell.Create();
             var content = File.ReadAllText(script.Configuration.Path);
             powerShell.AddScript(content);

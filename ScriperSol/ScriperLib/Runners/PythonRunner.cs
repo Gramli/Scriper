@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.Operations;
+using Microsoft.Scripting.Hosting;
 
 namespace ScriperLib.Runners
 {
@@ -24,6 +26,7 @@ namespace ScriperLib.Runners
 
             //create engine and set what I need
             var engine = Python.CreateEngine();
+            AddPaths(engine, script);
             engine.Runtime.IO.SetOutput(memoryStream, writer);
             engine.Runtime.IO.SetErrorOutput(memoryStream, writerError);
             var scope = engine.CreateScope();
@@ -46,12 +49,48 @@ namespace ScriperLib.Runners
             return null;
         }
 
+        private void AddPaths(ScriptEngine engine, IScript script)
+        {
+            var paths = engine.GetSearchPaths();
+            paths.Add(Path.GetDirectoryName(script.Configuration.Path));
+
+            const string importStart = "#${";
+
+            using var reader = new StreamReader(script.Configuration.Path);
+            while (true)
+            {
+                var line = reader.ReadLine();
+
+                if (line is null)
+                {
+                    break;
+                }
+                if (string.IsNullOrEmpty(line))
+                {
+                    continue;
+                }
+
+                if (line.Contains(importStart))
+                {
+                    var start = line.IndexOf(importStart);
+                    var end = line.IndexOf("}");
+
+                    if (end < start)
+                    {
+                        //throw
+                    }
+
+                    var path = line.Substring(start + importStart.Length, end - (start+ importStart.Length));
+                    paths.Add(path);
+                }
+            }
+
+            engine.SetSearchPaths(paths);
+        }
+
         public Task<IScriptResult> RunAsync(IScript script)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                return Run(script);
-            });
+            return Task.Factory.StartNew(() => Run(script));
         }
 
         private void WriteOutputs(ICollection<IOutput> outputs, string message)

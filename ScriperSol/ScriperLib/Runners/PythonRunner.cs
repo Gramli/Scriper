@@ -1,4 +1,5 @@
 ﻿using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 using ScriperLib.Enums;
 using ScriperLib.Extensions;
 using ScriperLib.Outputs;
@@ -24,6 +25,7 @@ namespace ScriperLib.Runners
 
             //create engine and set what I need
             var engine = Python.CreateEngine();
+            AddPaths(engine, script);
             engine.Runtime.IO.SetOutput(memoryStream, writer);
             engine.Runtime.IO.SetErrorOutput(memoryStream, writerError);
             var scope = engine.CreateScope();
@@ -46,12 +48,23 @@ namespace ScriperLib.Runners
             return null;
         }
 
+        private void AddPaths(ScriptEngine engine, IScript script)
+        {
+            var paths = engine.GetSearchPaths();
+            paths.Add(Path.GetDirectoryName(script.Configuration.Path));
+
+            var scriptPaths = ModulePathExtractor.ExtractPaths(script.Configuration.Path);
+            foreach (var path in scriptPaths)
+            {
+                paths.Add(path);   
+            }
+
+            engine.SetSearchPaths(paths);
+        }
+
         public Task<IScriptResult> RunAsync(IScript script)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                return Run(script);
-            });
+            return Task.Factory.StartNew(() => Run(script));
         }
 
         private void WriteOutputs(ICollection<IOutput> outputs, string message)

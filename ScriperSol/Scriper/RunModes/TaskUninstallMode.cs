@@ -1,10 +1,10 @@
 ﻿using ScriperLib.ScriptScheduler;
 
-namespace Scriper
+namespace Scriper.RunModes
 {
-    internal class TaskUninstallMode
+    internal class TaskUninstallMode : IRunMode
     {
-        public static void TaskRunnerMain()
+        public void Run()
         {
             var taskScheduler = new TaskScheduleAdapter();
             taskScheduler.DeleteFolder();

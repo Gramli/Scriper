@@ -5,12 +5,11 @@ using ReactiveUI;
 using Scriper.AssetsAccess;
 using Scriper.Closing;
 using Scriper.Extensions;
+using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
-using ScriperLib.Extensions;
-using System.IO;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -150,18 +149,25 @@ namespace Scriper.ViewModels
 
         private readonly IScriperLibContainer _container;
         private readonly IScriptCreator _scriptCreator;
+        private readonly IScriptFormValidator _scriptFormValidator;
 
         private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
-        public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration)
-           : this(container)
+        public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration, IScriptFormValidator scriptFormValidator)
+           : this(container, scriptFormValidator)
         {
             ScriptConfiguration = scriptConfiguration;
+            _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
+            _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
+            {
+                ConfigBackground = Brushes.Salmon;
+                ErrorText = message;
+            });
         }
 
-        private AddEditScriptVM(IScriperLibContainer container)
+        private AddEditScriptVM(IScriperLibContainer container, IScriptFormValidator scriptFormValidator)
         {
             _container = container;
             _scriptCreator = container.GetInstance<IScriptCreator>();
@@ -169,6 +175,7 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
+            _scriptFormValidator = scriptFormValidator;
         }
 
         public void Cancel()
@@ -178,24 +185,10 @@ namespace Scriper.ViewModels
 
         public void Ok()
         {
-            if (string.IsNullOrEmpty(Name))
+            if(!_scriptFormValidator.Validate())
             {
-                InvalidName("Invalid script name, name is empty.");
                 return;
             }
-
-            if (string.IsNullOrEmpty(ConfigPath))
-            {
-                InvalidateConfigPath("Invalid script path, path is empty.");
-                return;
-            }
-
-            if (!Path.GetExtension(ConfigPath).TryGetScriptType(out var scriptType))
-            {
-                InvalidateConfigPath("Uknown script(file) type.");
-                return;
-            }
-
             var script = _scriptCreator.Create(ScriptConfiguration);
             Close?.Invoke(this, new CloseEventArgs<IScript>(script));
         }
@@ -224,12 +217,6 @@ namespace Scriper.ViewModels
         public void InvalidName(string message)
         {
             NameBackground = Brushes.Salmon;
-            ErrorText = message;
-        }
-
-        private void InvalidateConfigPath(string message)
-        {
-            ConfigBackground = Brushes.Salmon;
             ErrorText = message;
         }
 

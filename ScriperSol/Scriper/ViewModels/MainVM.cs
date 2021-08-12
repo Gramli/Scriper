@@ -13,6 +13,7 @@ using System.Reactive;
 using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.TimeSchedule;
+using Scriper.ViewModels.Validation;
 
 namespace Scriper.ViewModels
 {
@@ -36,10 +37,11 @@ namespace Scriper.ViewModels
             ISystemTrayMenu systemTrayMenu,
             ISystemStartUp systemStartUp, 
             IScriptSchedulerManagerAdapter schedulerManagerAdapter,
-            IOpenEditorScriptCreator openEditorScriptCreator)
+            IOpenEditorScriptCreator openEditorScriptCreator,
+            IScriptFormValidator scriptFormValidator)
         {
             ActualUiConfiguration = uiConfig;
-            ScriptManagerVM = new ScriptManagerVM(container, systemTrayMenu, schedulerManagerAdapter, openEditorScriptCreator);
+            ScriptManagerVM = new ScriptManagerVM(container, systemTrayMenu, schedulerManagerAdapter, openEditorScriptCreator, scriptFormValidator);
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);

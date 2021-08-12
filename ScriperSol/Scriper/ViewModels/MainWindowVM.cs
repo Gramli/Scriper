@@ -13,6 +13,7 @@ using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.TimeSchedule;
 using ScriperLib.ScriptScheduler;
+using Scriper.ViewModels.Validation;
 
 namespace Scriper.ViewModels
 {
@@ -113,8 +114,9 @@ namespace Scriper.ViewModels
             var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
             var uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
             var scriptEditorCreator = new OpenEditorScriptCreator(_container, uiConfig);
+            var scriptFormValidator = new ScriptFormValidator();
             AddCloseButtonToSystemTray();
-            MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator);
+            MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator, scriptFormValidator);
             DataVisible = true;
             Title = config;
         }

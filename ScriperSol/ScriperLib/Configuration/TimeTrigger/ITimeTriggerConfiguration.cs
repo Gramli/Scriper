@@ -3,7 +3,7 @@ using ScriperLib.Enums;
 using System;
 using System.Collections.Generic;
 
-namespace ScriperLib.Configuration
+namespace ScriperLib.Configuration.TimeTrigger
 {
     public interface ITimeTriggerConfiguration : IConfigurationElement
     {

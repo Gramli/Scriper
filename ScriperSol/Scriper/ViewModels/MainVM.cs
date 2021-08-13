@@ -6,20 +6,15 @@ using Scriper.Extensions;
 using Scriper.OperationSystem;
 using Scriper.SystemTray;
 using Scriper.Views;
-using ScriperLib;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
-using Scriper.Models;
-using Scriper.SystemStartUp;
-using Scriper.TimeSchedule;
-using Scriper.ViewModels.Validation;
 
 namespace Scriper.ViewModels
 {
-    public class MainVM : ViewModelBase
+    public class MainVM : ViewModelBase, IMainVM
     {
-        public ScriptManagerVM ScriptManagerVM { get; }
+        public IScriptManagerVM ScriptManagerVM { get; }
         public ReactiveCommand<string, Unit> CreateScriptCmd { get; }
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
         public ReactiveCommand<Unit, Unit> OpenSettingsCmd { get; }
@@ -30,24 +25,21 @@ namespace Scriper.ViewModels
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
         private readonly ISystemTrayMenu _systemTrayMenu;
-        private readonly ISystemStartUp _systemStartUp;
+        private readonly Func<IScriperUIConfiguration, ISettingsVM> _createSettingsVM;
 
-        public MainVM(IScriperLibContainer container, 
-            IScriperUIConfiguration uiConfig,
+        public MainVM(IScriperUIConfiguration uiConfig,
             ISystemTrayMenu systemTrayMenu,
-            ISystemStartUp systemStartUp, 
-            IScriptSchedulerManagerAdapter schedulerManagerAdapter,
-            IOpenEditorScriptCreator openEditorScriptCreator,
-            IScriptFormValidator scriptFormValidator)
+            IScriptManagerVM scriptManagerVM,
+            Func<IScriperUIConfiguration, ISettingsVM> createSettingsVM)
         {
             ActualUiConfiguration = uiConfig;
-            ScriptManagerVM = new ScriptManagerVM(container, systemTrayMenu, schedulerManagerAdapter, openEditorScriptCreator, scriptFormValidator);
+            ScriptManagerVM = scriptManagerVM;
             CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
             HideCmd = ReactiveCommand.Create(Hide);
             _systemTrayMenu = systemTrayMenu;
-            _systemStartUp = systemStartUp;
+            _createSettingsVM = createSettingsVM;
         }
 
         public void Exit()
@@ -86,7 +78,7 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var settingsVM = new SettingsVM(ActualUiConfiguration.DeepClone(), _systemStartUp);
+                var settingsVM = _createSettingsVM(ActualUiConfiguration.DeepClone());
                 var settingsWindow = new SettingsWindow(settingsVM);
 
                 settingsVM.Close += (sender, args) =>

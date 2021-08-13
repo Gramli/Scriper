@@ -12,10 +12,10 @@ namespace Scriper.TimeSchedule
         private readonly string _runnerExe;
         private readonly string _command = "-run";
 
-        public ScriptSchedulerManagerAdapter(string configPath, IScriptSchedulerManager scriptSchedulerManager)
+        public ScriptSchedulerManagerAdapter(IScriperConfiguration scriperConfiguration, IScriptSchedulerManager scriptSchedulerManager)
         {
             _scriptSchedulerManager = scriptSchedulerManager;
-            _configPath = configPath;
+            _configPath = scriperConfiguration.ConfigPath;
             _runnerExe = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{AppDomain.CurrentDomain.FriendlyName}.exe");
         }
 

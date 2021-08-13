@@ -1,5 +1,5 @@
 ﻿using ReactiveUI;
-using ScriperLib.Configuration;
+using ScriperLib.Configuration.TimeTrigger;
 using System;
 
 namespace Scriper.ViewModels.Triggers

@@ -13,9 +13,9 @@ namespace ScriperLib
 
         private HashSet<IScript> _scripts;
 
-        private readonly IScriptCreator _scriptCreator;
+        private readonly IScriptFactory _scriptCreator;
 
-        public ScriptManager(IScriptManagerConfiguration configuration, IScriptCreator scriptCreator)
+        public ScriptManager(IScriptManagerConfiguration configuration, IScriptFactory scriptCreator)
         {
             Configuration = configuration;
             _scriptCreator = scriptCreator;

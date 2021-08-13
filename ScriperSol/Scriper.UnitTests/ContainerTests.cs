@@ -25,8 +25,8 @@ namespace Scriper.UnitTests
         public void ScriptNeededInstances()
         {
             var container = new ScriperLibContainer(filePath);
-            var scriptCreator = container.GetInstance<IScriptCreator>();
-            var scriptConfiguration = container.GetInstance<IScriptConfiguration>();
+            var scriptCreator = container.GetInstance<IScriptFactory>();
+            var scriptConfiguration = container.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             Assert.IsNotNull(scriptCreator);
             Assert.IsNotNull(scriptConfiguration);
             Assert.Throws<SimpleInjector.ActivationException>(() => container.GetInstance<IScript>());

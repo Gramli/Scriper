@@ -2,7 +2,7 @@
 
 namespace ScriperLib
 {
-    public interface IScriptCreator
+    public interface IScriptFactory
     {
         IScript Create(IScriptConfiguration scriptConfiguration);
     }

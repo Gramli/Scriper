@@ -27,7 +27,7 @@ namespace Scriper.UnitTests
             var name = "Sleep";
 
             var scriperLibContainer = new ScriperLibContainer(filePath);
-            var scriptConfig = scriperLibContainer.GetInstance<IScriptConfiguration>();
+            var scriptConfig = scriperLibContainer.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             scriptConfig.Name = name;
             scriptConfig.Path = @"Assets\sleep.py";
 

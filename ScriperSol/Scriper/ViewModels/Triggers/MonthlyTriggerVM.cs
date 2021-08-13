@@ -1,11 +1,11 @@
 ﻿using Microsoft.Scripting.Utils;
 using Microsoft.Win32.TaskScheduler;
-using ScriperLib.Configuration;
+using ReactiveUI;
+using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using ReactiveUI;
 
 namespace Scriper.ViewModels.Triggers
 {

@@ -1,5 +1,6 @@
 ﻿using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
+using ScriperLib.Configuration.TimeTrigger;
 using ScriperLib.Extensions;
 using ScriperLib.Outputs;
 using ScriperLib.Runners;
@@ -11,14 +12,16 @@ namespace ScriperLib
 {
     public class ScriperLibContainer : IScriperLibContainer
     {
-        private Container _container;
+        protected readonly Container _container;
+        protected readonly string _configurationFile;
         public ScriperLibContainer(string configurationFile)
         {
             _container = new Container();
+            _configurationFile = configurationFile;
             Register(configurationFile);
         }
 
-        private void Register(string configurationFile)
+        protected virtual void Register(string configurationFile)
         {
             var configuration = ScriperConfiguration.Load(configurationFile);
 
@@ -40,14 +43,14 @@ namespace ScriperLib
                 typeof(JavascriptScript));
             _container.RegisterWithFactoryCollection<IOutput>(
                 typeof(FileOutput));
-            _container.Register<IScriptCreator, ScriptCreator>();
+            _container.Register<IScriptFactory, ScriptFactory>();
             _container.Register<IScriptManager, ScriptManager>();
-            _container.Register<IScriptConfiguration>(() => new ScriptConfiguration());
-            _container.Register<ITimeTriggerConfiguration>(() => new TimeTriggerConfiguration());
-            _container.Register<IFileOutputConfiguration>(() => new FileOutputConfiguration());
+            _container.Register<IScriptConfigurationFactory, ScriptConfigurationFactory>();
             _container.Register<IScriptTaskSchedulerRunner, ScriptTaskSchedulerRunner>();
             _container.Register<ITaskScheduleAdapter, TaskScheduleAdapter>();
             _container.Register<IScriptSchedulerManager, ScriptSchedulerManager>();
+            _container.Register<IFileOutputConfigurationFactory, FileOutputConfigurationFactory>();
+            _container.Register<ITimeTriggerConfigurationFactory, TimeTriggerConfigurationFactory>();
 
             _container.Verify();
         }

@@ -18,9 +18,8 @@ using System.Reactive;
 
 namespace Scriper.ViewModels
 {
-    public class ScriptManagerVM : ViewModelBase
+    public class ScriptManagerVM : ViewModelBase, IScriptManagerVM
     {
-        public IScriperLibContainer Container { get; }
         public AvaloniaList<ScriptVM> Scripts { get; private set; }
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
@@ -32,16 +31,22 @@ namespace Scriper.ViewModels
         private readonly ISystemTrayMenu _systemTrayMenu;
         private readonly IScriptSchedulerManagerAdapter _schedulerManagerAdapter;
         private readonly IOpenEditorScriptCreator _openEditorScriptCreator;
-        private readonly IScriptFormValidator _scriptFormValidator;
-        private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
+        private readonly IScriptConfigurationFactory _scriptConfigurationCreator;
+        private readonly Func<IScriptConfiguration, IAddEditScriptVM> _createAddEditScriptVM;
+        private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter(); //TODO THIS
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
-        public ScriptManagerVM(IScriperLibContainer container, ISystemTrayMenu systemTrayMenu, IScriptSchedulerManagerAdapter schedulerManagerAdapter, IOpenEditorScriptCreator openEditorScriptCreator, IScriptFormValidator scriptFormValidator)
+        public ScriptManagerVM(IScriptManager scriptManager,
+            IScriptRunner scriptRunner,
+            IScriptConfigurationFactory scriptConfigurationCreator,
+            ISystemTrayMenu systemTrayMenu,
+            IScriptSchedulerManagerAdapter schedulerManagerAdapter,
+            IOpenEditorScriptCreator openEditorScriptCreator,
+            Func<IScriptConfiguration, IAddEditScriptVM> createAddEditScriptVM)
         {
-            Container = container;
-            _scriptManager = container.GetInstance<IScriptManager>();
-            _scriptRunner = container.GetInstance<IScriptRunner>();
+            _scriptManager = scriptManager;
+            _scriptRunner = scriptRunner;
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript).CatchError(_logger);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger);
@@ -49,7 +54,8 @@ namespace Scriper.ViewModels
             _systemTrayMenu = systemTrayMenu;
             _schedulerManagerAdapter = schedulerManagerAdapter;
             _openEditorScriptCreator = openEditorScriptCreator;
-            _scriptFormValidator = scriptFormValidator;
+            _scriptConfigurationCreator = scriptConfigurationCreator;
+            _createAddEditScriptVM = createAddEditScriptVM;
             InitializeScripts();
         }
 
@@ -57,8 +63,8 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var scriptConfiguration = Container.GetInstance<IScriptConfiguration>();
-                var scriptViewModel = new AddEditScriptVM(Container, scriptConfiguration, _scriptFormValidator);
+                var scriptConfiguration = _scriptConfigurationCreator.CreateEmptyScriptConfiguration();
+                var scriptViewModel = _createAddEditScriptVM(scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
                 var dialogWindow = DialogWindowExtensions.CreateAddScriptDialogWindow(scriptControl);
 
@@ -73,7 +79,7 @@ namespace Scriper.ViewModels
                         }
                         _scriptManager.AddScript(args.Result);
                         _schedulerManagerAdapter.Replace(args.Result.Configuration);
-                        var newScriptVM = new ScriptVM(args.Result);
+                        var newScriptVM = new ScriptVM(args.Result);  //TODO THIS
                         Scripts.Add(newScriptVM);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                     }
@@ -134,7 +140,7 @@ namespace Scriper.ViewModels
 
                 if (scriptVM.ScriptConfiguration.OutputWindow)
                 {
-                    var outputVM = new OutputVM();
+                    var outputVM = new OutputVM();  //TODO THIS
                     var outputVC = new OutputVC(outputVM);
                     script.Outputs.Add(outputVM);
                     var dialogWindow = DialogWindowExtensions.CreateRunScriptDialogWindow(script.Configuration.Name, outputVC); 
@@ -156,7 +162,7 @@ namespace Scriper.ViewModels
             try
             {
                 var script = GetScriptVM(name).Script;
-                var scriptViewModel = new AddEditScriptVM(Container, script.Configuration.DeepClone(),_scriptFormValidator);
+                var scriptViewModel = _createAddEditScriptVM(script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
                 var dialogWindow = DialogWindowExtensions.CreateEditScriptDialogWindow(scriptControl);
 

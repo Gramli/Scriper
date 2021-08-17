@@ -166,18 +166,20 @@ namespace Scriper.ViewModels
             Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM)
         {
             ScriptConfiguration = scriptConfiguration;
-            _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
-            _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
-            {
-                ConfigBackground = Brushes.Salmon;
-                ErrorText = message;
-            });
             _scriptCreator = scriptCreator;
             CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
             _scriptFormValidator = scriptFormValidator;
+
+            _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
+            _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
+            {
+                ConfigBackground = Brushes.Salmon;
+                ErrorText = message;
+            });
+
             _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
             _createTimeScheduleVM = createTimeScheduleVM;
         }

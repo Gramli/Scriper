@@ -1,4 +1,5 @@
 ﻿using Scriper.Configuration;
+using Scriper.Converters;
 using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.SystemTray;
@@ -21,19 +22,23 @@ namespace Scriper
             : base(configurationFilePath)
         {
             _uiConfigfurationFilePath = uiConfigfurationFilePath;
+            Register();
         }
 
-        protected override void Register(string configurationFile)
+        protected override void Register()
         {
-            base.Register(configurationFile);
+            base.Register();
             _container.RegisterInstance(ScriperUIConfiguration.Load(_uiConfigfurationFilePath));
-            _container.Register<IOperatingSystemTrayMenuFactory, OperatingSystemTrayMenuFactory>();
+            _container.Register<IOperatingSystemTrayMenuFactory, OperatingSystemTrayMenuFactory>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<ISystemStartUpFactory, SystemStartUpFactory>();
             _container.Register<ISystemTrayMenu, SystemTrayMenuAdapter>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<ISystemStartUp, SystemStartUpAdapter>();
             _container.Register<IScriptFormValidator, ScriptFormValidator>();
             _container.Register<IScriptSchedulerManagerAdapter, ScriptSchedulerManagerAdapter>();
             _container.Register<IOpenEditorScriptCreator, OpenEditorScriptCreator>();
+            _container.Register<IScriptTypeToAssetNameConverter, ScriptTypeToAssetNameConverter>();
+            _container.Register<Func<IOutputVM>>(() => () => new OutputVM());
+            _container.Register<Func<IScript, IScriptVM>>(() => (script) => new ScriptVM(script));
             _container.Register<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(() => (collection) => 
             new TimeScheduleVM(
                 _container.GetInstance<ITimeTriggerConfigurationFactory>(),

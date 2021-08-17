@@ -5,7 +5,7 @@ using ScriperLib.Enums;
 
 namespace Scriper.ViewModels
 {
-    public class ScriptVM : ViewModelBase
+    public class ScriptVM : ViewModelBase, IScriptVM
     {
         public IScriptConfiguration ScriptConfiguration => Script.Configuration;
 

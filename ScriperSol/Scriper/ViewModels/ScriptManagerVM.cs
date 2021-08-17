@@ -20,7 +20,7 @@ namespace Scriper.ViewModels
 {
     public class ScriptManagerVM : ViewModelBase, IScriptManagerVM
     {
-        public AvaloniaList<ScriptVM> Scripts { get; private set; }
+        public AvaloniaList<IScriptVM> Scripts { get; private set; }
         public ReactiveCommand<string, Unit> EditScriptCmd { get; }
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
@@ -33,7 +33,9 @@ namespace Scriper.ViewModels
         private readonly IOpenEditorScriptCreator _openEditorScriptCreator;
         private readonly IScriptConfigurationFactory _scriptConfigurationCreator;
         private readonly Func<IScriptConfiguration, IAddEditScriptVM> _createAddEditScriptVM;
-        private readonly ScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter(); //TODO THIS
+        private readonly IScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter;
+        private readonly Func<IOutputVM> _createOutputVM;
+        private readonly Func<IScript, IScriptVM> _createScriptVM;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -43,7 +45,10 @@ namespace Scriper.ViewModels
             ISystemTrayMenu systemTrayMenu,
             IScriptSchedulerManagerAdapter schedulerManagerAdapter,
             IOpenEditorScriptCreator openEditorScriptCreator,
-            Func<IScriptConfiguration, IAddEditScriptVM> createAddEditScriptVM)
+            Func<IScriptConfiguration, IAddEditScriptVM> createAddEditScriptVM,
+            IScriptTypeToAssetNameConverter scriptTypeToAssetNameConverter,
+            Func<IOutputVM> createOutputVM,
+            Func<IScript, IScriptVM> createScriptVM)
         {
             _scriptManager = scriptManager;
             _scriptRunner = scriptRunner;
@@ -56,6 +61,9 @@ namespace Scriper.ViewModels
             _openEditorScriptCreator = openEditorScriptCreator;
             _scriptConfigurationCreator = scriptConfigurationCreator;
             _createAddEditScriptVM = createAddEditScriptVM;
+            _scriptTypeToAssetNameConverter = scriptTypeToAssetNameConverter;
+            _createOutputVM = createOutputVM;
+            _createScriptVM = createScriptVM;
             InitializeScripts();
         }
 
@@ -79,7 +87,7 @@ namespace Scriper.ViewModels
                         }
                         _scriptManager.AddScript(args.Result);
                         _schedulerManagerAdapter.Replace(args.Result.Configuration);
-                        var newScriptVM = new ScriptVM(args.Result);  //TODO THIS
+                        var newScriptVM = _createScriptVM(args.Result);
                         Scripts.Add(newScriptVM);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                     }
@@ -116,7 +124,7 @@ namespace Scriper.ViewModels
         {
             try
             {
-                Scripts = new AvaloniaList<ScriptVM>();
+                Scripts = new AvaloniaList<IScriptVM>();
                 foreach (var script in _scriptManager.Scripts)
                 {
                     var vm = new ScriptVM(script);
@@ -140,7 +148,7 @@ namespace Scriper.ViewModels
 
                 if (scriptVM.ScriptConfiguration.OutputWindow)
                 {
-                    var outputVM = new OutputVM();  //TODO THIS
+                    var outputVM = _createOutputVM();
                     var outputVC = new OutputVC(outputVM);
                     script.Outputs.Add(outputVM);
                     var dialogWindow = DialogWindowExtensions.CreateRunScriptDialogWindow(script.Configuration.Name, outputVC); 
@@ -242,7 +250,7 @@ namespace Scriper.ViewModels
             }
         }
 
-        private ScriptVM GetScriptVM(string name)
+        private IScriptVM GetScriptVM(string name)
         {
             return Scripts.Single(script => script.ScriptConfiguration.Name == name);
         }

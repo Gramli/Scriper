@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Scriper.UnitTests.Models;
 using ScriperLib;
 using ScriperLib.Configuration;
 
@@ -7,16 +8,23 @@ namespace Scriper.UnitTests
     public class ContainerTests : TestsBase
     {
         [Test]
-        public void VerifyContainer()
+        public void VerifyScriperLibContainer()
         {
-            var container = new ScriperLibContainer(filePath);
-            Assert.IsNotNull(container);
+            var container = new TestScriperLibContainer(filePath);
+            container.Verify();
+        }
+
+        [Test]
+        public void VerifyScriperContainer()
+        {
+            var container = new TestScriperContainer(filePath, uiFilePath);
+            container.Verify();
         }
 
         [Test]
         public void ScriptManagerInstance()
         {
-            var container = new ScriperLibContainer(filePath);
+            var container = new TestScriperLibContainer(filePath);
             var scriptManager = container.GetInstance<IScriptManager>();
             Assert.IsNotNull(scriptManager);
         }
@@ -24,7 +32,7 @@ namespace Scriper.UnitTests
         [Test]
         public void ScriptNeededInstances()
         {
-            var container = new ScriperLibContainer(filePath);
+            var container = new TestScriperLibContainer(filePath);
             var scriptCreator = container.GetInstance<IScriptFactory>();
             var scriptConfiguration = container.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             Assert.IsNotNull(scriptCreator);

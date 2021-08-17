@@ -12,7 +12,7 @@ namespace Scriper.Views
             this.InitializeComponent();
         }
 
-        public OutputVC(ViewModelBase viewModel)
+        public OutputVC(IOutputVM viewModel)
         {
             this.InitializeComponent();
             this.DataContext = viewModel;

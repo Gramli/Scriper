@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Scriper.Converters
 {
-    public class ScriptTypeToAssetNameConverter
+    public class ScriptTypeToAssetNameConverter : IScriptTypeToAssetNameConverter
     {
         private readonly Dictionary<ScriptType, string> _scriptTypeAssetNameDict = new Dictionary<ScriptType, string>()
         {

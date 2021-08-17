@@ -18,12 +18,11 @@ namespace ScriperLib
         {
             _container = new Container();
             _configurationFile = configurationFile;
-            Register(configurationFile);
         }
 
-        protected virtual void Register(string configurationFile)
+        protected virtual void Register()
         {
-            var configuration = ScriperConfiguration.Load(configurationFile);
+            var configuration = ScriperConfiguration.Load(_configurationFile);
 
             _container.RegisterInstance(configuration);
             _container.RegisterInstance(configuration.ScriptManagerConfiguration);
@@ -51,8 +50,6 @@ namespace ScriperLib
             _container.Register<IScriptSchedulerManager, ScriptSchedulerManager>();
             _container.Register<IFileOutputConfigurationFactory, FileOutputConfigurationFactory>();
             _container.Register<ITimeTriggerConfigurationFactory, TimeTriggerConfigurationFactory>();
-
-            _container.Verify();
         }
 
         public T GetInstance<T>() where T : class

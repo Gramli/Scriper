@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Scriper.UnitTests.Models;
 using ScriperLib;
 
 namespace Scriper.UnitTests
@@ -10,7 +11,7 @@ namespace Scriper.UnitTests
         [SetUp]
         public void SetUp()
         {
-            _scriperLibContainer = new ScriperLibContainer(filePath);
+            _scriperLibContainer = new TestScriperLibContainer(filePath);
         }
 
         [Test]

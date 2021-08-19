@@ -10,7 +10,7 @@ using SimpleInjector;
 
 namespace ScriperLib
 {
-    public class ScriperLibContainer : IScriperLibContainer
+    public abstract class ScriperLibContainer : IScriperLibContainer
     {
         protected readonly Container _container;
         protected readonly string _configurationFile;

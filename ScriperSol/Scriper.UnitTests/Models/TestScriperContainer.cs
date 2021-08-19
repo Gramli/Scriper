@@ -8,10 +8,12 @@ namespace Scriper.UnitTests.Models
         public TestScriperContainer(string configurationFilePath, string uiConfigfurationFilePath) 
             : base(configurationFilePath, uiConfigfurationFilePath)
         {
-            BuildAvaloniaApp();
+            BuildAvaloniaApp()
+                .SetupWithoutStarting();
         }
 
-        private static void BuildAvaloniaApp() => AppBuilder.Configure<App>()
+        private static AppBuilder BuildAvaloniaApp() =>
+            AppBuilder.Configure<App>()
                 .UsePlatformDetect()
                 .LogToTrace()
                 .UseReactiveUI();

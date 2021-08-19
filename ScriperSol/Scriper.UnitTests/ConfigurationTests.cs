@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Scriper.UnitTests.Models;
 using ScriperLib;
 using ScriperLib.Configuration;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Scriper.UnitTests
         {
             var name = "Sleep";
 
-            var scriperLibContainer = new ScriperLibContainer(filePath);
+            var scriperLibContainer = new TestScriperLibContainer(filePath);
             var scriptConfig = scriperLibContainer.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             scriptConfig.Name = name;
             scriptConfig.Path = @"Assets\sleep.py";

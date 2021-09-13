@@ -1,5 +1,4 @@
-﻿using System;
-using ScriperLib.Configuration;
+﻿using ScriperLib.Configuration.TimeTrigger;
 
 namespace Scriper.ViewModels.Triggers
 {

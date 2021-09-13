@@ -5,7 +5,7 @@ using System.Xml.Linq;
 using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
 
-namespace ScriperLib.Configuration
+namespace ScriperLib.Configuration.TimeTrigger
 {
     [Serializable]
     internal class TimeTriggerConfiguration : ConfigurationElement, ITimeTriggerConfiguration

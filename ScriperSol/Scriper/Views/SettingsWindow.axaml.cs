@@ -6,7 +6,7 @@ namespace Scriper.Views
 {
     public class SettingsWindow : Window
     {
-        public SettingsWindow(ViewModelBase viewModel)
+        public SettingsWindow(ISettingsVM viewModel)
             : this()
         {
             this.DataContext = viewModel;

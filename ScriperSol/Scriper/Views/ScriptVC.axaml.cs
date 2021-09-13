@@ -1,8 +1,6 @@
 ﻿using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Scriper.ViewModels;
-using System;
 
 namespace Scriper.Views
 {
@@ -12,7 +10,7 @@ namespace Scriper.Views
         {
             this.InitializeComponent();
         }
-        public ScriptVC(ViewModelBase viewModelBase)
+        public ScriptVC(IAddEditScriptVM viewModelBase)
             : this()
         {
             this.DataContext = viewModelBase;

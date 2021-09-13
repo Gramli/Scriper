@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using ScriperLib.Configuration.Base;
 using ScriperLib.Configuration.Outputs;
+using ScriperLib.Configuration.TimeTrigger;
 
 namespace ScriperLib.Configuration
 {

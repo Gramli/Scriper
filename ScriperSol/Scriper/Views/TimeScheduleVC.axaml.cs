@@ -14,7 +14,7 @@ namespace Scriper.Views
         }
         //there is only map of VM and VC
         //catch VM event about trigger type change
-        public TimeScheduleVC(TimeScheduleVM timeScheduleVm)
+        public TimeScheduleVC(ITimeScheduleVM timeScheduleVm)
         :this()
         {
             timeScheduleVm.OnTriggerChanged += OnTriggerChanged;
@@ -23,7 +23,7 @@ namespace Scriper.Views
             InitializeContentControl(timeScheduleVm);
         }
 
-        private void InitializeContentControl(TimeScheduleVM timeScheduleVm)
+        private void InitializeContentControl(ITimeScheduleVM timeScheduleVm)
         {
             timeScheduleVm.InvokeSelection();
         }

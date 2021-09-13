@@ -1,5 +1,6 @@
 ﻿using ScriperLib.Configuration.Base;
 using ScriperLib.Configuration.Outputs;
+using ScriperLib.Configuration.TimeTrigger;
 using System.Collections.Generic;
 
 namespace ScriperLib.Configuration

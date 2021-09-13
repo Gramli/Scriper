@@ -9,13 +9,13 @@ using System.Linq;
 
 namespace ScriperLib
 {
-    internal class ScriptCreator : IScriptCreator
+    internal class ScriptFactory : IScriptFactory
     {
         private Func<IEnumerable<IOutput>> _scriptOutputs;
 
         private Func<IEnumerable<IScript>> _scrips;
 
-        public ScriptCreator(Func<IEnumerable<IScript>> scrips, Func<IEnumerable<IOutput>> scriptOutputs)
+        public ScriptFactory(Func<IEnumerable<IScript>> scrips, Func<IEnumerable<IOutput>> scriptOutputs)
         {
             _scriptOutputs = scriptOutputs;
             _scrips = scrips;

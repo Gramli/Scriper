@@ -1,5 +1,4 @@
 ﻿using ReactiveUI;
-using Scriper.Configuration;
 using Scriper.Configuration.Finders;
 using Scriper.Extensions;
 using Scriper.SystemTray;
@@ -9,18 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reactive;
-using Scriper.Models;
-using Scriper.SystemStartUp;
-using Scriper.TimeSchedule;
-using ScriperLib.ScriptScheduler;
-using Scriper.ViewModels.Validation;
 
 namespace Scriper.ViewModels
 {
     public class MainWindowVM : ViewModelBase, IDisposable
     {
-        private MainVM _mainVm;
-        public MainVM MainVM
+        private IMainVM _mainVm;
+        public IMainVM MainVM
         {
             get => _mainVm;
             set => this.RaiseAndSetIfChanged(ref _mainVm, value);
@@ -108,15 +102,19 @@ namespace Scriper.ViewModels
         private void InitWithSelectedConfig(string config)
         {
             _scriperConfigPath = config;
-            _container = new ScriperLibContainer(config);
-            _systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
-            var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
-            var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
-            var uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
-            var scriptEditorCreator = new OpenEditorScriptCreator(_container, uiConfig);
-            var scriptFormValidator = new ScriptFormValidator();
+            //_container = new ScriperContainer(config, _uiConfigPath);
+            //_systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
+            //var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
+            //var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
+            //var uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
+            //var scriptEditorCreator = new OpenEditorScriptCreator(_container, uiConfig);
+            //var scriptFormValidator = new ScriptFormValidator();
+            //MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator, scriptFormValidator);
+
+            _container = new ScriperContainer(config, _uiConfigPath);
+            _systemTrayMenu = _container.GetInstance<ISystemTrayMenu>();
             AddCloseButtonToSystemTray();
-            MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator, scriptFormValidator);
+            MainVM = _container.GetInstance<IMainVM>();
             DataVisible = true;
             Title = config;
         }

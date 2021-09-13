@@ -10,11 +10,14 @@ using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
+using ScriperLib.Configuration.TimeTrigger;
+using System;
+using System.Collections.Generic;
 using System.Reactive;
 
 namespace Scriper.ViewModels
 {
-    public class AddEditScriptVM : ViewModelBase, IClose<IScript>
+    public class AddEditScriptVM : ViewModelBase, IAddEditScriptVM
     {
         private string _name;
         public string Name
@@ -112,7 +115,7 @@ namespace Scriper.ViewModels
                     return;
                 }
 
-                ScriptConfiguration.FileOutputConfiguration = value ? _container.GetInstance<IFileOutputConfiguration>() : null;
+                ScriptConfiguration.FileOutputConfiguration = value ? _fileOutputConfigurationFactory.Create() : null;
                 _fileOutput = value;
                 this.RaiseAndSetIfChanged(ref _fileOutput, value);
             }
@@ -147,35 +150,38 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
         public ReactiveCommand<Unit, Unit> EditTimeScheduleCmd { get; }
 
-        private readonly IScriperLibContainer _container;
-        private readonly IScriptCreator _scriptCreator;
+        private readonly IScriptFactory _scriptCreator;
         private readonly IScriptFormValidator _scriptFormValidator;
+        private readonly IFileOutputConfigurationFactory _fileOutputConfigurationFactory;
+        private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
 
         private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
-        public AddEditScriptVM(IScriperLibContainer container, IScriptConfiguration scriptConfiguration, IScriptFormValidator scriptFormValidator)
-           : this(container, scriptFormValidator)
+        public AddEditScriptVM(IScriptFactory scriptCreator,
+            IFileOutputConfigurationFactory fileOutputConfigurationFactory,
+            IScriptConfiguration scriptConfiguration,
+            IScriptFormValidator scriptFormValidator,
+            Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM)
         {
             ScriptConfiguration = scriptConfiguration;
+            _scriptCreator = scriptCreator;
+            CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
+            OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
+            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
+            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
+            _scriptFormValidator = scriptFormValidator;
+
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
             _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
             {
                 ConfigBackground = Brushes.Salmon;
                 ErrorText = message;
             });
-        }
 
-        private AddEditScriptVM(IScriperLibContainer container, IScriptFormValidator scriptFormValidator)
-        {
-            _container = container;
-            _scriptCreator = container.GetInstance<IScriptCreator>();
-            CancelCmd = ReactiveCommand.Create(Cancel).CatchError(_logger);
-            OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
-            OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
-            EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
-            _scriptFormValidator = scriptFormValidator;
+            _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
+            _createTimeScheduleVM = createTimeScheduleVM;
         }
 
         public void Cancel()
@@ -222,7 +228,7 @@ namespace Scriper.ViewModels
 
         private void EditTimeSchedule()
         {
-            var timeScheduleVM = new TimeScheduleVM(_container, ScriptConfiguration.TimeScheduleConfigurations);
+            var timeScheduleVM = _createTimeScheduleVM(ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
             var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_schedule.ico"));
             dialogWindow.Closed += (sender, eventArgs) =>

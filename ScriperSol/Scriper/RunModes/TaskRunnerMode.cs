@@ -1,5 +1,4 @@
-﻿using ScriperLib;
-using ScriperLib.ScriptScheduler;
+﻿using ScriperLib.ScriptScheduler;
 using System.Linq;
 
 namespace Scriper.RunModes
@@ -20,7 +19,7 @@ namespace Scriper.RunModes
             }
 
             var configPath = _args[0];
-            var container = new ScriperLibContainer(configPath);
+            var container = new TaskRunnerScriperContainer(configPath);
             var runner = container.GetInstance<IScriptTaskSchedulerRunner>();
             var scriptName = _args[1];
             runner.Run(scriptName);

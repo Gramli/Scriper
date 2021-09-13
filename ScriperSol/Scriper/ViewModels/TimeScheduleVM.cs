@@ -1,15 +1,14 @@
 ﻿using Microsoft.Scripting.Utils;
 using ReactiveUI;
-using ScriperLib.Configuration;
+using Scriper.Closing;
+using Scriper.ViewModels.Triggers;
+using ScriperLib.Configuration.TimeTrigger;
 using ScriperLib.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
-using Scriper.ViewModels.Triggers;
-using ScriperLib;
-using Scriper.Closing;
 
 namespace Scriper.ViewModels
 {
@@ -26,7 +25,7 @@ namespace Scriper.ViewModels
         }
     }
 
-    public class TimeScheduleVM : ViewModelBase, IClose<ITimeTriggerConfiguration>
+    public class TimeScheduleVM : ViewModelBase, ITimeScheduleVM
     {
         public event EventHandler<TriggerChangedEventArgs> OnTriggerChanged;
         public event EventHandler OnTriggerApplied;
@@ -86,12 +85,13 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> ApplyChangesCmd { get; }
         public ReactiveCommand<Unit, Unit> DeleteCmd { get; }
 
-        private readonly IScriperLibContainer _container;
         private TriggerVM _actualTriggerVm;
 
-        public TimeScheduleVM(IScriperLibContainer container, ICollection<ITimeTriggerConfiguration> timeTriggerConfigurations)
+        private readonly ITimeTriggerConfigurationFactory _timeTriggerConfigurationFactory;
+
+        public TimeScheduleVM(ITimeTriggerConfigurationFactory timeTriggerConfigurationFactory,
+            ICollection<ITimeTriggerConfiguration> timeTriggerConfigurations)
         {
-            _container = container;
             TimeTriggerConfigurations = new ObservableCollection<ITimeTriggerConfiguration>(timeTriggerConfigurations);
             SelectedTimeTriggerConfiguration = TimeTriggerConfigurations.FirstOrDefault();
             EditingVisisble = SelectedTimeTriggerConfiguration != null;
@@ -99,11 +99,12 @@ namespace Scriper.ViewModels
             DeleteNonSelectedTriggerConfigurationCmd = ReactiveCommand.Create<string>(DeleteNonSelectedTriggerConfiguration);
             ApplyChangesCmd = ReactiveCommand.Create(ApplyChanges);
             DeleteCmd = ReactiveCommand.Create(Delete);
+            _timeTriggerConfigurationFactory = timeTriggerConfigurationFactory;
         }
 
         private TriggerVM GeTriggerVM(ScriptTriggerType type)
         {
-            var newTimeTriggerConfiguration = _container.GetInstance<ITimeTriggerConfiguration>();
+            var newTimeTriggerConfiguration = _timeTriggerConfigurationFactory.Create();
             CopySelectedTimeTriggerConfiguration(newTimeTriggerConfiguration);
 
             switch (type)
@@ -156,7 +157,7 @@ namespace Scriper.ViewModels
 
         private void CreateNewTriggerConfiguration()
         {
-            var newTimeTriggerConfiguration = _container.GetInstance<ITimeTriggerConfiguration>();
+            var newTimeTriggerConfiguration = _timeTriggerConfigurationFactory.Create();
             newTimeTriggerConfiguration.Name = GenerateName("New Trigger");
             newTimeTriggerConfiguration.ScriptTriggerType = ScriptTriggerType.Time;
             TimeTriggerConfigurations.Add(newTimeTriggerConfiguration);

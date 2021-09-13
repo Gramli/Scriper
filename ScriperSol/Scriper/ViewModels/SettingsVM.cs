@@ -9,7 +9,7 @@ using Scriper.SystemStartUp;
 
 namespace Scriper.ViewModels
 {
-    public class SettingsVM : ViewModelBase, IClose<IScriperUIConfiguration>
+    public class SettingsVM : ViewModelBase, ISettingsVM
     {
         private string _textEditorPath;
         public string TextEditorPath

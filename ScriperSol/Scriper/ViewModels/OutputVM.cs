@@ -8,7 +8,7 @@ using System.Timers;
 
 namespace Scriper.ViewModels
 {
-    public class OutputVM : ViewModelBase, IOutput
+    public class OutputVM : ViewModelBase, IOutputVM
     {
         public OutputType OutputType => OutputType.Console;
 

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Scriper.UnitTests.Models;
 using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Exceptions;
@@ -13,15 +14,15 @@ namespace Scriper.UnitTests
         [SetUp]
         public void SetUp()
         {
-            _scriperLibContainer = new ScriperLibContainer(filePath);
+            _scriperLibContainer = new TestScriperLibContainer(filePath);
         }
 
         [Test]
         public void AddScript()
         {
             var scriptManager = _scriperLibContainer.GetInstance<IScriptManager>();
-            var scriptCreator = _scriperLibContainer.GetInstance<IScriptCreator>();
-            var scriptConfiguration = _scriperLibContainer.GetInstance<IScriptConfiguration>();
+            var scriptCreator = _scriperLibContainer.GetInstance<IScriptFactory>();
+            var scriptConfiguration = _scriperLibContainer.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             scriptConfiguration.Name = "test";
             scriptConfiguration.Path = "som.py";
             var script = scriptCreator.Create(scriptConfiguration);
@@ -33,8 +34,8 @@ namespace Scriper.UnitTests
         public void AddScriptShouldThrow()
         {
             var scriptManager = _scriperLibContainer.GetInstance<IScriptManager>();
-            var scriptCreator = _scriperLibContainer.GetInstance<IScriptCreator>();
-            var scriptConfiguration = _scriperLibContainer.GetInstance<IScriptConfiguration>();
+            var scriptCreator = _scriperLibContainer.GetInstance<IScriptFactory>();
+            var scriptConfiguration = _scriperLibContainer.GetInstance<IScriptConfigurationFactory>().CreateEmptyScriptConfiguration();
             scriptConfiguration.Path = "som.py";
             Assert.Throws<ConfigurationException>(() => scriptCreator.Create(scriptConfiguration));
             scriptConfiguration.Name = "ahoj";

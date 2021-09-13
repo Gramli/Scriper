@@ -16,7 +16,7 @@ namespace Scriper.ViewModels.Validation
 
         public IScriptFormValidator AddNameValidator(Func<string> getName, Action<string> invalidCallback)
         {
-            _validators.Add(new StringEmptyValidator(getName, "Script name is empty.",invalidCallback));
+            _validators.Add(new StringEmptyValidator(getName, "Script name is empty.", invalidCallback));
             return this;
         }
 
@@ -24,6 +24,12 @@ namespace Scriper.ViewModels.Validation
         {
             _validators.Add(new StringEmptyValidator(getConfigPath, "Script path is empty.", invalidCallback));
             _validators.Add(new ScriptExtensionValidator(getConfigPath, invalidCallback));
+            return this;
+        }
+
+        public IScriptFormValidator AddImageValidator(Func<string> getImagePath, Action<string> invalidCallback)
+        {
+            _validators.Add(new ImageExtensionValidator(getImagePath, invalidCallback));
             return this;
         }
 

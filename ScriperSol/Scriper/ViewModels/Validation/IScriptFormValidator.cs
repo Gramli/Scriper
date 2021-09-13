@@ -7,5 +7,6 @@ namespace Scriper.ViewModels.Validation
     {
         IScriptFormValidator AddNameValidator(Func<string> getName, Action<string> invalidCallback);
         IScriptFormValidator AddConfigValidators(Func<string> getConfigPath, Action<string> invalidCallback);
+        IScriptFormValidator AddImageValidator(Func<string> getImagePath, Action<string> invalidCallback);
     }
 }

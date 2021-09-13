@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
-             d:DesignHeight="530"
+             d:DesignHeight="580"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
@@ -72,6 +72,11 @@
     <DockPanel Background="LightBlue">
         <TextBlock Text="Time Schedule" Classes="h1" />
         <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit" Command="{Binding EditTimeScheduleCmd}"/>
+    </DockPanel>
+    <DockPanel>
+        <TextBlock Text="Icon" Classes="h1"/>
+        <TextBox Text="{Binding IconImagePath, Mode=TwoWay}" Width="330" Classes="TextH1" Background="{Binding IconBackground}"/>
+        <Button Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="Icon"/>
     </DockPanel>
     <DockPanel>
       <TextBlock Text="{Binding ErrorText}" TextAlignment="Center" Foreground="Red"/>

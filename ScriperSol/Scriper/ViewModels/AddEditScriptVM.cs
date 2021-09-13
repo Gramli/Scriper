@@ -70,6 +70,19 @@ namespace Scriper.ViewModels
             }
         }
 
+        private IBrush _iconBackground = Brushes.White;
+        public IBrush IconBackground
+        {
+            get => _iconBackground;
+            set
+            {
+                if (_iconBackground != value)
+                {
+                    this.RaiseAndSetIfChanged(ref _iconBackground, value);
+                }
+            }
+        }
+
         private string _description;
         public string Description
         {
@@ -132,6 +145,17 @@ namespace Scriper.ViewModels
             }
         }
 
+        private string _iconImagePath;
+        public string IconImagePath
+        {
+            get => ScriptConfiguration.IconImagePath;
+            set
+            {
+                ScriptConfiguration.IconImagePath = value;
+                this.RaiseAndSetIfChanged(ref _iconImagePath, value);
+            }
+        }
+
         private bool _outputWindow;
         public bool OutputWindow
         {
@@ -174,6 +198,11 @@ namespace Scriper.ViewModels
             _scriptFormValidator = scriptFormValidator;
 
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
+            _scriptFormValidator.AddImageValidator(()=> IconImagePath, (message) => 
+            {
+                IconBackground = Brushes.Salmon;
+                ErrorText = message;
+            });
             _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
             {
                 ConfigBackground = Brushes.Salmon;
@@ -215,6 +244,9 @@ namespace Scriper.ViewModels
                         break;
                     case "FileOutputPath":
                         FileOutputPath = result[0];
+                        break;
+                    case "Icon":
+                        IconImagePath = result[0];
                         break;
                 }
             }

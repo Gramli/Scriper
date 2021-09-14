@@ -5,6 +5,7 @@ using ReactiveUI;
 using Scriper.AssetsAccess;
 using Scriper.Closing;
 using Scriper.Extensions;
+using Scriper.Models;
 using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
@@ -145,6 +146,7 @@ namespace Scriper.ViewModels
             }
         }
 
+        //TODO FIX: show image instead path -> load image from assets folder
         private string _iconImagePath;
         public string IconImagePath
         {
@@ -178,6 +180,7 @@ namespace Scriper.ViewModels
         private readonly IScriptFormValidator _scriptFormValidator;
         private readonly IFileOutputConfigurationFactory _fileOutputConfigurationFactory;
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
+        private readonly IScriptIconImageEditor _scriptIconImageEditor;
 
         private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
@@ -187,7 +190,8 @@ namespace Scriper.ViewModels
             IFileOutputConfigurationFactory fileOutputConfigurationFactory,
             IScriptConfiguration scriptConfiguration,
             IScriptFormValidator scriptFormValidator,
-            Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM)
+            Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
+            IScriptIconImageEditor scriptIconImageEditor)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -195,6 +199,7 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
+            _scriptIconImageEditor = scriptIconImageEditor;
             _scriptFormValidator = scriptFormValidator;
 
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);

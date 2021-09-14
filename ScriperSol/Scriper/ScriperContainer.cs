@@ -29,6 +29,10 @@ namespace Scriper
         {
             base.Register();
             _container.RegisterInstance(ScriperUIConfiguration.Load(_uiConfigfurationFilePath));
+            _container.RegisterInstance(new UserAssets("Scriper"));
+            _container.Register<IImageCopy, ImageCopy>();
+            _container.Register<IImageResize, ImageResize>();
+            _container.Register<IScriptIconImageEditor, ScriptIconImageEditor>();
             _container.Register<IOperatingSystemTrayMenuFactory, OperatingSystemTrayMenuFactory>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<ISystemStartUpFactory, SystemStartUpFactory>();
             _container.Register<ISystemTrayMenu, SystemTrayMenuAdapter>(SimpleInjector.Lifestyle.Singleton);

@@ -29,7 +29,7 @@ namespace Scriper
         {
             base.Register();
             _container.RegisterInstance(ScriperUIConfiguration.Load(_uiConfigfurationFilePath));
-            _container.RegisterInstance(new UserAssets("Scriper"));
+            _container.RegisterInstance<IUserAssets>(new UserAssets("Scriper"));
             _container.Register<IImageCopy, ImageCopy>();
             _container.Register<IImageResize, ImageResize>();
             _container.Register<IScriptIconImageEditor, ScriptIconImageEditor>();
@@ -53,7 +53,8 @@ namespace Scriper
                  _container.GetInstance<IFileOutputConfigurationFactory>(),
                  config,
                  _container.GetInstance<IScriptFormValidator>(),
-                 _container.GetInstance<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>()));
+                 _container.GetInstance<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(),
+                 _container.GetInstance<IScriptIconImageEditor>()));
 
             _container.Register<Func<IScriperUIConfiguration, ISettingsVM>>(() => (config) => new SettingsVM(config, _container.GetInstance<ISystemStartUp>()));
             _container.Register<IScriptManagerVM, ScriptManagerVM>();

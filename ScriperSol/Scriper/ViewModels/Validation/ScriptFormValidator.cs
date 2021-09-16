@@ -27,12 +27,6 @@ namespace Scriper.ViewModels.Validation
             return this;
         }
 
-        public IScriptFormValidator AddImageValidator(Func<string> getImagePath, Action<string> invalidCallback)
-        {
-            _validators.Add(new ImageExtensionValidator(getImagePath, invalidCallback));
-            return this;
-        }
-
         public bool Validate()
         {
             return !_validators.Any(item => !item.Validate());

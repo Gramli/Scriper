@@ -146,7 +146,6 @@ namespace Scriper.ViewModels
             }
         }
 
-        //TODO FIX: show image instead path -> load image from assets folder
         private string _iconImagePath;
         public string IconImagePath
         {
@@ -203,11 +202,6 @@ namespace Scriper.ViewModels
             _scriptFormValidator = scriptFormValidator;
 
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
-            _scriptFormValidator.AddImageValidator(()=> IconImagePath, (message) => 
-            {
-                IconBackground = Brushes.Salmon;
-                ErrorText = message;
-            });
             _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
             {
                 ConfigBackground = Brushes.Salmon;
@@ -235,6 +229,7 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
+            //TODO SET FILTER BY PARAMETER
             var openFileDialog = new OpenFileDialog()
             {
                 AllowMultiple = false,
@@ -251,7 +246,8 @@ namespace Scriper.ViewModels
                         FileOutputPath = result[0];
                         break;
                     case "Icon":
-                        IconImagePath = result[0];
+                        //TODO PUT THIS TO TRY CATCH
+                        IconImagePath = _scriptIconImageEditor.CreateImageInAssets(result[0]);
                         break;
                 }
             }

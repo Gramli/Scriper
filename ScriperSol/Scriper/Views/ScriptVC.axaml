@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:converters="clr-namespace:Scriper.Converters;assembly=Scriper"
+             xmlns:cmdConst="clr-namespace:Scriper.ViewModels;assembly=Scriper"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
              d:DesignHeight="580"
@@ -50,7 +51,7 @@
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
       <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
-      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="InSystemTray" Classes="h1"/>
@@ -64,7 +65,7 @@
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="330" Classes="TextH1"/>
-        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}"/>
       </DockPanel>
     </StackPanel>
     <StackPanel>
@@ -79,7 +80,7 @@
     </DockPanel>
     <DockPanel>
         <TextBlock Text="Icon" Classes="h1"/>
-      <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="Icon" Background="{Binding IconBackground}">
+      <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" Background="{Binding IconBackground}">
         <Image Source="{Binding IconImagePath, Converter={StaticResource imageConverter}}" Width="40" Height="40"/>
       </Button>
     </DockPanel>

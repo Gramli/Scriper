@@ -5,5 +5,6 @@ namespace Scriper.Models
     public interface IImageCopy
     {
         string SaveImageInAssets(string imageName, Image image);
+        string SaveImageInAssets(string imagePath);
     }
 }

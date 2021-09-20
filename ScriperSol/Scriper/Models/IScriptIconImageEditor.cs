@@ -2,6 +2,7 @@
 {
     public interface IScriptIconImageEditor
     {
-        string CreateImageInAssets(string fileName); 
+        string ImageFileFilter { get; }
+        string CreateImageInAssets(string fileName);
     }
 }

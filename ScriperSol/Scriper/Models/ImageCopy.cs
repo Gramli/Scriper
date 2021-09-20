@@ -17,5 +17,12 @@ namespace Scriper.Models
             image.Save(fileName, ImageFormat.Png);
             return fileName;
         }
+
+        public string SaveImageInAssets(string imagePath)
+        {
+            var fileName = Path.Combine(_userAssets.AssetsImageDir, Path.GetFileName(imagePath));
+            File.Copy(imagePath, fileName);
+            return fileName;
+        }
     }
 }

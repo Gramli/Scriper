@@ -4,6 +4,7 @@ using NLog;
 using ReactiveUI;
 using Scriper.AssetsAccess;
 using Scriper.Closing;
+using Scriper.Dialogs;
 using Scriper.Extensions;
 using Scriper.Models;
 using Scriper.ViewModels.Validation;
@@ -14,6 +15,7 @@ using ScriperLib.Configuration.Outputs;
 using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -181,6 +183,10 @@ namespace Scriper.ViewModels
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
         private readonly IScriptIconImageEditor _scriptIconImageEditor;
 
+        public const string OpenFileCmdScriptPath = "ScriptPath";
+        public const string OpenFileCmdFileOutputPath = "FileOutputPath";
+        public const string OpenFileCmdIcon = "Icon";
+
         private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
@@ -229,27 +235,37 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-            //TODO SET FILTER BY PARAMETER
-            var openFileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialogAdapter();
+            var filter = parameter == OpenFileCmdIcon ? _scriptIconImageEditor.ImageFileFilter : string.Empty;
+            var result = await openFileDialog.ShowAsync(filter);
+            if (result.Ok)
             {
-                AllowMultiple = false,
-            };
-            var result = await openFileDialog.ShowAsync(App.Current.GetMainWindow());
-            if (result != null && result.Length == 1)
-            {
+                var file = result.Files.First();
                 switch (parameter)
                 {
-                    case "ScriptPath":
-                        ConfigPath = result[0];
+                    case OpenFileCmdScriptPath:
+                        ConfigPath = file;
                         break;
-                    case "FileOutputPath":
-                        FileOutputPath = result[0];
+                    case OpenFileCmdFileOutputPath:
+                        FileOutputPath = file;
                         break;
-                    case "Icon":
-                        //TODO PUT THIS TO TRY CATCH
-                        IconImagePath = _scriptIconImageEditor.CreateImageInAssets(result[0]);
+                    case OpenFileCmdIcon:
+                        CreateImageInAssets(file);
                         break;
                 }
+            }
+        }
+
+        private void CreateImageInAssets(string file)
+        {
+            try
+            {
+                IconImagePath = _scriptIconImageEditor.CreateImageInAssets(file);
+            }
+            catch(Exception ex)
+            {
+                MessageBoxExtensions.ShowDialog(ex.Message);
+                _logger.Error(ex);
             }
         }
 

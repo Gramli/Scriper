@@ -1,4 +1,5 @@
-﻿using Scriper.Configuration;
+﻿using Scriper.AssetsAccess;
+using Scriper.Configuration;
 using Scriper.Converters;
 using Scriper.Models;
 using Scriper.SystemStartUp;
@@ -30,7 +31,8 @@ namespace Scriper
             base.Register();
             _container.RegisterInstance(ScriperUIConfiguration.Load(_uiConfigfurationFilePath));
             _container.RegisterInstance<IUserAssets>(new UserAssets("Scriper"));
-            _container.Register<IImageCopy, ImageCopy>();
+            _container.Register<IEmbeddedAssets, EmbeddedAssets>(SimpleInjector.Lifestyle.Singleton);
+            _container.Register<IAssets, Assets>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<IImageResize, ImageResize>();
             _container.Register<IScriptIconImageEditor, ScriptIconImageEditor>();
             _container.Register<IOperatingSystemTrayMenuFactory, OperatingSystemTrayMenuFactory>(SimpleInjector.Lifestyle.Singleton);

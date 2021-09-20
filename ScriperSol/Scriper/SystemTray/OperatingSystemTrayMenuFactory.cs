@@ -1,5 +1,6 @@
 ﻿using Avalonia.Platform;
 using NLog;
+using Scriper.AssetsAccess;
 using Scriper.OperationSystem;
 using Scriper.SystemTray.Windows;
 
@@ -8,6 +9,12 @@ namespace Scriper.SystemTray
     public class OperatingSystemTrayMenuFactory : IOperatingSystemTrayMenuFactory
     {
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
+        private readonly IAssets _assets;
+
+        public OperatingSystemTrayMenuFactory(IAssets assets)
+        {
+            _assets = assets;
+        }
 
         public IOperationSystemTrayMenu CreateOperationSystemTrayMenu()
         {

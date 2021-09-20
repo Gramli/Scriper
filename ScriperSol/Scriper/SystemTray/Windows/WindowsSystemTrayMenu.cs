@@ -2,18 +2,25 @@
 using Scriper.AssetsAccess;
 using System;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Scriper.SystemTray.Windows
 {
     internal class WindowsSystemTrayMenu : IWindowsSystemTrayMenu
     {
+        public OperatingSystemType OperatingSystemType => OperatingSystemType.WinNT;
+
         private NotifyIcon _notifyIcon;
         private ContextMenuStrip _contextMenuStrip;
         private IContainer _components;
 
-        public OperatingSystemType OperatingSystemType => OperatingSystemType.WinNT;
-        
+        private readonly IAssets _assets;
+        public WindowsSystemTrayMenu(IAssets assets)
+        {
+            _assets = assets;
+        }
+
         public void Init(string name)
         {
             _components = new Container();
@@ -23,7 +30,7 @@ namespace Scriper.SystemTray.Windows
                 Visible = true,
                 ContextMenuStrip = _contextMenuStrip,
                 Text = name,
-                Icon = WindowsAssetsAccess.Instance.GetAssetsIcon("icons8_console.ico"),
+                Icon = _assets.GetAssetsIcon<Icon>("icons8_console.ico")//  WindowsAssetsAccess.Instance.GetAssetsIcon("icons8_console.ico"), //TODO REMOVE
             };
         }
 
@@ -39,7 +46,7 @@ namespace Scriper.SystemTray.Windows
                 Name = name,
                 Text = name,
                 CheckOnClick = false,
-                Image = WindowsAssetsAccess.Instance.GetAssetsImage(imageName),
+                Image = _assets.GetAssetsImage<Image>(imageName)// WindowsAssetsAccess.Instance.GetAssetsImage(imageName), // TODO REMOVE
             };
             toolStripMenuItem.Click += (sender, eventArgs) => { action(name); };
             _contextMenuStrip.Items.Insert(0,toolStripMenuItem);

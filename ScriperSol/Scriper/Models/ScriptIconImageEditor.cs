@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Scriper.AssetsAccess;
+using System.Drawing;
 using System.IO;
 
 namespace Scriper.Models
@@ -7,24 +8,26 @@ namespace Scriper.Models
     {
         public string ImageFileFilter => "png | jpg | jpeg | bmp | ico";
 
-        private readonly IImageCopy _imageCopy;
+        private readonly IUserAssets _userAssets;
         private readonly IImageResize _imageResize;
-        public ScriptIconImageEditor(IImageCopy imageCopy, IImageResize imageResize)
+        public ScriptIconImageEditor(IUserAssets userAssets, IImageResize imageResize)
         {
-            _imageCopy = imageCopy;
+            _userAssets = userAssets;
             _imageResize = imageResize;
         }
 
-        public string CreateImageInAssets(string fileName)
+        public string CreateImageInAssets(string filePath)
         {
-            if(Path.GetExtension(fileName) == "ico")
+            if(Path.GetExtension(filePath) == "ico")
             {
-                return _imageCopy.SaveImageInAssets(fileName);
+                return _userAssets.SaveImageInAssets(filePath);
             }
 
-            using var image = Image.FromFile(fileName);
+            using var image = Image.FromFile(filePath);
             using var resizedImage = _imageResize.ResizeImageTo96px(image);
-            return _imageCopy.SaveImageInAssets(Path.GetFileName(fileName), resizedImage);
+            var fileName = Path.GetFileName(filePath);
+            _userAssets.SaveImageInAssetsAsIcon(fileName, resizedImage);
+            return _userAssets.SaveImageInAssets(fileName, resizedImage);
         }
     }
 }

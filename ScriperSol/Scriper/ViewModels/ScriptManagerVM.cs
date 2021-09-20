@@ -2,12 +2,12 @@
 using DynamicData;
 using NLog;
 using ReactiveUI;
+using Scriper.AssetsAccess;
 using Scriper.Converters;
 using Scriper.Extensions;
 using Scriper.Models;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;
-using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;
@@ -36,6 +36,7 @@ namespace Scriper.ViewModels
         private readonly IScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter;
         private readonly Func<IOutputVM> _createOutputVM;
         private readonly Func<IScript, IScriptVM> _createScriptVM;
+        private readonly IAssets _assets;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -48,10 +49,12 @@ namespace Scriper.ViewModels
             Func<IScriptConfiguration, IAddEditScriptVM> createAddEditScriptVM,
             IScriptTypeToAssetNameConverter scriptTypeToAssetNameConverter,
             Func<IOutputVM> createOutputVM,
-            Func<IScript, IScriptVM> createScriptVM)
+            Func<IScript, IScriptVM> createScriptVM,
+            IAssets assets)
         {
             _scriptManager = scriptManager;
             _scriptRunner = scriptRunner;
+            _assets = assets;
             EditScriptCmd = ReactiveCommand.Create<string>(EditScript).CatchError(_logger);
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger);
@@ -74,7 +77,7 @@ namespace Scriper.ViewModels
                 var scriptConfiguration = _scriptConfigurationCreator.CreateEmptyScriptConfiguration();
                 var scriptViewModel = _createAddEditScriptVM(scriptConfiguration);
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = DialogWindowExtensions.CreateAddScriptDialogWindow(scriptControl);
+                var dialogWindow = DialogWindowExtensions.CreateAddScriptDialogWindow(scriptControl, _assets);
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -151,7 +154,7 @@ namespace Scriper.ViewModels
                     var outputVM = _createOutputVM();
                     var outputVC = new OutputVC(outputVM);
                     script.Outputs.Add(outputVM);
-                    var dialogWindow = DialogWindowExtensions.CreateRunScriptDialogWindow(script.Configuration.Name, outputVC); 
+                    var dialogWindow = DialogWindowExtensions.CreateRunScriptDialogWindow(script.Configuration.Name, outputVC, _assets); 
                     dialogWindow.Closed += (sender, args) => { script.Outputs.Remove(outputVM); };
                     dialogWindow.Show();
                 }
@@ -172,7 +175,7 @@ namespace Scriper.ViewModels
                 var script = GetScriptVM(name).Script;
                 var scriptViewModel = _createAddEditScriptVM(script.Configuration.DeepClone());
                 var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = DialogWindowExtensions.CreateEditScriptDialogWindow(scriptControl);
+                var dialogWindow = DialogWindowExtensions.CreateEditScriptDialogWindow(scriptControl, _assets);
 
                 scriptViewModel.Close += (sender, args) =>
                 {
@@ -259,7 +262,7 @@ namespace Scriper.ViewModels
         {
             if (script.Configuration.InSystemTray)
             {
-                var imageName = _scriptTypeToAssetNameConverter.Convert(script.ScriptType);
+                var imageName = _scriptTypeToAssetNameConverter.Convert(script.ScriptType); // TODO CHANGE TO ASSETS
                 _systemTrayMenu?.TryInsertClickContextMenuItem(script.Configuration.Name, RunScript, imageName);
             }
             else

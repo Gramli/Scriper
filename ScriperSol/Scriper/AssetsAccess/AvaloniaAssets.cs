@@ -5,6 +5,7 @@ namespace Scriper.AssetsAccess
 {
     public class AvaloniaAssets : AssetsAccessBase
     {
+        //TODO REMOVE ALL DEPENDENCIES
         public static AvaloniaAssets Instance => _instance ??= _instance = new AvaloniaAssets();
         private static AvaloniaAssets _instance;
 

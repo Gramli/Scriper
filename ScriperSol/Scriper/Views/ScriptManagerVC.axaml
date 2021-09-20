@@ -7,7 +7,7 @@
              x:Class="Scriper.Views.ScriptManagerVC"
              Name="mainControl">
   <UserControl.Resources>
-    <converters:ScriptTypeToImageConverter x:Key="imageConverter"/>
+    <converters:ScriptToImageConverter x:Key="imageConverter"/>
   </UserControl.Resources>
   <UserControl.Styles>
       <Style Selector="TextBlock.DtgHeader">
@@ -48,7 +48,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                 <Image Tapped="TappedRow" Tag="{Binding ScriptConfiguration.Name}" Source="{Binding ScriptType, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
+                 <Image Tapped="TappedRow" Tag="{Binding ScriptConfiguration.Name}" Source="{Binding Script, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
             </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

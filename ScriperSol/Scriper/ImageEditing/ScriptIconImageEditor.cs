@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace Scriper.Models
+namespace Scriper.ImageEditing
 {
     public class ScriptIconImageEditor : IScriptIconImageEditor
     {
@@ -26,7 +26,6 @@ namespace Scriper.Models
             using var image = Image.FromFile(filePath);
             using var resizedImage = _imageResize.ResizeImageTo96px(image);
             var fileName = Path.GetFileName(filePath);
-            _userAssets.SaveImageInAssetsAsIcon(fileName, resizedImage);
             return _userAssets.SaveImageInAssets(fileName, resizedImage);
         }
     }

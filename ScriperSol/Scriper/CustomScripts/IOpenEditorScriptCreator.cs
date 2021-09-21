@@ -1,6 +1,6 @@
 ﻿using ScriperLib;
 
-namespace Scriper.Models
+namespace Scriper.CustomScripts
 {
     public interface IOpenEditorScriptCreator
     {

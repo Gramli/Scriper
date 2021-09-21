@@ -51,7 +51,7 @@
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
       <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
-      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="InSystemTray" Classes="h1"/>
@@ -65,7 +65,7 @@
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="330" Classes="TextH1"/>
-        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}"/>
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}" ToolTip.Tip="Select Script Output File"/>
       </DockPanel>
     </StackPanel>
     <StackPanel>
@@ -80,8 +80,11 @@
     </DockPanel>
     <DockPanel>
         <TextBlock Text="Icon" Classes="h1"/>
-      <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" Background="{Binding IconBackground}">
+      <Button Width="300" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" ToolTip.Tip="Select Script Icon">
         <Image Source="{Binding IconImagePath, Converter={StaticResource imageConverter}}" Width="40" Height="40"/>
+      </Button>
+      <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding UseDefaultIconCmd}" ToolTip.Tip="Use Default Icon">
+        <Image Source="/Assets/icons8_delete_96px_6.png" Width="40" Height="40"/>
       </Button>
     </DockPanel>
     <DockPanel>

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace Scriper.Models
+namespace Scriper.ImageEditing
 {
     public interface IImageResize
     {

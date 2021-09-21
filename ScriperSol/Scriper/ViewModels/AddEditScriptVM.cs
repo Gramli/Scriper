@@ -6,7 +6,7 @@ using Scriper.AssetsAccess;
 using Scriper.Closing;
 using Scriper.Dialogs;
 using Scriper.Extensions;
-using Scriper.Models;
+using Scriper.ImageEditing;
 using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
@@ -69,19 +69,6 @@ namespace Scriper.ViewModels
                 if (_configBackground != value)
                 {
                     this.RaiseAndSetIfChanged(ref _configBackground, value);
-                }
-            }
-        }
-
-        private IBrush _iconBackground = Brushes.White;
-        public IBrush IconBackground
-        {
-            get => _iconBackground;
-            set
-            {
-                if (_iconBackground != value)
-                {
-                    this.RaiseAndSetIfChanged(ref _iconBackground, value);
                 }
             }
         }
@@ -176,6 +163,7 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
         public ReactiveCommand<Unit, Unit> EditTimeScheduleCmd { get; }
+        public ReactiveCommand<Unit, Unit> UseDefaultIconCmd { get; }
 
         private readonly IScriptFactory _scriptCreator;
         private readonly IScriptFormValidator _scriptFormValidator;
@@ -204,6 +192,7 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
+            UseDefaultIconCmd = ReactiveCommand.Create(SetDefaultIcon).CatchError(_logger);
             _scriptIconImageEditor = scriptIconImageEditor;
             _scriptFormValidator = scriptFormValidator;
 
@@ -287,6 +276,11 @@ namespace Scriper.ViewModels
                 };
             
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
+        }
+
+        private void SetDefaultIcon()
+        {
+            IconImagePath = string.Empty;
         }
 
         private void ClearInvalid()

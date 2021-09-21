@@ -2,7 +2,8 @@
 using Scriper.AssetsAccess;
 using Scriper.Configuration;
 using Scriper.Converters;
-using Scriper.Models;
+using Scriper.CustomScripts;
+using Scriper.ImageEditing;
 using Scriper.SystemStartUp;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;

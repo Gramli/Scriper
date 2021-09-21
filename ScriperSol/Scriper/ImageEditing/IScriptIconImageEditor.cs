@@ -1,4 +1,4 @@
-﻿namespace Scriper.Models
+﻿namespace Scriper.ImageEditing
 {
     public interface IScriptIconImageEditor
     {

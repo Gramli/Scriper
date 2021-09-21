@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace Scriper.Models
+namespace Scriper.ImageEditing
 {
     class ImageResize : IImageResize
     {

@@ -5,6 +5,7 @@ using Avalonia.Media.Imaging;
 
 namespace Scriper.Converters
 {
+    //TODO MOVE IT TO DI CONTAINER
     public class PathToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

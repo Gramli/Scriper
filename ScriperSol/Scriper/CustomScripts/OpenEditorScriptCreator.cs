@@ -2,7 +2,7 @@
 using ScriperLib;
 using ScriperLib.Configuration;
 
-namespace Scriper.Models
+namespace Scriper.CustomScripts
 {
     internal class OpenEditorScriptCreator : IOpenEditorScriptCreator
     {

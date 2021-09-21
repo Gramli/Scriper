@@ -182,12 +182,11 @@ namespace Scriper.ViewModels
         private readonly IFileOutputConfigurationFactory _fileOutputConfigurationFactory;
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
         private readonly IScriptIconImageEditor _scriptIconImageEditor;
+        private readonly IAssets _assets;
 
         public const string OpenFileCmdScriptPath = "ScriptPath";
         public const string OpenFileCmdFileOutputPath = "FileOutputPath";
         public const string OpenFileCmdIcon = "Icon";
-
-        private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -196,7 +195,8 @@ namespace Scriper.ViewModels
             IScriptConfiguration scriptConfiguration,
             IScriptFormValidator scriptFormValidator,
             Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
-            IScriptIconImageEditor scriptIconImageEditor)
+            IScriptIconImageEditor scriptIconImageEditor,
+            IAssets assets)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -216,6 +216,7 @@ namespace Scriper.ViewModels
 
             _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
             _createTimeScheduleVM = createTimeScheduleVM;
+            _assets = assets;
         }
 
         public void Cancel()
@@ -279,7 +280,7 @@ namespace Scriper.ViewModels
         {
             var timeScheduleVM = _createTimeScheduleVM(ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
-            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_schedule.ico"));
+            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, _assets.GetAssetsImage<WindowIcon>("icons8_schedule.ico"));
             dialogWindow.Closed += (sender, eventArgs) =>
                 {
                     ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;

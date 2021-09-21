@@ -1,4 +1,5 @@
-﻿using Scriper.AssetsAccess;
+﻿using Avalonia.Media.Imaging;
+using Scriper.AssetsAccess;
 using Scriper.Configuration;
 using Scriper.Converters;
 using Scriper.Models;
@@ -33,6 +34,8 @@ namespace Scriper
             _container.RegisterInstance<IUserAssets>(new UserAssets("Scriper"));
             _container.Register<IEmbeddedAssets, EmbeddedAssets>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<IAssets, Assets>(SimpleInjector.Lifestyle.Singleton);
+            _container.Register<IScriptTypeToAssetNameConverter, ScriptTypeToAssetNameConverter>();
+            _container.Register<IScriptToImageConverter, ScriptToImageConverter>();
             _container.Register<IImageResize, ImageResize>();
             _container.Register<IScriptIconImageEditor, ScriptIconImageEditor>();
             _container.Register<IOperatingSystemTrayMenuFactory, OperatingSystemTrayMenuFactory>(SimpleInjector.Lifestyle.Singleton);
@@ -42,9 +45,8 @@ namespace Scriper
             _container.Register<IScriptFormValidator, ScriptFormValidator>();
             _container.Register<IScriptSchedulerManagerAdapter, ScriptSchedulerManagerAdapter>();
             _container.Register<IOpenEditorScriptCreator, OpenEditorScriptCreator>();
-            _container.Register<IScriptTypeToAssetNameConverter, ScriptTypeToAssetNameConverter>();
             _container.Register<Func<IOutputVM>>(() => () => new OutputVM());
-            _container.Register<Func<IScript, IScriptVM>>(() => (script) => new ScriptVM(script));
+            _container.Register<Func<IScript, IBitmap, IScriptVM>>(() => (script, scriptImage) => new ScriptVM(script, scriptImage));
             _container.Register<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(() => (collection) => 
             new TimeScheduleVM(
                 _container.GetInstance<ITimeTriggerConfigurationFactory>(),
@@ -56,7 +58,8 @@ namespace Scriper
                  config,
                  _container.GetInstance<IScriptFormValidator>(),
                  _container.GetInstance<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(),
-                 _container.GetInstance<IScriptIconImageEditor>()));
+                 _container.GetInstance<IScriptIconImageEditor>(),
+                 _container.GetInstance<IAssets>()));
 
             _container.Register<Func<IScriperUIConfiguration, ISettingsVM>>(() => (config) => new SettingsVM(config, _container.GetInstance<ISystemStartUp>()));
             _container.Register<IScriptManagerVM, ScriptManagerVM>();

@@ -11,17 +11,17 @@ namespace Scriper.Extensions
 
         public static DialogWindow CreateAddScriptDialogWindow(IControl control, IAssets assets)
         {
-            return new DialogWindow(_scriptDialogWidth, _scriptDialogHeight, "Add Script", control, assets.GetAssetsIcon<WindowIcon>("icons8_file_1.ico"));
+            return new DialogWindow(_scriptDialogWidth, _scriptDialogHeight, "Add Script", control, assets.GetAssetsImage<WindowIcon>("icons8_file_1.ico"));
         }
 
         public static DialogWindow CreateRunScriptDialogWindow(string name, IControl control, IAssets assets)
         {
-            return new DialogWindow(500, 500, name, control, assets.GetAssetsIcon<WindowIcon>("icons8_console.ico"));
+            return new DialogWindow(500, 500, name, control, assets.GetAssetsImage<WindowIcon>("icons8_console.ico"));
         }
 
         public static DialogWindow CreateEditScriptDialogWindow(IControl control, IAssets assets)
         {
-            return new DialogWindow(_scriptDialogWidth, _scriptDialogHeight, "Edit Script", control, assets.GetAssetsIcon<WindowIcon>("icons8_edit_property.ico"));
+            return new DialogWindow(_scriptDialogWidth, _scriptDialogHeight, "Edit Script", control, assets.GetAssetsImage<WindowIcon>("icons8_edit_property.ico"));
         }
     }
 }

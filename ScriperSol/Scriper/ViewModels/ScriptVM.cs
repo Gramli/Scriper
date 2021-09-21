@@ -1,17 +1,15 @@
-﻿using ReactiveUI;
+﻿using Avalonia.Media.Imaging;
+using ReactiveUI;
 using ScriperLib;
 using ScriperLib.Configuration;
-using ScriperLib.Enums;
 
 namespace Scriper.ViewModels
 {
     public class ScriptVM : ViewModelBase, IScriptVM
     {
         public IScriptConfiguration ScriptConfiguration => Script.Configuration;
-
-        public ScriptType ScriptType => Script.ScriptType; 
-
-        public IScript Script { get; private set; }
+        public IScript Script { get; }
+        public IBitmap ScriptImage { get; }
 
         private string _lastRun;
         public string LastRun
@@ -24,9 +22,10 @@ namespace Scriper.ViewModels
             }
         }
 
-        public ScriptVM(IScript script)
+        public ScriptVM(IScript script, IBitmap scriptImage)
         {
             Script = script;
+            ScriptImage = scriptImage;
         }
     }
 }

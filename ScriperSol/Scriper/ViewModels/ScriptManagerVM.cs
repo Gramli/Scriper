@@ -1,4 +1,5 @@
 ﻿using Avalonia.Collections;
+using Avalonia.Media.Imaging;
 using DynamicData;
 using NLog;
 using ReactiveUI;
@@ -33,10 +34,10 @@ namespace Scriper.ViewModels
         private readonly IOpenEditorScriptCreator _openEditorScriptCreator;
         private readonly IScriptConfigurationFactory _scriptConfigurationCreator;
         private readonly Func<IScriptConfiguration, IAddEditScriptVM> _createAddEditScriptVM;
-        private readonly IScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter;
         private readonly Func<IOutputVM> _createOutputVM;
-        private readonly Func<IScript, IScriptVM> _createScriptVM;
+        private readonly Func<IScript, IBitmap, IScriptVM> _createScriptVM;
         private readonly IAssets _assets;
+        private readonly IScriptToImageConverter _scriptToImageConverter;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -47,10 +48,10 @@ namespace Scriper.ViewModels
             IScriptSchedulerManagerAdapter schedulerManagerAdapter,
             IOpenEditorScriptCreator openEditorScriptCreator,
             Func<IScriptConfiguration, IAddEditScriptVM> createAddEditScriptVM,
-            IScriptTypeToAssetNameConverter scriptTypeToAssetNameConverter,
             Func<IOutputVM> createOutputVM,
-            Func<IScript, IScriptVM> createScriptVM,
-            IAssets assets)
+            Func<IScript, IBitmap, IScriptVM> createScriptVM,
+            IAssets assets,
+            IScriptToImageConverter scriptToImageConverter)
         {
             _scriptManager = scriptManager;
             _scriptRunner = scriptRunner;
@@ -64,7 +65,7 @@ namespace Scriper.ViewModels
             _openEditorScriptCreator = openEditorScriptCreator;
             _scriptConfigurationCreator = scriptConfigurationCreator;
             _createAddEditScriptVM = createAddEditScriptVM;
-            _scriptTypeToAssetNameConverter = scriptTypeToAssetNameConverter;
+            _scriptToImageConverter = scriptToImageConverter;
             _createOutputVM = createOutputVM;
             _createScriptVM = createScriptVM;
             InitializeScripts();
@@ -90,7 +91,8 @@ namespace Scriper.ViewModels
                         }
                         _scriptManager.AddScript(args.Result);
                         _schedulerManagerAdapter.Replace(args.Result.Configuration);
-                        var newScriptVM = _createScriptVM(args.Result);
+                        var scriptImage = _scriptToImageConverter.Convert(args.Result);
+                        var newScriptVM = _createScriptVM(args.Result, scriptImage);
                         Scripts.Add(newScriptVM);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                     }
@@ -130,7 +132,8 @@ namespace Scriper.ViewModels
                 Scripts = new AvaloniaList<IScriptVM>();
                 foreach (var script in _scriptManager.Scripts)
                 {
-                    var vm = new ScriptVM(script);
+                    var scriptImage = _scriptToImageConverter.Convert(script);
+                    var vm = _createScriptVM(script, scriptImage);
                     Scripts.Add(vm);
                     EditContextMenuByInSystemTray(script);
                 }
@@ -182,7 +185,8 @@ namespace Scriper.ViewModels
                     if (!args.Cancel)
                     {
                         var oldScriptVM = Scripts.Single(item => item.ScriptConfiguration.Name == script.Configuration.Name);
-                        var newScriptVM = new ScriptVM(args.Result);
+                        var newScriptImage = _scriptToImageConverter.Convert(args.Result);
+                        var newScriptVM = _createScriptVM(args.Result, newScriptImage);
                         TryRemoveFromContextMenu(script);
                         EditContextMenuByInSystemTray(newScriptVM.Script);
                         Scripts.Replace(oldScriptVM, newScriptVM);
@@ -262,8 +266,8 @@ namespace Scriper.ViewModels
         {
             if (script.Configuration.InSystemTray)
             {
-                var imageName = _scriptTypeToAssetNameConverter.Convert(script.ScriptType); // TODO CHANGE TO ASSETS
-                _systemTrayMenu?.TryInsertClickContextMenuItem(script.Configuration.Name, RunScript, imageName);
+                var newScriptImage = _scriptToImageConverter.GetImagePath(script);
+                _systemTrayMenu?.TryInsertClickContextMenuItem(script.Configuration.Name, RunScript, newScriptImage);
             }
             else
             {

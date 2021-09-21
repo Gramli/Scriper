@@ -30,7 +30,7 @@ namespace Scriper.SystemTray.Windows
                 Visible = true,
                 ContextMenuStrip = _contextMenuStrip,
                 Text = name,
-                Icon = _assets.GetAssetsIcon<Icon>("icons8_console.ico")//  WindowsAssetsAccess.Instance.GetAssetsIcon("icons8_console.ico"), //TODO REMOVE
+                Icon = _assets.GetAssetsImage<Icon>("icons8_console.ico")
             };
         }
 
@@ -46,7 +46,7 @@ namespace Scriper.SystemTray.Windows
                 Name = name,
                 Text = name,
                 CheckOnClick = false,
-                Image = _assets.GetAssetsImage<Image>(imageName)// WindowsAssetsAccess.Instance.GetAssetsImage(imageName), // TODO REMOVE
+                Image = _assets.GetAssetsImage<Bitmap>(imageName)
             };
             toolStripMenuItem.Click += (sender, eventArgs) => { action(name); };
             _contextMenuStrip.Items.Insert(0,toolStripMenuItem);

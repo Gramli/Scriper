@@ -1,14 +1,15 @@
-﻿using ScriperLib;
+﻿using Avalonia.Media.Imaging;
+using ScriperLib;
 using ScriperLib.Configuration;
-using ScriperLib.Enums;
 
 namespace Scriper.ViewModels
 {
     public interface IScriptVM
     {
         IScriptConfiguration ScriptConfiguration { get; }
-        ScriptType ScriptType { get; }
         IScript Script { get; }
+
+        public IBitmap ScriptImage { get; }
 
         string LastRun { get; set; }
     }

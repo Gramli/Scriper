@@ -12,15 +12,10 @@ namespace Scriper.AssetsAccess
             _embeddedAssets = embeddedAssets;
             _userAssets = userAssets;
         }
-        public T GetAssetsIcon<T>(string fileName)
-        {
-            using var icon = GetAsset(fileName);
-            return CreateInstance<T>(icon);
-        }
 
         public T GetAssetsImage<T>(string fileName)
         {
-            using var image = GetAsset(fileName);
+            var image = GetAsset(fileName);
             return CreateInstance<T>(image);
         }
 

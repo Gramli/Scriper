@@ -2,7 +2,6 @@
 using ReactiveUI;
 using ScriperLib.Configuration.Base;
 using ScriperLib.Enums;
-using ScriperLib.Outputs;
 using System.Text;
 using System.Timers;
 

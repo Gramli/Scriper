@@ -1,31 +1,34 @@
-﻿using Avalonia.Data.Converters;
+﻿using Avalonia.Media.Imaging;
 using Scriper.AssetsAccess;
 using ScriperLib;
-using System;
-using System.Globalization;
 
 namespace Scriper.Converters
 {
-    public class ScriptToImageConverter : IValueConverter
+    public class ScriptToImageConverter : IScriptToImageConverter
     {
-        private readonly IScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter = new ScriptTypeToAssetNameConverter();
-        private readonly PathToImageConverter _pathToImageConverter = new PathToImageConverter();
+        private readonly IScriptTypeToAssetNameConverter _scriptTypeToAssetNameConverter;
+        private readonly IAssets _assets;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public ScriptToImageConverter(IScriptTypeToAssetNameConverter scriptTypeToAssetNameConverter, IAssets assets)
         {
-            var script = (IScript)value;
-            if(!string.IsNullOrEmpty(script.Configuration.IconImagePath))
-            {
-                return _pathToImageConverter.Convert(script.Configuration.IconImagePath, null, null, null);
-            }
-
-            var name = _scriptTypeToAssetNameConverter.Convert(script.ScriptType);
-            return AvaloniaAssets.Instance.GetAssetsImage(name);
+            _scriptTypeToAssetNameConverter = scriptTypeToAssetNameConverter;
+            _assets = assets;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public IBitmap Convert(IScript script)
         {
-            throw new NotImplementedException();
+            var path = GetImagePath(script);
+            return _assets.GetAssetsImage<Bitmap>(path);
+        }
+
+        public string GetImagePath(IScript script)
+        {
+            if (!string.IsNullOrEmpty(script.Configuration.IconImagePath))
+            {
+                return script.Configuration.IconImagePath;
+            }
+
+            return _scriptTypeToAssetNameConverter.Convert(script.ScriptType);
         }
     }
 }

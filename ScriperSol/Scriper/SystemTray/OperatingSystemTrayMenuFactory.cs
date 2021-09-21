@@ -25,7 +25,7 @@ namespace Scriper.SystemTray
             switch (operationSystemType)
             {
                 case OperatingSystemType.WinNT:
-                    osSpecificSystemTrayMenu = new WindowsSystemTrayMenu();
+                    osSpecificSystemTrayMenu = new WindowsSystemTrayMenu(_assets);
                     break;
                 default:
                     _logger.Log(LogLevel.Info, $"TrayMenu is not supported for actual OS type:{operationSystemType}");

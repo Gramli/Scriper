@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using NLog;
 using ReactiveUI;
 using Scriper.AssetsAccess;
@@ -142,8 +143,14 @@ namespace Scriper.ViewModels
             set
             {
                 ScriptConfiguration.IconImagePath = value;
+                this.RaisePropertyChanged("IconImage");
                 this.RaiseAndSetIfChanged(ref _iconImagePath, value);
             }
+        }
+
+        public IBitmap IconImage
+        {
+            get => !string.IsNullOrEmpty(IconImagePath) ? new Bitmap(IconImagePath) : null;
         }
 
         private bool _outputWindow;

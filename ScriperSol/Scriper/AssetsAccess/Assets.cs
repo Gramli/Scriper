@@ -15,8 +15,16 @@ namespace Scriper.AssetsAccess
 
         public T GetAssetsImage<T>(string fileName)
         {
-            var image = GetAsset(fileName);
+            using var image = GetAsset(fileName);
             return CreateInstance<T>(image);
+        }
+
+        public MemoryStream GetAssetsImageMemoryStream(string fileName)
+        {
+            using var image = GetAsset(fileName);
+            var bytes = new byte[image.Length];
+            image.Read(bytes);
+            return new MemoryStream(bytes);
         }
 
         private T CreateInstance<T>(Stream stream)
@@ -24,7 +32,7 @@ namespace Scriper.AssetsAccess
             return (T)Activator.CreateInstance(typeof(T), stream);
         }
 
-        public Stream GetAsset(string fileName)
+        private Stream GetAsset(string fileName)
         {
             if(fileName.Contains(_userAssets.AssetsImageDir))
             {

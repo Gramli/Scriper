@@ -29,6 +29,7 @@ namespace Scriper.AssetsAccess
         public string SaveImageInAssets(string imageName, Image image)
         {
             var fileName = Path.Combine(AssetsImageDir, imageName);
+            DeleteIfExists(fileName);
             image.Save(fileName, ImageFormat.Png);
             return fileName;
         }
@@ -36,6 +37,7 @@ namespace Scriper.AssetsAccess
         public string SaveImageInAssets(string imagePath)
         {
             var fileName = Path.Combine(AssetsImageDir, Path.GetFileName(imagePath));
+            DeleteIfExists(fileName);
             File.Copy(imagePath, fileName);
             return fileName;
         }
@@ -43,8 +45,17 @@ namespace Scriper.AssetsAccess
         public string SaveImageInAssetsAsIcon(string imageName, Image image)
         {
             var fileName = Path.Combine(AssetsImageDir, $"{Path.GetFileNameWithoutExtension(imageName)}.ico");
+            DeleteIfExists(fileName);
             image.Save(fileName, ImageFormat.Icon);
             return fileName;
+        }
+
+        private void DeleteIfExists(string fileName)
+        {
+            if(File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
         }
 
         private void CreateBaseDir()

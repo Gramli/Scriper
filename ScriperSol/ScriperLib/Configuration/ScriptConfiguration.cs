@@ -41,6 +41,9 @@ namespace ScriperLib.Configuration
         [ConfigurationElement("FileOuput")]
         public IFileOutputConfiguration FileOutputConfiguration { get; set; }
 
+        [ConfigurationAttribute("iconImagePath", false)]
+        public string IconImagePath { get; set; }
+
         public ScriptConfiguration(XElement element)
             : base(element)
         { }

@@ -6,6 +6,8 @@ using Scriper.Extensions;
 using System.IO;
 using System.Reactive;
 using Scriper.SystemStartUp;
+using Scriper.Dialogs;
+using System.Linq;
 
 namespace Scriper.ViewModels
 {
@@ -50,15 +52,14 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-            var openFileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialogAdapter()
             {
                 Directory = Path.GetDirectoryName(UIConfig.TextEditor.Path),
-                AllowMultiple = false,
             };
-            var result = await openFileDialog.ShowAsync(App.Current.GetMainWindow());
-            if (result != null && result.Length == 1)
+            var result = await openFileDialog.ShowAsync();
+            if (result.Ok)
             {
-                TextEditorPath = result[0];
+                TextEditorPath = result.Files.First();
             }
         }
 

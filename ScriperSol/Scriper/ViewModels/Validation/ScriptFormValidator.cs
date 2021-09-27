@@ -16,7 +16,7 @@ namespace Scriper.ViewModels.Validation
 
         public IScriptFormValidator AddNameValidator(Func<string> getName, Action<string> invalidCallback)
         {
-            _validators.Add(new StringEmptyValidator(getName, "Script name is empty.",invalidCallback));
+            _validators.Add(new StringEmptyValidator(getName, "Script name is empty.", invalidCallback));
             return this;
         }
 

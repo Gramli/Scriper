@@ -2,13 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:converters="clr-namespace:Scriper.Converters;assembly=Scriper"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Scriper.Views.ScriptManagerVC"
              Name="mainControl">
-  <UserControl.Resources>
-    <converters:ScriptTypeToImageConverter x:Key="imageConverter"/>
-  </UserControl.Resources>
   <UserControl.Styles>
       <Style Selector="TextBlock.DtgHeader">
         <Setter Property="FontWeight" Value="Bold"/>
@@ -48,7 +44,7 @@
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                 <Image Tapped="TappedRow" Tag="{Binding ScriptConfiguration.Name}" Source="{Binding ScriptType, Converter={StaticResource imageConverter}}" Width="50" Height="50" Margin="15,0,10,0"/>
+                 <Image Tapped="TappedRow" Tag="{Binding ScriptConfiguration.Name}" Source="{Binding ScriptImage}" Width="50" Height="50" Margin="15,0,10,0"/>
             </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

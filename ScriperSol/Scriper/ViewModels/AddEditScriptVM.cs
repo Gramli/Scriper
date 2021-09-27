@@ -1,10 +1,13 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using NLog;
 using ReactiveUI;
 using Scriper.AssetsAccess;
 using Scriper.Closing;
+using Scriper.Dialogs;
 using Scriper.Extensions;
+using Scriper.ImageEditing;
 using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
@@ -13,6 +16,7 @@ using ScriperLib.Configuration.Outputs;
 using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -132,6 +136,23 @@ namespace Scriper.ViewModels
             }
         }
 
+        private string _iconImagePath;
+        public string IconImagePath
+        {
+            get => ScriptConfiguration.IconImagePath;
+            set
+            {
+                ScriptConfiguration.IconImagePath = value;
+                this.RaisePropertyChanged("IconImage");
+                this.RaiseAndSetIfChanged(ref _iconImagePath, value);
+            }
+        }
+
+        public IBitmap IconImage
+        {
+            get => !string.IsNullOrEmpty(IconImagePath) ? new Bitmap(IconImagePath) : null;
+        }
+
         private bool _outputWindow;
         public bool OutputWindow
         {
@@ -149,13 +170,18 @@ namespace Scriper.ViewModels
         public ReactiveCommand<Unit, Unit> OkCmd { get; }
         public ReactiveCommand<string, Unit> OpenFileCmd { get; }
         public ReactiveCommand<Unit, Unit> EditTimeScheduleCmd { get; }
+        public ReactiveCommand<Unit, Unit> UseDefaultIconCmd { get; }
 
         private readonly IScriptFactory _scriptCreator;
         private readonly IScriptFormValidator _scriptFormValidator;
         private readonly IFileOutputConfigurationFactory _fileOutputConfigurationFactory;
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
+        private readonly IScriptIconImageEditor _scriptIconImageEditor;
+        private readonly IAssets _assets;
 
-        private AvaloniaAssets AvaloniaAssets => AvaloniaAssets.Instance;
+        public const string OpenFileCmdScriptPath = "ScriptPath";
+        public const string OpenFileCmdFileOutputPath = "FileOutputPath";
+        public const string OpenFileCmdIcon = "Icon";
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -163,7 +189,9 @@ namespace Scriper.ViewModels
             IFileOutputConfigurationFactory fileOutputConfigurationFactory,
             IScriptConfiguration scriptConfiguration,
             IScriptFormValidator scriptFormValidator,
-            Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM)
+            Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
+            IScriptIconImageEditor scriptIconImageEditor,
+            IAssets assets)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -171,6 +199,8 @@ namespace Scriper.ViewModels
             OkCmd = ReactiveCommand.Create(Ok).CatchError(_logger);
             OpenFileCmd = ReactiveCommand.Create<string>(OpenFile).CatchError(_logger);
             EditTimeScheduleCmd = ReactiveCommand.Create(EditTimeSchedule).CatchError(_logger);
+            UseDefaultIconCmd = ReactiveCommand.Create(SetDefaultIcon).CatchError(_logger);
+            _scriptIconImageEditor = scriptIconImageEditor;
             _scriptFormValidator = scriptFormValidator;
 
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
@@ -182,6 +212,7 @@ namespace Scriper.ViewModels
 
             _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
             _createTimeScheduleVM = createTimeScheduleVM;
+            _assets = assets;
         }
 
         public void Cancel()
@@ -201,22 +232,37 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-            var openFileDialog = new OpenFileDialog()
+            var openFileDialog = new OpenFileDialogAdapter();
+            var filter = parameter == OpenFileCmdIcon ? _scriptIconImageEditor.ImageFileFilter : string.Empty;
+            var result = await openFileDialog.ShowAsync(filter);
+            if (result.Ok)
             {
-                AllowMultiple = false,
-            };
-            var result = await openFileDialog.ShowAsync(App.Current.GetMainWindow());
-            if (result != null && result.Length == 1)
-            {
+                var file = result.Files.First();
                 switch (parameter)
                 {
-                    case "ScriptPath":
-                        ConfigPath = result[0];
+                    case OpenFileCmdScriptPath:
+                        ConfigPath = file;
                         break;
-                    case "FileOutputPath":
-                        FileOutputPath = result[0];
+                    case OpenFileCmdFileOutputPath:
+                        FileOutputPath = file;
+                        break;
+                    case OpenFileCmdIcon:
+                        CreateImageInAssets(file);
                         break;
                 }
+            }
+        }
+
+        private void CreateImageInAssets(string file)
+        {
+            try
+            {
+                IconImagePath = _scriptIconImageEditor.CreateImageInAssets(file);
+            }
+            catch(Exception ex)
+            {
+                MessageBoxExtensions.ShowDialog(ex.Message);
+                _logger.Error(ex);
             }
         }
 
@@ -230,13 +276,18 @@ namespace Scriper.ViewModels
         {
             var timeScheduleVM = _createTimeScheduleVM(ScriptConfiguration.TimeScheduleConfigurations);
             var timeScheduleControl = new TimeScheduleVC(timeScheduleVM);
-            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, AvaloniaAssets.GetAssetsIcon("icons8_schedule.ico"));
+            var dialogWindow = new DialogWindow(500, 630, "Edit Time Schedule Configuration", timeScheduleControl, _assets.GetAssetsImage<WindowIcon>("icons8_schedule.ico"));
             dialogWindow.Closed += (sender, eventArgs) =>
                 {
                     ScriptConfiguration.TimeScheduleConfigurations = timeScheduleVM.TimeTriggerConfigurations;
                 };
             
             dialogWindow.ShowDialog(App.Current.GetMainWindow());
+        }
+
+        private void SetDefaultIcon()
+        {
+            IconImagePath = string.Empty;
         }
 
         private void ClearInvalid()

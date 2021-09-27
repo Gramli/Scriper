@@ -2,9 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cmdConst="clr-namespace:Scriper.ViewModels;assembly=Scriper"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
-             d:DesignHeight="530"
+             d:DesignHeight="580"
              x:Class="Scriper.Views.ScriptVC">
   <UserControl.Styles>
     <Style Selector="TextBlock.h1">
@@ -46,7 +47,7 @@
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
       <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
-      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="ScriptPath" DockPanel.Dock="Right"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="InSystemTray" Classes="h1"/>
@@ -60,7 +61,7 @@
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="330" Classes="TextH1"/>
-        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="FileOutputPath"/>
+        <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}" ToolTip.Tip="Select Script Output File"/>
       </DockPanel>
     </StackPanel>
     <StackPanel>
@@ -72,6 +73,15 @@
     <DockPanel Background="LightBlue">
         <TextBlock Text="Time Schedule" Classes="h1" />
         <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="Edit" Command="{Binding EditTimeScheduleCmd}"/>
+    </DockPanel>
+    <DockPanel>
+        <TextBlock Text="Icon" Classes="h1"/>
+      <Button Width="300" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" ToolTip.Tip="Select Script Icon">
+        <Image Source="{Binding IconImage}" Width="40" Height="40"/>
+      </Button>
+      <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding UseDefaultIconCmd}" ToolTip.Tip="Use Default Icon">
+        <Image Source="/Assets/icons8_delete_96px_6.png" Width="40" Height="40"/>
+      </Button>
     </DockPanel>
     <DockPanel>
       <TextBlock Text="{Binding ErrorText}" TextAlignment="Center" Foreground="Red"/>

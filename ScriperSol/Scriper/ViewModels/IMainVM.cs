@@ -5,5 +5,7 @@ namespace Scriper.ViewModels
     public interface IMainVM
     {
         IScriperUIConfiguration ActualUiConfiguration { get; }
+
+        void Init();
     }
 }

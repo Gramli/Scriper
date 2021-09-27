@@ -102,19 +102,11 @@ namespace Scriper.ViewModels
         private void InitWithSelectedConfig(string config)
         {
             _scriperConfigPath = config;
-            //_container = new ScriperContainer(config, _uiConfigPath);
-            //_systemTrayMenu = new SystemTrayMenuAdapter(new OperatingSystemTrayMenuFactory());
-            //var systemStartUp = new SystemStartUpAdapter(new SystemStartUpFactory());
-            //var timeScheduleManager = new ScriptSchedulerManagerAdapter(config,_container.GetInstance<IScriptSchedulerManager>());
-            //var uiConfig = ScriperUIConfiguration.Load(_uiConfigPath);
-            //var scriptEditorCreator = new OpenEditorScriptCreator(_container, uiConfig);
-            //var scriptFormValidator = new ScriptFormValidator();
-            //MainVM = new MainVM(_container, uiConfig, _systemTrayMenu, systemStartUp, timeScheduleManager, scriptEditorCreator, scriptFormValidator);
-
             _container = new ScriperContainer(config, _uiConfigPath);
             _systemTrayMenu = _container.GetInstance<ISystemTrayMenu>();
             AddCloseButtonToSystemTray();
             MainVM = _container.GetInstance<IMainVM>();
+            MainVM.Init();
             DataVisible = true;
             Title = config;
         }

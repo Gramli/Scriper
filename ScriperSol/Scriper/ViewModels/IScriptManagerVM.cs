@@ -3,5 +3,6 @@
     public interface IScriptManagerVM
     {
         void CreateScript();
+        void Init();
     }
 }

@@ -68,6 +68,10 @@ namespace Scriper.ViewModels
             _scriptToImageConverter = scriptToImageConverter;
             _createOutputVM = createOutputVM;
             _createScriptVM = createScriptVM;
+        }
+
+        public void Init()
+        {
             InitializeScripts();
         }
 

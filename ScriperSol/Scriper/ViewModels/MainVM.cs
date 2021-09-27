@@ -42,6 +42,11 @@ namespace Scriper.ViewModels
             _createSettingsVM = createSettingsVM;
         }
 
+        public void Init()
+        {
+            ScriptManagerVM.Init();
+        }
+
         public void Exit()
         {
             App.Current.Close();

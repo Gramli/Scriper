@@ -24,10 +24,10 @@ namespace ScriperLib.Configuration
         public string Arguments { get; set; }
 
         [ConfigurationAttribute("inSystemTray")]
-        public bool InSystemTray { get; set; }
+        public bool InSystemTray { get; set; } = true;
 
         [ConfigurationAttribute("outputWindow")]
-        public bool OutputWindow { get; set; } = true;
+        public bool OutputWindow { get; set; }
 
         [ConfigurationAttribute("lastRun", false)]
         public string LastRun { get; set; }

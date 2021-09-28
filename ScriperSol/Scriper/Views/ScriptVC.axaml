@@ -46,7 +46,7 @@
     </DockPanel>
     <DockPanel Background="LightBlue">
       <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ConfigPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ConfigBackground}"/>
+      <TextBox Text="{Binding ScriptPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ScriptPathBackground}"/>
       <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
     </DockPanel>
     <DockPanel LastChildFill="True">

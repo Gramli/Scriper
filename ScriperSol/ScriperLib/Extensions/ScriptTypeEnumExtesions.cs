@@ -37,8 +37,8 @@ namespace ScriperLib.Extensions
         public static string[] GetFileExtensionAttributes(this ScriptType enumValue)
         {
             var type = enumValue.GetType();
-            var attribute = type.GetMember(enumValue.ToString()).First().GetCustomAttributes(typeof(FileExtensionAttribute),false);
-            return ((FileExtensionAttribute)attribute[0]).FileExtensionts;
+            var attributes = type.GetMember(enumValue.ToString()).First().GetCustomAttributes(typeof(FileExtensionAttribute),false);
+            return ((FileExtensionAttribute)attributes.First()).FileExtensionts;
         }
     }
 }

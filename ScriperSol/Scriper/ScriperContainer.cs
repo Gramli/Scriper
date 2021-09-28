@@ -3,6 +3,7 @@ using Scriper.AssetsAccess;
 using Scriper.Configuration;
 using Scriper.Converters;
 using Scriper.CustomScripts;
+using Scriper.Dialogs;
 using Scriper.ImageEditing;
 using Scriper.SystemStartUp;
 using Scriper.SystemTray;
@@ -44,6 +45,7 @@ namespace Scriper
             _container.Register<ISystemTrayMenu, SystemTrayMenuAdapter>(SimpleInjector.Lifestyle.Singleton);
             _container.Register<ISystemStartUp, SystemStartUpAdapter>();
             _container.Register<IScriptFormValidator, ScriptFormValidator>();
+            _container.Register<IScriperFileDialogOpener, ScriperFileDialogOpener>();
             _container.Register<IScriptSchedulerManagerAdapter, ScriptSchedulerManagerAdapter>();
             _container.Register<IOpenEditorScriptCreator, OpenEditorScriptCreator>();
             _container.Register<Func<IOutputVM>>(() => () => new OutputVM());
@@ -60,7 +62,8 @@ namespace Scriper
                  _container.GetInstance<IScriptFormValidator>(),
                  _container.GetInstance<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(),
                  _container.GetInstance<IScriptIconImageEditor>(),
-                 _container.GetInstance<IAssets>()));
+                 _container.GetInstance<IAssets>(),
+                 _container.GetInstance<IScriperFileDialogOpener>()));
 
             _container.Register<Func<IScriperUIConfiguration, ISettingsVM>>(() => (config) => new SettingsVM(config, _container.GetInstance<ISystemStartUp>()));
             _container.Register<IScriptManagerVM, ScriptManagerVM>();

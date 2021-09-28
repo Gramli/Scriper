@@ -6,8 +6,6 @@ namespace Scriper.ImageEditing
 {
     public class ScriptIconImageEditor : IScriptIconImageEditor
     {
-        public string ImageFileFilter => "png | jpg | jpeg | bmp | ico";
-
         private readonly IUserAssets _userAssets;
         private readonly IImageResize _imageResize;
         public ScriptIconImageEditor(IUserAssets userAssets, IImageResize imageResize)

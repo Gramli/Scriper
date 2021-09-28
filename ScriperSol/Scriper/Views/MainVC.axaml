@@ -21,37 +21,43 @@
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="50"/>
+      <ColumnDefinition Width="50"/>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="50"/>
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
-      <Button Classes="h1" Grid.Column="0" Grid.Row="0" Command="{Binding CreateScriptCmd}">
+          <Button Classes="h1" Grid.Column="0" Grid.Row="0" Command="{Binding FastCreateScriptCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_add_file_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Classes="h1" Grid.Column="1" Grid.Row="0" Click="OnManualClick">
+      <Button Classes="h1" Grid.Column="1" Grid.Row="0" Command="{Binding CreateScriptCmd}">
+        <Button.Content>
+          <Image Source="/Assets/icons8_new_copy_96px.png"/>
+        </Button.Content>
+      </Button>
+      <Button Classes="h1" Grid.Column="2" Grid.Row="0" Click="OnManualClick">
         <Button.Content>
           <Image Source="/Assets/icons8_user_manual_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Classes="h1" Grid.Column="2" Grid.Row="0" Command="{Binding OpenSettingsCmd}">
+      <Button Classes="h1" Grid.Column="3" Grid.Row="0" Command="{Binding OpenSettingsCmd}">
         <Button.Content>
           <Image Source="/Assets/icons8_administrative_tools_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Classes="h1" Grid.Column="3" Grid.Row="0" Click="OnAboutClick">
+      <Button Classes="h1" Grid.Column="4" Grid.Row="0" Click="OnAboutClick">
         <Button.Content>
           <Image Source="/Assets/icons8_high_importance_96px.png"/>
         </Button.Content>
       </Button>
-      <Button Classes="h1" Grid.Column="4" Grid.Row="0" Command="{Binding HideCmd}" IsEnabled="{Binding HidingEnabled}">
+      <Button Classes="h1" Grid.Column="5" Grid.Row="0" Command="{Binding HideCmd}" IsEnabled="{Binding HidingEnabled}">
         <Button.Content>
           <Image Source="/Assets/icons8_minimize_window_96px.png"/>
         </Button.Content>
       </Button>
-      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="6" Grid.RowSpan="2"/>
+      <views:ScriptManagerVC DataContext="{Binding ScriptManagerVM}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="7" Grid.RowSpan="2"/>
   </Grid>
 </UserControl>

@@ -33,7 +33,7 @@ namespace Scriper.Dialogs
                 {
                     Name = value
                 };
-                filter.Extensions.AddRange(value.Replace(" ", "").Split("|"));
+                filter.Extensions.AddRange(value.Replace(" ", "").Replace(".","").Split("|"));
                 _openFileDialog.Filters.Add(filter);
             }
         }

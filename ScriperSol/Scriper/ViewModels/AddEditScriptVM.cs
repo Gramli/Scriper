@@ -16,7 +16,6 @@ using ScriperLib.Configuration.Outputs;
 using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reactive;
 
 namespace Scriper.ViewModels
@@ -61,15 +60,15 @@ namespace Scriper.ViewModels
             }
         }
 
-        private IBrush _configBackground = Brushes.White;
-        public IBrush ConfigBackground
+        private IBrush _scriptPathBackground = Brushes.White;
+        public IBrush ScriptPathBackground
         {
-            get => _configBackground;
+            get => _scriptPathBackground;
             set
             {
-                if (_configBackground != value)
+                if (_scriptPathBackground != value)
                 {
-                    this.RaiseAndSetIfChanged(ref _configBackground, value);
+                    this.RaiseAndSetIfChanged(ref _scriptPathBackground, value);
                 }
             }
         }
@@ -96,14 +95,14 @@ namespace Scriper.ViewModels
             }
         }
 
-        private string _configPath;
-        public string ConfigPath
+        private string _scriptPath;
+        public string ScriptPath
         {
             get => ScriptConfiguration.Path;
             set
             {
                 ScriptConfiguration.Path = value;
-                this.RaiseAndSetIfChanged(ref _configPath, value);
+                this.RaiseAndSetIfChanged(ref _scriptPath, value);
                 ClearInvalid();
             }
         }
@@ -178,6 +177,7 @@ namespace Scriper.ViewModels
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
         private readonly IScriptIconImageEditor _scriptIconImageEditor;
         private readonly IAssets _assets;
+        private readonly IScriperFileDialogOpener _scriperFileDialogOpener;
 
         public const string OpenFileCmdScriptPath = "ScriptPath";
         public const string OpenFileCmdFileOutputPath = "FileOutputPath";
@@ -191,7 +191,8 @@ namespace Scriper.ViewModels
             IScriptFormValidator scriptFormValidator,
             Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
             IScriptIconImageEditor scriptIconImageEditor,
-            IAssets assets)
+            IAssets assets,
+            IScriperFileDialogOpener scriperFileDialogOpener)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -204,15 +205,16 @@ namespace Scriper.ViewModels
             _scriptFormValidator = scriptFormValidator;
 
             _scriptFormValidator.AddNameValidator(() => Name, InvalidName);
-            _scriptFormValidator.AddConfigValidators(() => ConfigPath, (message) =>
+            _scriptFormValidator.AddConfigValidators(() => ScriptPath, (message) =>
             {
-                ConfigBackground = Brushes.Salmon;
+                ScriptPathBackground = Brushes.Salmon;
                 ErrorText = message;
             });
 
             _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
             _createTimeScheduleVM = createTimeScheduleVM;
             _assets = assets;
+            _scriperFileDialogOpener = scriperFileDialogOpener;
         }
 
         public void Cancel()
@@ -232,24 +234,29 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-            var openFileDialog = new OpenFileDialogAdapter();
-            var filter = parameter == OpenFileCmdIcon ? _scriptIconImageEditor.ImageFileFilter : string.Empty;
-            var result = await openFileDialog.ShowAsync(filter);
-            if (result.Ok)
+            switch (parameter)
             {
-                var file = result.Files.First();
-                switch (parameter)
-                {
-                    case OpenFileCmdScriptPath:
-                        ConfigPath = file;
-                        break;
-                    case OpenFileCmdFileOutputPath:
-                        FileOutputPath = file;
-                        break;
-                    case OpenFileCmdIcon:
-                        CreateImageInAssets(file);
-                        break;
-                }
+                case OpenFileCmdScriptPath:
+                    var scriptResult = await _scriperFileDialogOpener.OpenScriptFileDialogAsync();
+                    if (scriptResult.ok)
+                    {
+                        CreateImageInAssets(scriptResult.file);
+                    }
+                    break;
+                case OpenFileCmdFileOutputPath:
+                    var fileOutputResult = await _scriperFileDialogOpener.OpenOutputFileDialogAsync();
+                    if (fileOutputResult.ok)
+                    {
+                        CreateImageInAssets(fileOutputResult.file);
+                    }
+                    break;
+                case OpenFileCmdIcon:
+                    var imageResult = await _scriperFileDialogOpener.OpenImageFileDialogAsync();
+                    if(imageResult.ok)
+                    {
+                        CreateImageInAssets(imageResult.file);
+                    }
+                    break;
             }
         }
 
@@ -293,7 +300,7 @@ namespace Scriper.ViewModels
         private void ClearInvalid()
         {
             NameBackground = Brushes.White;
-            ConfigBackground = Brushes.White;
+            ScriptPathBackground = Brushes.White;
             ErrorText = string.Empty;
         }
     }

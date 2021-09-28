@@ -6,6 +6,7 @@ using ReactiveUI;
 using Scriper.AssetsAccess;
 using Scriper.Converters;
 using Scriper.CustomScripts;
+using Scriper.Dialogs;
 using Scriper.Extensions;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;
@@ -14,6 +15,7 @@ using ScriperLib;
 using ScriperLib.Configuration;
 using ScriperLib.Extensions;
 using System;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 
@@ -38,6 +40,8 @@ namespace Scriper.ViewModels
         private readonly Func<IScript, IBitmap, IScriptVM> _createScriptVM;
         private readonly IAssets _assets;
         private readonly IScriptToImageConverter _scriptToImageConverter;
+        private readonly IScriperFileDialogOpener _scriperFileDialogOpener;
+        private readonly IScriptFactory _scriptCreator;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -51,7 +55,9 @@ namespace Scriper.ViewModels
             Func<IOutputVM> createOutputVM,
             Func<IScript, IBitmap, IScriptVM> createScriptVM,
             IAssets assets,
-            IScriptToImageConverter scriptToImageConverter)
+            IScriptToImageConverter scriptToImageConverter,
+            IScriperFileDialogOpener scriperFileDialogOpener,
+            IScriptFactory scriptCreator)
         {
             _scriptManager = scriptManager;
             _scriptRunner = scriptRunner;
@@ -68,11 +74,33 @@ namespace Scriper.ViewModels
             _scriptToImageConverter = scriptToImageConverter;
             _createOutputVM = createOutputVM;
             _createScriptVM = createScriptVM;
+            _scriperFileDialogOpener = scriperFileDialogOpener;
+            _scriptCreator = scriptCreator;
         }
 
         public void Init()
         {
             InitializeScripts();
+        }
+
+        public async void FastCreateScript()
+        {
+            var result = await _scriperFileDialogOpener.OpenScriptFileDialogAsync();
+            if (result.ok)
+            {
+                var scriptConfiguration = _scriptConfigurationCreator.CreateEmptyScriptConfiguration();
+                scriptConfiguration.Name = Path.GetFileNameWithoutExtension(result.file);
+                scriptConfiguration.Path = result.file;
+
+                if (Scripts.Any(item => item.ScriptConfiguration.Name == scriptConfiguration.Name))
+                {
+                    MessageBoxExtensions.ShowDialog("Invalid script name, script name already exists.");
+                    return;
+                }
+
+                var script = _scriptCreator.Create(scriptConfiguration);
+                CreateScript(script);
+            }
         }
 
         public void CreateScript()
@@ -93,12 +121,7 @@ namespace Scriper.ViewModels
                             scriptViewModel.InvalidName("Invalid script name, script name already exists.");
                             return;
                         }
-                        _scriptManager.AddScript(args.Result);
-                        _schedulerManagerAdapter.Replace(args.Result.Configuration);
-                        var scriptImage = _scriptToImageConverter.Convert(args.Result);
-                        var newScriptVM = _createScriptVM(args.Result, scriptImage);
-                        Scripts.Add(newScriptVM);
-                        EditContextMenuByInSystemTray(newScriptVM.Script);
+                        CreateScript(args.Result);
                     }
 
                     dialogWindow.Close();
@@ -111,6 +134,16 @@ namespace Scriper.ViewModels
                 MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
             }
+        }
+
+        private void CreateScript(IScript script)
+        {
+            _scriptManager.AddScript(script);
+            _schedulerManagerAdapter.Replace(script.Configuration);
+            var scriptImage = _scriptToImageConverter.Convert(script);
+            var newScriptVM = _createScriptVM(script, scriptImage);
+            Scripts.Add(newScriptVM);
+            EditContextMenuByInSystemTray(newScriptVM.Script);
         }
 
         public void MoveScriptUp(string name)

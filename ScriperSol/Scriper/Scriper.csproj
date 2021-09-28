@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -30,6 +30,7 @@
     <None Remove="Assets\icons8_javascript_96px.png" />
     <None Remove="Assets\icons8_linux_96px.png" />
     <None Remove="Assets\icons8_minimize_window_96px.png" />
+    <None Remove="Assets\icons8_new_file_96px.png" />
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />

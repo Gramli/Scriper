@@ -179,6 +179,7 @@ namespace Scriper.ViewModels
         private readonly Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> _createTimeScheduleVM;
         private readonly IScriptIconImageEditor _scriptIconImageEditor;
         private readonly IAssets _assets;
+        private readonly IScriperFileDialogOpener _scriperFileDialogOpener;
 
         public const string OpenFileCmdScriptPath = "ScriptPath";
         public const string OpenFileCmdFileOutputPath = "FileOutputPath";
@@ -192,7 +193,8 @@ namespace Scriper.ViewModels
             IScriptFormValidator scriptFormValidator,
             Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
             IScriptIconImageEditor scriptIconImageEditor,
-            IAssets assets)
+            IAssets assets,
+            IScriperFileDialogOpener scriperFileDialogOpener)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -214,22 +216,7 @@ namespace Scriper.ViewModels
             _fileOutputConfigurationFactory = fileOutputConfigurationFactory;
             _createTimeScheduleVM = createTimeScheduleVM;
             _assets = assets;
-
-            FastCreate();
-        }
-
-        private async void FastCreate()
-        {
-            if (string.IsNullOrEmpty(ScriptConfiguration.Path))
-            {
-                var openFileDialog = new OpenFileDialogAdapter();
-                var result = await openFileDialog.ShowAsync();
-                if(result.Ok)
-                {
-                    ScriptPath = result.Files.First();
-                    Name = Path.GetFileNameWithoutExtension(ScriptPath);
-                }
-            }
+            _scriperFileDialogOpener = scriperFileDialogOpener;
         }
 
         public void Cancel()
@@ -249,24 +236,29 @@ namespace Scriper.ViewModels
 
         public async void OpenFile(string parameter)
         {
-            var openFileDialog = new OpenFileDialogAdapter();
-            var filter = parameter == OpenFileCmdIcon ? _scriptIconImageEditor.ImageFileFilter : string.Empty;
-            var result = await openFileDialog.ShowAsync(filter);
-            if (result.Ok)
+            switch (parameter)
             {
-                var file = result.Files.First();
-                switch (parameter)
-                {
-                    case OpenFileCmdScriptPath:
-                        ScriptPath = file;
-                        break;
-                    case OpenFileCmdFileOutputPath:
-                        FileOutputPath = file;
-                        break;
-                    case OpenFileCmdIcon:
-                        CreateImageInAssets(file);
-                        break;
-                }
+                case OpenFileCmdScriptPath:
+                    var scriptResult = await _scriperFileDialogOpener.OpenScriptFileDialogAsync();
+                    if (scriptResult.ok)
+                    {
+                        CreateImageInAssets(scriptResult.file);
+                    }
+                    break;
+                case OpenFileCmdFileOutputPath:
+                    var fileOutputResult = await _scriperFileDialogOpener.OpenOutputFileDialogAsync();
+                    if (fileOutputResult.ok)
+                    {
+                        CreateImageInAssets(fileOutputResult.file);
+                    }
+                    break;
+                case OpenFileCmdIcon:
+                    var imageResult = await _scriperFileDialogOpener.OpenImageFileDialogAsync();
+                    if(imageResult.ok)
+                    {
+                        CreateImageInAssets(imageResult.file);
+                    }
+                    break;
             }
         }
 

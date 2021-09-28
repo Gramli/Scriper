@@ -15,7 +15,8 @@ namespace Scriper.ViewModels
     public class MainVM : ViewModelBase, IMainVM
     {
         public IScriptManagerVM ScriptManagerVM { get; }
-        public ReactiveCommand<string, Unit> CreateScriptCmd { get; }
+        public ReactiveCommand<Unit, Unit> CreateScriptCmd { get; }
+        public ReactiveCommand<Unit, Unit> FastCreateScriptCmd { get; }
         public ReactiveCommand<Unit, Unit> ExitCmd { get; }
         public ReactiveCommand<Unit, Unit> OpenSettingsCmd { get; }
         public ReactiveCommand<Unit, Unit> HideCmd { get; }
@@ -34,10 +35,11 @@ namespace Scriper.ViewModels
         {
             ActualUiConfiguration = uiConfig;
             ScriptManagerVM = scriptManagerVM;
-            CreateScriptCmd = ReactiveCommand.Create<string>(CreateScript);
+            CreateScriptCmd = ReactiveCommand.Create(ScriptManagerVM.CreateScript).CatchError(_logger);
             ExitCmd = ReactiveCommand.Create(Exit);
             OpenSettingsCmd = ReactiveCommand.Create(OpenSettings);
             HideCmd = ReactiveCommand.Create(Hide);
+            FastCreateScriptCmd = ReactiveCommand.Create(ScriptManagerVM.FastCreateScript).CatchError(_logger);
             _systemTrayMenu = systemTrayMenu;
             _createSettingsVM = createSettingsVM;
         }
@@ -64,19 +66,6 @@ namespace Scriper.ViewModels
                 _systemTrayMenu.RemoveContextMenuItem(showSeparatorName);
             }, "icons8_advertisement_page_96px.png");
             App.Current.Hide();
-        }
-
-        private void CreateScript(string argument)
-        {
-            try
-            {
-                ScriptManagerVM.CreateScript();
-            }
-            catch (Exception ex)
-            {
-                MessageBoxExtensions.ShowDialog(ex.Message);
-                _logger.Error(ex);
-            }
         }
 
         private void OpenSettings()

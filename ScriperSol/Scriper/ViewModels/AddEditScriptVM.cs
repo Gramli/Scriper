@@ -16,8 +16,6 @@ using ScriperLib.Configuration.Outputs;
 using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reactive;
 
 namespace Scriper.ViewModels

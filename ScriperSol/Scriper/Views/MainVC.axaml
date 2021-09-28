@@ -30,12 +30,12 @@
     </Grid.RowDefinitions>
           <Button Classes="h1" Grid.Column="0" Grid.Row="0" Command="{Binding FastCreateScriptCmd}">
         <Button.Content>
-          <Image Source="/Assets/icons8_new_file_96px.png"/>
+          <Image Source="/Assets/icons8_add_file_96px.png"/>
         </Button.Content>
       </Button>
       <Button Classes="h1" Grid.Column="1" Grid.Row="0" Command="{Binding CreateScriptCmd}">
         <Button.Content>
-          <Image Source="/Assets/icons8_add_file_96px.png"/>
+          <Image Source="/Assets/icons8_new_copy_96px.png"/>
         </Button.Content>
       </Button>
       <Button Classes="h1" Grid.Column="2" Grid.Row="0" Click="OnManualClick">

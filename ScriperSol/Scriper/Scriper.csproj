@@ -30,7 +30,7 @@
     <None Remove="Assets\icons8_javascript_96px.png" />
     <None Remove="Assets\icons8_linux_96px.png" />
     <None Remove="Assets\icons8_minimize_window_96px.png" />
-    <None Remove="Assets\icons8_new_file_96px.png" />
+    <None Remove="Assets\icons8_new_copy_96px.png" />
     <None Remove="Assets\icons8_ok_96px.png" />
     <None Remove="Assets\icons8_powershell_96px.png" />
     <None Remove="Assets\icons8_python_96px.png" />

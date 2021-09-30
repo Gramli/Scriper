@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:cmdConst="clr-namespace:Scriper.ViewModels;assembly=Scriper"
+             xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
              d:DesignHeight="580"
@@ -31,9 +32,10 @@
       <TextBlock Text="Name" Classes="h1"/>
       <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1" Background="{Binding NameBackground}"/>
     </DockPanel>
-    <DockPanel LastChildFill="True" Background="LightBlue">
+    <DockPanel LastChildFill="True" Background="LightBlue" Height="80">
       <TextBlock Text="Arguments" Classes="h1"/>
-      <TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>
+      <!--<TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>-->
+      <views:ArgumentsVC DataContext="{Binding ArgumentsVM"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Height="80">
       <TextBlock Text="Description" Classes="h1"/>
@@ -60,7 +62,7 @@
       </DockPanel>
       <DockPanel Margin="20,0,0,0">
         <TextBlock Text="Path" Classes="h1"/>
-        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="330" Classes="TextH1"/>
+        <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="360" Classes="TextH1"/>
         <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}" ToolTip.Tip="Select Script Output File"/>
       </DockPanel>
     </StackPanel>
@@ -76,7 +78,7 @@
     </DockPanel>
     <DockPanel>
         <TextBlock Text="Icon" Classes="h1"/>
-      <Button Width="300" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" ToolTip.Tip="Select Script Icon">
+      <Button Width="350" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdIcon}" ToolTip.Tip="Select Script Icon">
         <Image Source="{Binding IconImage}" Width="40" Height="40"/>
       </Button>
       <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding UseDefaultIconCmd}" ToolTip.Tip="Use Default Icon">

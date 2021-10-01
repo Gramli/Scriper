@@ -48,4 +48,5 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 ## Planned to v1.4
 * Custom Icon selection
 * Faster Script Creation
+* Simplier Arguments Add
 

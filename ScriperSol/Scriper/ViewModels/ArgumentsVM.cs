@@ -23,5 +23,10 @@ namespace Scriper.ViewModels
         {
             throw new System.NotImplementedException();
         }
+
+        private void SplitArguments(string arguments)
+        {
+
+        }
     }
 }

@@ -35,7 +35,7 @@
     <DockPanel LastChildFill="True" Background="LightBlue" Height="80">
       <TextBlock Text="Arguments" Classes="h1"/>
       <!--<TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>-->
-      <views:ArgumentsVC DataContext="{Binding ArgumentsVM"/>
+      <views:ArgumentsVC DataContext="{Binding ArgumentsVM}"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Height="80">
       <TextBlock Text="Description" Classes="h1"/>

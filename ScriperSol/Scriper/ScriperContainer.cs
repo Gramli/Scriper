@@ -5,6 +5,7 @@ using Scriper.Converters;
 using Scriper.CustomScripts;
 using Scriper.Dialogs;
 using Scriper.ImageEditing;
+using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;
@@ -48,6 +49,7 @@ namespace Scriper
             _container.Register<IScriperFileDialogOpener, ScriperFileDialogOpener>();
             _container.Register<IScriptSchedulerManagerAdapter, ScriptSchedulerManagerAdapter>();
             _container.Register<IOpenEditorScriptCreator, OpenEditorScriptCreator>();
+            _container.Register<IArgumentsSplitter, ArgumentsSplitter>();
             _container.Register<Func<IOutputVM>>(() => () => new OutputVM());
             _container.Register<Func<IScript, IBitmap, IScriptVM>>(() => (script, scriptImage) => new ScriptVM(script, scriptImage));
             _container.Register<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(() => (collection) => 

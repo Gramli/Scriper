@@ -1,15 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Scriper.Models;
-using Scriper.ViewModels;
 
 namespace Scriper.Views
 {
-    public partial class ArgumentsVC : UserControl
+    public partial class ArgumentVC : UserControl
     {
-        public ArgumentsVC()
+        public ArgumentVC()
         {
             InitializeComponent();
         }

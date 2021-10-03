@@ -3,7 +3,7 @@ using ReactiveUI;
 using ScriperLib;
 using ScriperLib.Configuration;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.Script
 {
     public class ScriptVM : ViewModelBase, IScriptVM
     {

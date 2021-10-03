@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:cmdConst="clr-namespace:Scriper.ViewModels;assembly=Scriper"
+             xmlns:cmdConst="clr-namespace:Scriper.ViewModels.Script;assembly=Scriper"
              xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
              mc:Ignorable="d" 
              d:DesignWidth="800" 
@@ -32,12 +32,16 @@
       <TextBlock Text="Name" Classes="h1"/>
       <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1" Background="{Binding NameBackground}"/>
     </DockPanel>
-    <DockPanel LastChildFill="True" Background="LightBlue" Height="80">
+    <DockPanel Background="LightBlue">
+      <TextBlock Text="Path" Classes="h1"/>
+      <TextBox Text="{Binding ScriptPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ScriptPathBackground}"/>
+      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
+    </DockPanel>
+    <DockPanel LastChildFill="True" Height="170">
       <TextBlock Text="Arguments" Classes="h1"/>
-      <!--<TextBox Text="{Binding Arguments, Mode=TwoWay}" Classes="TextH1"/>-->
       <views:ArgumentsVC DataContext="{Binding ArgumentsVM}"/>
     </DockPanel>
-    <DockPanel LastChildFill="True" Height="80">
+    <DockPanel LastChildFill="True" Height="80" Background="LightBlue">
       <TextBlock Text="Description" Classes="h1"/>
       <ScrollViewer>
         <TextBox Text="{Binding Description, Mode=TwoWay}" Height="75"
@@ -45,11 +49,6 @@
                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"/>
       </ScrollViewer>
-    </DockPanel>
-    <DockPanel Background="LightBlue">
-      <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ScriptPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ScriptPathBackground}"/>
-      <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
     </DockPanel>
     <DockPanel LastChildFill="True">
       <TextBlock Text="InSystemTray" Classes="h1"/>
@@ -60,7 +59,7 @@
         <TextBlock Text="File Output" Classes="h1"/>
         <CheckBox Name="fileOutput" IsChecked="{Binding FileOutput}"/>
       </DockPanel>
-      <DockPanel Margin="20,0,0,0">
+      <DockPanel Margin="20,0,0,0" Background="LightBlue">
         <TextBlock Text="Path" Classes="h1"/>
         <TextBox IsEnabled="{Binding #fileOutput.IsChecked}" Text="{Binding FileOutputPath, Mode=TwoWay}" Width="360" Classes="TextH1"/>
         <Button IsEnabled="{Binding #fileOutput.IsChecked}" Content="..." HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding OpenFileCmd}" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdFileOutputPath}" ToolTip.Tip="Select Script Output File"/>

@@ -5,7 +5,7 @@ using ScriperLib.Enums;
 using System.Text;
 using System.Timers;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.Script
 {
     public class OutputVM : ViewModelBase, IOutputVM
     {

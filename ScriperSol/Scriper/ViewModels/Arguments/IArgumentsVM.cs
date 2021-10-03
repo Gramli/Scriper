@@ -1,4 +1,4 @@
-﻿namespace Scriper.ViewModels
+﻿namespace Scriper.ViewModels.Arguments
 {
     public interface IArgumentsVM
     {

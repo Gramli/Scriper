@@ -60,21 +60,11 @@
           </DataGridTemplateColumn>
           <DataGridTemplateColumn Width="*">
             <DataGridTemplateColumn.Header>
-              <TextBlock Text="Argument" Classes="DtgHeader"/>
+              <TextBlock Text="Description" Classes="DtgHeader"/>
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding ScriptConfiguration.Arguments}" Classes="LongText"/>
-              </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-          </DataGridTemplateColumn>
-          <DataGridTemplateColumn>
-            <DataGridTemplateColumn.Header>
-              <TextBlock Text="Description" Classes="DtgHeader" Width="400"/>
-            </DataGridTemplateColumn.Header>
-            <DataGridTemplateColumn.CellTemplate>
-              <DataTemplate>
-                <TextBlock Text="{Binding ScriptConfiguration.Description}" Classes="LongText"/>
+                <TextBlock Text="{Binding ScriptConfiguration.Description}" Margin="15,0,0,0" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

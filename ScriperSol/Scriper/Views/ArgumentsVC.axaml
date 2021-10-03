@@ -2,13 +2,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:views="clr-namespace:Scriper.Views;assembly=Scriper"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
              x:Class="Scriper.Views.ArgumentsVC">
-  <ListBox Items="{Binding Arguments}">
-    <ListBox.ItemTemplate>
-      <DataTemplate>
-          <TextBlock Text="{Binding, Mode=TwoWay}"/>
-      </DataTemplate>
-    </ListBox.ItemTemplate>
-  </ListBox>
+  <DataGrid HeadersVisibility="None" Items="{Binding Arguments}" AutoGenerateColumns="False">
+    <DataGrid.Columns>
+      <DataGridTemplateColumn Width="*">
+        <DataGridTemplateColumn.CellTemplate>
+          <DataTemplate>
+            <views:ArgumentVC DataContext="{Binding}"/>
+          </DataTemplate>
+        </DataGridTemplateColumn.CellTemplate>
+      </DataGridTemplateColumn>
+    </DataGrid.Columns>
+  </DataGrid>
 </UserControl>

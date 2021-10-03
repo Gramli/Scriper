@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Scriper.Models;
 using Scriper.UnitTests.Models;
+using System.Collections.Generic;
 
 namespace Scriper.UnitTests
 {
@@ -14,7 +15,7 @@ namespace Scriper.UnitTests
         }
 
         [TestCaseSource(typeof(ArgumentsSourceData))]
-        public void SplittingTest(string arguments, string[] expectedResult)
+        public void SplittingTest(string arguments, List<string> expectedResult)
         {
             var argumentsSplitter = _scriperContainer.GetInstance<IArgumentsSplitter>();
             var result = argumentsSplitter.SplitArguments(arguments);
@@ -22,7 +23,7 @@ namespace Scriper.UnitTests
         }
 
         [TestCaseSource(typeof(ArgumentsSourceData))]
-        public void JoiningTest(string expectedResult, string[] arguments)
+        public void JoiningTest(string expectedResult, List<string> arguments)
         {
             var argumentsSplitter = _scriperContainer.GetInstance<IArgumentsSplitter>();
             var result = argumentsSplitter.JoinArguments(arguments);

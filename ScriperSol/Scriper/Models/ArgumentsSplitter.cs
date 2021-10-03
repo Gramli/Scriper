@@ -12,7 +12,12 @@ namespace Scriper.Models
 
         public IEnumerable<string> SplitArguments(string arguments)
         {
-            var rawArgs = arguments.Split(" ");
+            if(arguments is null || !arguments.Any())
+            {
+                return new List<string>();
+            }
+
+            var rawArgs = SplitBySpace(arguments);
             if(!IsArgumentName(rawArgs.First()))
             {
                 return rawArgs;
@@ -21,20 +26,20 @@ namespace Scriper.Models
             return SplitNamedArguments(rawArgs);
         }
 
-        private IEnumerable<string> SplitNamedArguments(string[] rawArguments)
+        private IEnumerable<string> SplitNamedArguments(List<string> rawArguments)
         {
-            if(rawArguments.Length == 1)
+            if(rawArguments.Count == 1)
             {
                 return new List<string> { rawArguments.First() };
             }
 
             var result = new List<string>();
-            for (var i = 0; i < rawArguments.Length; i++)
+            for (var i = 0; i < rawArguments.Count; i++)
             {
                 if (IsArgumentName(rawArguments[i]))
                 {
                     var argument = rawArguments[i];
-                    var next = i + 1 < rawArguments.Length ? rawArguments[i + 1] : null;
+                    var next = i + 1 < rawArguments.Count ? rawArguments[i + 1] : null;
                     if (!string.IsNullOrEmpty(next) && IsArgumentValue(rawArguments[i+1]))
                     {
                         argument = $"{argument} {rawArguments[i + 1]}";
@@ -54,6 +59,32 @@ namespace Scriper.Models
         private bool IsArgumentValue(string value)
         {
             return !value.StartsWith('-');
+        }
+
+        private List<string> SplitBySpace(string arguments)
+        {
+            arguments = arguments.Trim();
+            var result = new List<string>();
+            var isEscape = false;
+            var lastSubstringIndex = 0;
+            for(var i=0;i<arguments.Length;i++)
+            {
+                var character = arguments[i];
+
+                if(character == '"')
+                {
+                    isEscape = !isEscape;
+                    continue;
+                }
+
+                if(!isEscape && character == ' ')
+                {
+                    result.Add(arguments.Substring(lastSubstringIndex, i - lastSubstringIndex));
+                    lastSubstringIndex = i + 1;
+                }
+            }
+            result.Add(arguments.Substring(lastSubstringIndex));
+            return result;
         }
     }
 }

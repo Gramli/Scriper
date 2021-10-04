@@ -12,19 +12,6 @@ using System.Reactive;
 
 namespace Scriper.ViewModels.TimeSchedule
 {
-    public class TriggerChangedEventArgs : EventArgs
-    {
-        public ScriptTriggerType ScriptTriggerType { get; }
-
-        public TriggerVM TriggerVM { get; }
-
-        public TriggerChangedEventArgs(ScriptTriggerType scriptTriggerType, TriggerVM triggerVM)
-        {
-            ScriptTriggerType = scriptTriggerType;
-            TriggerVM = triggerVM;
-        }
-    }
-
     public class TimeScheduleVM : ViewModelBase, ITimeScheduleVM
     {
         public event EventHandler<TriggerChangedEventArgs> OnTriggerChanged;

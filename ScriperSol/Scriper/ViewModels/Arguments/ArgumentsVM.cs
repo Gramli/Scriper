@@ -71,6 +71,5 @@ namespace Scriper.ViewModels.Arguments
             var arguments = Arguments.Select(i => i.Value).SkipLast(1);
             return _argumentsSplitter.JoinArguments(arguments);
         }
-
     }
 }

@@ -67,7 +67,7 @@ namespace Scriper.Models
             var result = new List<string>();
             var isEscape = false;
             var lastSubstringIndex = 0;
-            for(var i=0;i<arguments.Length;i++)
+            for(var i=0; i<arguments.Length; i++)
             {
                 var character = arguments[i];
 

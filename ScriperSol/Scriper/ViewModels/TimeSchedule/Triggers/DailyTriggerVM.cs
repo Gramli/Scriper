@@ -2,7 +2,7 @@
 using ScriperLib.Configuration.TimeTrigger;
 using System;
 
-namespace Scriper.ViewModels.Triggers
+namespace Scriper.ViewModels.TimeSchedule.Triggers
 {
     public class DailyTriggerVM : TriggerVM
     {

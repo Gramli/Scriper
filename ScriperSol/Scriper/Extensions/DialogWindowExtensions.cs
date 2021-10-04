@@ -6,8 +6,8 @@ namespace Scriper.Extensions
 {
     public static class DialogWindowExtensions
     {
-        private const int _scriptDialogHeight = 585;
-        private const int _scriptDialogWidth = 600;
+        private const int _scriptDialogHeight = 700;
+        private const int _scriptDialogWidth = 700;
 
         public static DialogWindow CreateAddScriptDialogWindow(IControl control, IAssets assets)
         {

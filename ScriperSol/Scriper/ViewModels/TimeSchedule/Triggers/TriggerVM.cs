@@ -1,6 +1,6 @@
 ﻿using ScriperLib.Configuration.TimeTrigger;
 
-namespace Scriper.ViewModels.Triggers
+namespace Scriper.ViewModels.TimeSchedule.Triggers
 {
     public abstract class TriggerVM : ViewModelBase
     {

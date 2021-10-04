@@ -17,7 +17,7 @@ namespace Scriper.UnitTests
         [Test]
         public void VerifyScriperContainer()
         {
-            var container = new TestScriperContainer(filePath, uiFilePath);
+            var container = new AvaloniaScriperContainer(filePath, uiFilePath);
             container.Verify();
         }
 

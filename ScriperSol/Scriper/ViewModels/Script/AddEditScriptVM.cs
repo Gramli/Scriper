@@ -8,6 +8,8 @@ using Scriper.Closing;
 using Scriper.Dialogs;
 using Scriper.Extensions;
 using Scriper.ImageEditing;
+using Scriper.ViewModels.Arguments;
+using Scriper.ViewModels.TimeSchedule;
 using Scriper.ViewModels.Validation;
 using Scriper.Views;
 using ScriperLib;
@@ -18,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.Script
 {
     public class AddEditScriptVM : ViewModelBase, IAddEditScriptVM
     {
@@ -84,17 +86,6 @@ namespace Scriper.ViewModels
             }
         }
 
-        private string _arguments;
-        public string Arguments
-        {
-            get => ScriptConfiguration.Arguments;
-            set
-            {
-                ScriptConfiguration.Arguments = value;
-                this.RaiseAndSetIfChanged(ref _arguments, value);
-            }
-        }
-
         private string _scriptPath;
         public string ScriptPath
         {
@@ -134,8 +125,6 @@ namespace Scriper.ViewModels
                 this.RaiseAndSetIfChanged(ref _fileOutputPath, value);
             }
         }
-
-        private string _iconImagePath;
         public string IconImagePath
         {
             get => ScriptConfiguration.IconImagePath;
@@ -143,7 +132,6 @@ namespace Scriper.ViewModels
             {
                 ScriptConfiguration.IconImagePath = value;
                 this.RaisePropertyChanged("IconImage");
-                this.RaiseAndSetIfChanged(ref _iconImagePath, value);
             }
         }
 
@@ -162,6 +150,8 @@ namespace Scriper.ViewModels
                 this.RaiseAndSetIfChanged(ref _outputWindow, value);
             }
         }
+
+        public IArgumentsVM ArgumentsVM { get; private set; }
 
         public IScriptConfiguration ScriptConfiguration { get; private set; }
         public event CloseEventHandler<IScript> Close;
@@ -192,7 +182,8 @@ namespace Scriper.ViewModels
             Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM> createTimeScheduleVM,
             IScriptIconImageEditor scriptIconImageEditor,
             IAssets assets,
-            IScriperFileDialogOpener scriperFileDialogOpener)
+            IScriperFileDialogOpener scriperFileDialogOpener,
+            IArgumentsVM argumentsVM)
         {
             ScriptConfiguration = scriptConfiguration;
             _scriptCreator = scriptCreator;
@@ -215,6 +206,9 @@ namespace Scriper.ViewModels
             _createTimeScheduleVM = createTimeScheduleVM;
             _assets = assets;
             _scriperFileDialogOpener = scriperFileDialogOpener;
+
+            ArgumentsVM = argumentsVM;
+            ArgumentsVM.Init(scriptConfiguration.Arguments);
         }
 
         public void Cancel()
@@ -228,6 +222,7 @@ namespace Scriper.ViewModels
             {
                 return;
             }
+            ScriptConfiguration.Arguments = ArgumentsVM.GetArguments();
             var script = _scriptCreator.Create(ScriptConfiguration);
             Close?.Invoke(this, new CloseEventArgs<IScript>(script));
         }

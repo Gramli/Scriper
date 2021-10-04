@@ -10,6 +10,7 @@ using Scriper.Dialogs;
 using Scriper.Extensions;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;
+using Scriper.ViewModels.Script;
 using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Configuration;

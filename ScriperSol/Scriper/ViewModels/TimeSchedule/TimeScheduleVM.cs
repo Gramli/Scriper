@@ -1,7 +1,7 @@
 ﻿using Microsoft.Scripting.Utils;
 using ReactiveUI;
 using Scriper.Closing;
-using Scriper.ViewModels.Triggers;
+using Scriper.ViewModels.TimeSchedule.Triggers;
 using ScriperLib.Configuration.TimeTrigger;
 using ScriperLib.Enums;
 using System;
@@ -10,21 +10,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.TimeSchedule
 {
-    public class TriggerChangedEventArgs : EventArgs
-    {
-        public ScriptTriggerType ScriptTriggerType { get; }
-
-        public TriggerVM TriggerVM { get; }
-
-        public TriggerChangedEventArgs(ScriptTriggerType scriptTriggerType, TriggerVM triggerVM)
-        {
-            ScriptTriggerType = scriptTriggerType;
-            TriggerVM = triggerVM;
-        }
-    }
-
     public class TimeScheduleVM : ViewModelBase, ITimeScheduleVM
     {
         public event EventHandler<TriggerChangedEventArgs> OnTriggerChanged;

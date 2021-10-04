@@ -1,0 +1,17 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Scriper.Views.ArgumentVC">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="40"/>
+    </Grid.ColumnDefinitions>
+    <TextBox Grid.Column="0" Text="{Binding Value, Mode=TwoWay}" CornerRadius="0"/>
+    <Button Grid.Column="1" CornerRadius="0" Command="{Binding DeleteCmd}" IsEnabled="{Binding !IsEmpty, Mode=TwoWay}">
+      <Image Source="/Assets/icons8_cancel_96px.png" Height="20"/>
+    </Button>
+  </Grid>
+</UserControl>

@@ -3,7 +3,7 @@ using ScriperLib.Configuration.TimeTrigger;
 using System;
 using System.Collections.ObjectModel;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.TimeSchedule
 {
     public interface ITimeScheduleVM : IClose<ITimeTriggerConfiguration>
     {

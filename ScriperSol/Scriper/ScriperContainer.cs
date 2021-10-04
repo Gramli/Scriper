@@ -5,10 +5,14 @@ using Scriper.Converters;
 using Scriper.CustomScripts;
 using Scriper.Dialogs;
 using Scriper.ImageEditing;
+using Scriper.Models;
 using Scriper.SystemStartUp;
 using Scriper.SystemTray;
 using Scriper.TimeSchedule;
 using Scriper.ViewModels;
+using Scriper.ViewModels.Arguments;
+using Scriper.ViewModels.Script;
+using Scriper.ViewModels.TimeSchedule;
 using Scriper.ViewModels.Validation;
 using ScriperLib;
 using ScriperLib.Configuration;
@@ -48,6 +52,9 @@ namespace Scriper
             _container.Register<IScriperFileDialogOpener, ScriperFileDialogOpener>();
             _container.Register<IScriptSchedulerManagerAdapter, ScriptSchedulerManagerAdapter>();
             _container.Register<IOpenEditorScriptCreator, OpenEditorScriptCreator>();
+            _container.Register<IArgumentsSplitter, ArgumentsSplitter>();
+            _container.Register<Func<string, IArgumentVM>>(() => (argument) => new ArgumentVM(argument));
+            _container.Register<IArgumentsVM, ArgumentsVM>();
             _container.Register<Func<IOutputVM>>(() => () => new OutputVM());
             _container.Register<Func<IScript, IBitmap, IScriptVM>>(() => (script, scriptImage) => new ScriptVM(script, scriptImage));
             _container.Register<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(() => (collection) => 
@@ -63,7 +70,8 @@ namespace Scriper
                  _container.GetInstance<Func<ICollection<ITimeTriggerConfiguration>, ITimeScheduleVM>>(),
                  _container.GetInstance<IScriptIconImageEditor>(),
                  _container.GetInstance<IAssets>(),
-                 _container.GetInstance<IScriperFileDialogOpener>()));
+                 _container.GetInstance<IScriperFileDialogOpener>(),
+                 _container.GetInstance<IArgumentsVM>()));
 
             _container.Register<Func<IScriperUIConfiguration, ISettingsVM>>(() => (config) => new SettingsVM(config, _container.GetInstance<ISystemStartUp>()));
             _container.Register<IScriptManagerVM, ScriptManagerVM>();

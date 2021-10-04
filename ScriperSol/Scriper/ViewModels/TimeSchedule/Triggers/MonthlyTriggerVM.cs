@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Scriper.ViewModels.Triggers
+namespace Scriper.ViewModels.TimeSchedule.Triggers
 {
     public class MonthlyTriggerVM : TriggerVM
     {

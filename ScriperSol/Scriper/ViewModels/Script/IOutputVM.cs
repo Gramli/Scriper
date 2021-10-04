@@ -1,6 +1,6 @@
 ﻿using ScriperLib.Outputs;
 
-namespace Scriper.ViewModels
+namespace Scriper.ViewModels.Script
 {
     public interface IOutputVM : IOutput
     {

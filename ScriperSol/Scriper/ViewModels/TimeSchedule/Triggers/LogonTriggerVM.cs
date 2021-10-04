@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using ScriperLib.Configuration.TimeTrigger;
 
-namespace Scriper.ViewModels.Triggers
+namespace Scriper.ViewModels.TimeSchedule.Triggers
 {
     public class LogonTriggerVM : TriggerVM
     {

@@ -23,10 +23,10 @@ jobs:
       - name: Install dependencies
         run: dotnet restore
         working-directory: ./ScriperSol
-      - name: Build
+      - name: Build Scriper
         # run: dotnet build --configuration Release --no-restore
-        run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper\Scriper.csproj"
-        working-directory: ./ScriperSol
+        run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper.UnitTests.csproj"
+        working-directory: .\ScriperSol\Scriper.UnitTests
       - name: Test
         run: dotnet test --no-restore --verbosity normal
-        working-directory: ./ScriperSol
+        working-directory: .\ScriperSol\Scriper.UnitTests

@@ -28,5 +28,5 @@ jobs:
         run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper.UnitTests.csproj"
         working-directory: .\ScriperSol\Scriper.UnitTests
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test Scriper.UnitTests.csproj .\ --no-build --verbosity normal
         working-directory: .\ScriperSol\Scriper.UnitTests

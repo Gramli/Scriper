@@ -22,7 +22,10 @@ jobs:
           dotnet-version: '5.0.x'
       - name: Install dependencies
         run: dotnet restore
+        working-directory: ./ScriperSol
       - name: Build
         run: dotnet build --configuration Release --no-restore
+        working-directory: ./ScriperSol
       - name: Test
         run: dotnet test --no-restore --verbosity normal
+        working-directory: ./ScriperSol

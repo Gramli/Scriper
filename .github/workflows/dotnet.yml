@@ -24,7 +24,8 @@ jobs:
         run: dotnet restore
         working-directory: ./ScriperSol
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        # run: dotnet build --configuration Release --no-restore
+        run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper\Scriper.csproj"
         working-directory: ./ScriperSol
       - name: Test
         run: dotnet test --no-restore --verbosity normal

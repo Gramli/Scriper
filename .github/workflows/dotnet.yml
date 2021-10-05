@@ -25,7 +25,7 @@ jobs:
         working-directory: ./ScriperSol
       - name: Build Scriper
         # run: dotnet build --configuration Release --no-restore
-        run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper.UnitTests.csproj" -p:OutDir=.\ScriperSol\Scriper.UnitTests\bin\Debug\net5.0-windows;Configuration=Release
+        run: start "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\MSBuild.exe" ".\Scriper.UnitTests.csproj" -property:OutDir=.\ScriperSol\Scriper.UnitTests\bin\Debug\net5.0-windows;Configuration=Release
         working-directory: .\ScriperSol\Scriper.UnitTests
       - name: Test
         run: dotnet test Scriper.UnitTests.csproj --no-build --verbosity normal

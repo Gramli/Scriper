@@ -6,6 +6,7 @@ using Scriper.Extensions;
 using Scriper.OperationSystem;
 using Scriper.SystemTray;
 using Scriper.Views;
+using ScriperLib.Clone;
 using ScriperLib.Extensions;
 using System;
 using System.Reactive;
@@ -27,11 +28,13 @@ namespace Scriper.ViewModels
 
         private readonly ISystemTrayMenu _systemTrayMenu;
         private readonly Func<IScriperUIConfiguration, ISettingsVM> _createSettingsVM;
+        private readonly IDeepCloneAdapter _deepCloneAdapter;
 
         public MainVM(IScriperUIConfiguration uiConfig,
             ISystemTrayMenu systemTrayMenu,
             IScriptManagerVM scriptManagerVM,
-            Func<IScriperUIConfiguration, ISettingsVM> createSettingsVM)
+            Func<IScriperUIConfiguration, ISettingsVM> createSettingsVM,
+            IDeepCloneAdapter deepCloneAdapter)
         {
             ActualUiConfiguration = uiConfig;
             ScriptManagerVM = scriptManagerVM;
@@ -42,6 +45,7 @@ namespace Scriper.ViewModels
             FastCreateScriptCmd = ReactiveCommand.Create(ScriptManagerVM.FastCreateScript).CatchError(_logger);
             _systemTrayMenu = systemTrayMenu;
             _createSettingsVM = createSettingsVM;
+            _deepCloneAdapter = deepCloneAdapter;
         }
 
         public void Init()
@@ -72,7 +76,10 @@ namespace Scriper.ViewModels
         {
             try
             {
-                var settingsVM = _createSettingsVM(ActualUiConfiguration.DeepClone());
+                MessageBoxExtensions.ShowDialog("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
+
+                var newUIConfig = _deepCloneAdapter.DeepClone(ActualUiConfiguration);
+                var settingsVM = _createSettingsVM(newUIConfig);
                 var settingsWindow = new SettingsWindow(settingsVM);
 
                 settingsVM.Close += (sender, args) =>

@@ -16,7 +16,7 @@ namespace Scriper.Extensions
                 ContentHeader = "Error Message:",
                 ContentTitle = "Error",
                 ButtonDefinitions = new[] { new ButtonDefinition { Name = "Ok", Type = ButtonType.Default }, }
-            });
+            }); ;
         }
 
         public static void ShowDialog(string message)

@@ -13,6 +13,7 @@ using Scriper.TimeSchedule;
 using Scriper.ViewModels.Script;
 using Scriper.Views;
 using ScriperLib;
+using ScriperLib.Clone;
 using ScriperLib.Configuration;
 using ScriperLib.Extensions;
 using System;
@@ -43,6 +44,7 @@ namespace Scriper.ViewModels
         private readonly IScriptToImageConverter _scriptToImageConverter;
         private readonly IScriperFileDialogOpener _scriperFileDialogOpener;
         private readonly IScriptFactory _scriptCreator;
+        private readonly IDeepCloneAdapter _deepCloneAdapter;
 
         private static readonly Logger _logger = NLogFactoryProxy.Instance.GetLogger();
 
@@ -58,7 +60,8 @@ namespace Scriper.ViewModels
             IAssets assets,
             IScriptToImageConverter scriptToImageConverter,
             IScriperFileDialogOpener scriperFileDialogOpener,
-            IScriptFactory scriptCreator)
+            IScriptFactory scriptCreator,
+            IDeepCloneAdapter deepCloneAdapter)
         {
             _scriptManager = scriptManager;
             _scriptRunner = scriptRunner;
@@ -77,6 +80,7 @@ namespace Scriper.ViewModels
             _createScriptVM = createScriptVM;
             _scriperFileDialogOpener = scriperFileDialogOpener;
             _scriptCreator = scriptCreator;
+            _deepCloneAdapter = deepCloneAdapter;
         }
 
         public void Init()
@@ -214,7 +218,8 @@ namespace Scriper.ViewModels
             try
             {
                 var script = GetScriptVM(name).Script;
-                var scriptViewModel = _createAddEditScriptVM(script.Configuration.DeepClone());
+                var newScriptConfig = _deepCloneAdapter.DeepClone(script.Configuration);
+                var scriptViewModel = _createAddEditScriptVM(newScriptConfig);
                 var scriptControl = new ScriptVC(scriptViewModel);
                 var dialogWindow = DialogWindowExtensions.CreateEditScriptDialogWindow(scriptControl, _assets);
 

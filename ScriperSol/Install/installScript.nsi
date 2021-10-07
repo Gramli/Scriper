@@ -68,7 +68,7 @@ WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Scriper" \
 SetOverwrite off
 File /r \
 /x "*.pdb" \
-"E:\GitHub\Scriper\ScriperSol\Scriper\bin\Release\netcoreapp3.1\*.*"
+"E:\GitHub\Scriper\ScriperSol\Scriper\bin\Release\net5.0-windows\*.*"
  
 # default section end
 SectionEnd

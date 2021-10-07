@@ -1,34 +1,36 @@
-﻿using MessageBox.Avalonia.DTO;
-using MessageBox.Avalonia.Enums;
-using MessageBox.Avalonia.Models;
+﻿using Scriper.ViewModels.MessageBox;
+using Scriper.Views;
 
 namespace Scriper.Extensions
 {
     public static class MessageBoxExtensions
     {
-        private static MessageBox.Avalonia.BaseWindows.Base.IMsBoxWindow<string> CreateDefaultErrorMessageBox(string message)
-        {
-            return MessageBox.Avalonia.MessageBoxManager.GetMessageBoxCustomWindow(new MessageBoxCustomParams
-            {
-                Icon = Icon.Error,
-                Style = Style.Windows,
-                ContentMessage = message,
-                ContentHeader = "Error Message:",
-                ContentTitle = "Error",
-                ButtonDefinitions = new[] { new ButtonDefinition { Name = "Ok", Type = ButtonType.Default }, }
-            });
-        }
-
         public static void ShowDialog(string message)
         {
-            var messageBoxCustomWindow = CreateDefaultErrorMessageBox(message);
-            messageBoxCustomWindow.ShowDialog(App.Current.GetMainWindow());
+            var messageBox = CreateDefaultErrorMessageBox(message);
+            messageBox.ShowDialog(App.Current.GetMainWindow());
         }
 
         public static void Show(string message)
         {
             var messageBoxCustomWindow = CreateDefaultErrorMessageBox(message);
             messageBoxCustomWindow.Show();
+        }
+
+        private static MessageBox CreateDefaultErrorMessageBox(string message)
+        {
+            var messageBox = new MessageBox()
+            {
+                Width = 540,
+                Height = 200,
+            };
+            var dataContext = new MessageBoxVM("Error", message);
+            dataContext.Close += (sender, args) =>
+            {
+                messageBox.Close();
+            };
+            messageBox.DataContext = dataContext;
+            return messageBox;
         }
     }
 }

@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:Scriper.ViewModels;assembly=Scriper"
-        mc:Ignorable="d" Width="500" Height="300"
+        mc:Ignorable="d" Width="500" Height="350"
         x:Class="Scriper.Views.AboutWindow"
         Icon="/Assets/icons8_info.ico"
         Title="About"

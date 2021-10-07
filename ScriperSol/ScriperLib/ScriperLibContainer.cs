@@ -1,4 +1,5 @@
-﻿using ScriperLib.Configuration;
+﻿using ScriperLib.Clone;
+using ScriperLib.Configuration;
 using ScriperLib.Configuration.Outputs;
 using ScriperLib.Configuration.TimeTrigger;
 using ScriperLib.Extensions;
@@ -26,6 +27,7 @@ namespace ScriperLib
 
             _container.RegisterInstance(configuration);
             _container.RegisterInstance(configuration.ScriptManagerConfiguration);
+            _container.RegisterInstance<IDeepCloneAdapter>(new DeepCloneAdapter());
             _container.Collection.Register<IRunner>(
                 typeof(ProcessRunner),
                 typeof(PythonRunner),

@@ -76,8 +76,6 @@ namespace Scriper.ViewModels
         {
             try
             {
-                MessageBoxExtensions.ShowDialog("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss");
-
                 var newUIConfig = _deepCloneAdapter.DeepClone(ActualUiConfiguration);
                 var settingsVM = _createSettingsVM(newUIConfig);
                 var settingsWindow = new SettingsWindow(settingsVM);

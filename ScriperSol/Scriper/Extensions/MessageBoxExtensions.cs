@@ -10,7 +10,6 @@ namespace Scriper.Extensions
         {
             var messageBox = CreateDefaultErrorMessageBox(message);
             messageBox.ShowDialog(App.Current.GetMainWindow());
-
         }
 
         public static void Show(string message)

@@ -24,6 +24,7 @@
     <None Remove="Assets\icons8_edit_file_96px.png" />
     <None Remove="Assets\icons8_edit_property.ico" />
     <None Remove="Assets\icons8_error.ico" />
+    <None Remove="Assets\icons8_error_96px.png" />
     <None Remove="Assets\icons8_file_1.ico" />
     <None Remove="Assets\icons8_high_importance_96px.png" />
     <None Remove="Assets\icons8_info.ico" />

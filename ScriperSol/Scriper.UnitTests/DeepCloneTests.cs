@@ -10,7 +10,6 @@ namespace Scriper.UnitTests
     public class DeepCloneTests : TestsBase
     {
         private readonly ScriperContainer _scriperContainer;
-
         public DeepCloneTests()
         {
             _scriperContainer = new TestScriperContainer(filePath, uiFilePath);
@@ -38,7 +37,6 @@ namespace Scriper.UnitTests
             Assert.AreNotSame(config.TimeScheduleConfigurations, newConfig.TimeScheduleConfigurations);
             Assert.AreNotSame(config.TimeScheduleConfigurations.First(), newConfig.TimeScheduleConfigurations.First());
             Assert.AreEqual(config.TimeScheduleConfigurations.First().DelayInSeconds, newConfig.TimeScheduleConfigurations.First().DelayInSeconds);
-
         }
     }
 }

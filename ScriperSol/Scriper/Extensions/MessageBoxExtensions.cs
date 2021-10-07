@@ -1,5 +1,4 @@
-﻿
-using Scriper.ViewModels.MessageBox;
+﻿using Scriper.ViewModels.MessageBox;
 using Scriper.Views;
 
 namespace Scriper.Extensions

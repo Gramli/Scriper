@@ -1,4 +1,4 @@
-name: .NET
+name: .NET 
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    name: Build & Unit Test
     strategy:
       matrix: 
         dotnet-version: ['5.0.x']
@@ -17,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core SDK '5.0.x'
-        uses: actions/setup-dotnet@v1.7.2
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
       - name: Install dependencies
@@ -26,6 +27,6 @@ jobs:
       - name: Build Scriper
         run: dotnet build --configuration Release --no-restore
         working-directory: .\ScriperSol\Scriper.UnitTests
-      - name: Test
+      - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal --configuration Release
         working-directory: .\ScriperSol\Scriper.UnitTests

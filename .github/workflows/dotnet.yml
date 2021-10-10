@@ -20,7 +20,7 @@ jobs:
         run: dotnet restore
         working-directory: ./ScriperSol
       - name: Build Scriper
-        run: dotnet build --configuration Release --no-restore
+        run: msbuild /t:Rebuild
         working-directory: .\ScriperSol\Scriper.UnitTests
       - name: Run Unit Tests
         run: dotnet test --no-build --verbosity normal --configuration Release

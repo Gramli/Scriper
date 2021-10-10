@@ -1,31 +1,27 @@
-name: .NET
-
+name: .NET 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, GithubActions ]
   pull_request:
     branches: [ master ]
   workflow_dispatch:
-
 jobs:
   build:
     runs-on: windows-latest
+    name: Build & Unit Test
     strategy:
       matrix: 
         dotnet-version: ['5.0.x']
-      
     steps:
       - uses: actions/checkout@v2
-      - name: Setup .NET Core SDK '5.0.x'
-        uses: actions/setup-dotnet@v1.7.2
-        with:
-          dotnet-version: '5.0.x'
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.0.3
       - name: Install dependencies
         run: dotnet restore
         working-directory: ./ScriperSol
       - name: Build Scriper
-        run: dotnet build --configuration Release --no-restore
+        run: msbuild /t:Rebuild
         working-directory: .\ScriperSol\Scriper.UnitTests
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --configuration Release
+      - name: Run Unit Tests
+        run: dotnet test --no-build --verbosity normal
         working-directory: .\ScriperSol\Scriper.UnitTests

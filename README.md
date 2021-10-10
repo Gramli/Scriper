@@ -52,5 +52,5 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * update PowerShell version
 * update Avalonia version
 
-(Pre-Release Download)[https://github.com/Gramli/Scriper/releases/tag/v1.4/ScriperInstaller.exe]
+[Pre-Release Download](https://github.com/Gramli/Scriper/releases/tag/v1.4/ScriperInstaller.exe)
 

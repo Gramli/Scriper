@@ -109,20 +109,25 @@ namespace Scriper.ViewModels.Script
                     return;
                 }
 
-                ScriptConfiguration.FileOutputConfiguration = value ? _fileOutputConfigurationFactory.Create() : null;
+                if(!value)
+                {
+                    ScriptConfiguration.FileOutputConfiguration = null;
+                    this.RaisePropertyChanged(nameof(FileOutputPath));
+                }
+
                 _fileOutput = value;
-                this.RaiseAndSetIfChanged(ref _fileOutput, value);
+                this.RaisePropertyChanged(nameof(FileOutput));
             }
         }
 
-        private string _fileOutputPath;
         public string FileOutputPath
         {
             get => ScriptConfiguration.FileOutputConfiguration?.Path;
             set
             {
+                ScriptConfiguration.FileOutputConfiguration ??= _fileOutputConfigurationFactory.Create();
                 ScriptConfiguration.FileOutputConfiguration.Path = value;
-                this.RaiseAndSetIfChanged(ref _fileOutputPath, value);
+                this.RaisePropertyChanged(nameof(FileOutputPath));
             }
         }
         public string IconImagePath
@@ -131,7 +136,7 @@ namespace Scriper.ViewModels.Script
             set
             {
                 ScriptConfiguration.IconImagePath = value;
-                this.RaisePropertyChanged("IconImage");
+                this.RaisePropertyChanged(nameof(IconImage));
             }
         }
 
@@ -209,6 +214,8 @@ namespace Scriper.ViewModels.Script
 
             ArgumentsVM = argumentsVM;
             ArgumentsVM.Init(scriptConfiguration.Arguments);
+
+            FileOutput = !string.IsNullOrEmpty(ScriptConfiguration.FileOutputConfiguration?.Path);
         }
 
         public void Cancel()
@@ -235,14 +242,14 @@ namespace Scriper.ViewModels.Script
                     var scriptResult = await _scriperFileDialogOpener.OpenScriptFileDialogAsync();
                     if (scriptResult.ok)
                     {
-                        CreateImageInAssets(scriptResult.file);
+                        ScriptPath = scriptResult.file;
                     }
                     break;
                 case OpenFileCmdFileOutputPath:
                     var fileOutputResult = await _scriperFileDialogOpener.OpenOutputFileDialogAsync();
                     if (fileOutputResult.ok)
                     {
-                        CreateImageInAssets(fileOutputResult.file);
+                        FileOutputPath = fileOutputResult.file;
                     }
                     break;
                 case OpenFileCmdIcon:

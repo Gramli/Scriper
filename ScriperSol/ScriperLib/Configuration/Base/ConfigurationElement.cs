@@ -17,16 +17,13 @@ namespace ScriperLib.Configuration.Base
     [Serializable]
     public abstract class ConfigurationElement : IConfigurationElement
     {
-        private readonly string _source;
         public ConfigurationElement(XElement element)
         {
             Parse(element);
-            _source = element.ToString();
         }
 
         protected internal ConfigurationElement(string source)
         {
-            _source = source;
             var element = XElement.Parse(source);
             Parse(element);
         }

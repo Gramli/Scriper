@@ -55,8 +55,8 @@ namespace Scriper
             }
             catch (Exception ex)
             {
-                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
+                MessageBoxExtensions.ShowDialog(ex.Message);
             }
 
             App.Current.CloseWindows();

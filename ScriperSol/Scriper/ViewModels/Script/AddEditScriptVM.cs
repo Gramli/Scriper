@@ -263,8 +263,8 @@ namespace Scriper.ViewModels.Script
             }
             catch(Exception ex)
             {
-                MessageBoxExtensions.ShowDialog(ex.Message);
                 _logger.Error(ex);
+                MessageBoxExtensions.ShowDialog(ex.Message);
             }
         }
 

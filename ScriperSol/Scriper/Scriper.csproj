@@ -5,6 +5,7 @@
     <ApplicationIcon>Scriper.ico</ApplicationIcon>
     <AssemblyVersion>1.4.7.0</AssemblyVersion>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />

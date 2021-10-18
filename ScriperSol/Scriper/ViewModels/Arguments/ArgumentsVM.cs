@@ -1,5 +1,5 @@
 ﻿using Avalonia.Collections;
-using Scriper.Models;
+using ScriperLib.Arguments;
 using System;
 using System.Linq;
 

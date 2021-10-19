@@ -50,6 +50,7 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Custom Icon selection
 * Faster Script Creation
 * Simplier Arguments Add
+* Fix PowerShell Arguments and Parameters using
 * update PowerShell version
 * update Avalonia version
 * Lot of Bug Fixes 

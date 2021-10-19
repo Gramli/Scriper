@@ -28,7 +28,6 @@ namespace ScriperLib.Runners
 
             if (!string.IsNullOrEmpty(script.Configuration.Arguments))
             {
-
                 var argsAndParams = _powerShellArgumentsSplitter.Get(script.Configuration.Arguments);
 
                 foreach(var argument in argsAndParams.Arguments)

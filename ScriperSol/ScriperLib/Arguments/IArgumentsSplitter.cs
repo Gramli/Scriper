@@ -9,5 +9,7 @@ namespace ScriperLib.Arguments
         string JoinArguments(IEnumerable<string> arguments);
 
         bool IsArgumentName(string value);
+
+        IList<string> SplitBySpace(string arguments);
     }
 }

@@ -13,10 +13,13 @@ namespace Scriper.UnitTests
             _scriperContainer = new TestScriperLibContainer(filePath);
         }
 
-        [TestCaseSource(typeof(ArgumentsSourceData))]
-        public void GetTest()
+        [TestCaseSource(typeof(PowerShellArgumentsData))]
+        public void GetTest(string rawData, PowerShellScriptInputs expectedPowerShellScriptInputs)
         {
             var powerShellArgumentsSplitter = _scriperContainer.GetInstance<IPowerShellArgumentsSplitter>();
+            var result = powerShellArgumentsSplitter.Get(rawData);
+            CollectionAssert.AreEqual(expectedPowerShellScriptInputs.Arguments, result.Arguments);
+            CollectionAssert.AreEqual(expectedPowerShellScriptInputs.Parameters, result.Parameters);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace ScriperLib.Arguments
     internal class PowerShellArgumentsSplitterDecorator : IPowerShellArgumentsSplitter
     {
         private readonly IArgumentsSplitter _argumentsSplitter;
-        internal PowerShellArgumentsSplitterDecorator(IArgumentsSplitter argumentsSplitter)
+        public PowerShellArgumentsSplitterDecorator(IArgumentsSplitter argumentsSplitter)
         {
             _argumentsSplitter = argumentsSplitter;
         }
@@ -21,11 +21,12 @@ namespace ScriperLib.Arguments
             {
                 if(_argumentsSplitter.IsArgumentName(arg))
                 {
-                    var nameAndValue = arg.Split(" ");
+                    var nameAndValue = _argumentsSplitter.SplitBySpace(arg);
 
-                    if(nameAndValue.Length != 2)
+                    if(nameAndValue.Count == 1)
                     {
-                        throw new ArgumentException("PowerShell Parameter does not contains name and value.");
+                        parameters.Add(nameAndValue[0], string.Empty);
+                        continue;
                     }
 
                     parameters.Add(nameAndValue[0], nameAndValue[1]);

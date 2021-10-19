@@ -1,17 +1,17 @@
 ﻿using NUnit.Framework;
-using Scriper.Models;
 using Scriper.UnitTests.Models;
+using ScriperLib.Arguments;
 using System.Collections.Generic;
 
 namespace Scriper.UnitTests
 {
     public class ArgumentsSplitterTests : TestsBase
     {
-        private readonly ScriperContainer _scriperContainer;
+        private readonly TestScriperLibContainer _scriperContainer;
 
         public ArgumentsSplitterTests()
         {
-            _scriperContainer = new TestScriperContainer(filePath, uiFilePath);
+            _scriperContainer = new TestScriperLibContainer(filePath);
         }
 
         [TestCaseSource(typeof(ArgumentsSourceData))]

@@ -1,9 +1,5 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Scriper.Models;
-using Scriper.ViewModels;
 
 namespace Scriper.Views
 {

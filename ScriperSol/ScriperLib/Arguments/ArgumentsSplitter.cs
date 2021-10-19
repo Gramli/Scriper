@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Scriper.Models
+namespace ScriperLib.Arguments
 {
     public class ArgumentsSplitter : IArgumentsSplitter
     {
@@ -18,15 +18,10 @@ namespace Scriper.Models
             }
 
             var rawArgs = SplitBySpace(arguments);
-            if(!IsArgumentName(rawArgs.First()))
-            {
-                return rawArgs;
-            }
-
-            return SplitNamedArguments(rawArgs);
+            return SplitByName(rawArgs);
         }
 
-        private IEnumerable<string> SplitNamedArguments(List<string> rawArguments)
+        private IEnumerable<string> SplitByName(IList<string> rawArguments)
         {
             if(rawArguments.Count == 1)
             {
@@ -36,32 +31,32 @@ namespace Scriper.Models
             var result = new List<string>();
             for (var i = 0; i < rawArguments.Count; i++)
             {
-                if (IsArgumentName(rawArguments[i]))
+                var rawArgument = rawArguments[i];
+                if (IsArgumentName(rawArgument))
                 {
-                    var argument = rawArguments[i];
                     var next = i + 1 < rawArguments.Count ? rawArguments[i + 1] : null;
-                    if (!string.IsNullOrEmpty(next) && IsArgumentValue(rawArguments[i+1]))
+                    if (!string.IsNullOrEmpty(next) && !IsArgumentName(rawArguments[i+1]))
                     {
-                        argument = $"{argument} {rawArguments[i + 1]}";
+                        rawArgument = $"{rawArgument} {rawArguments[i + 1]}";
+                        result.Add(rawArgument);
+                        i++;
+                        continue;
                     }
-                    result.Add(argument);
+                    result.Add(rawArgument);
+                    continue;
                 }
+                result.Add(rawArgument);
             }
 
             return result;
         }
 
-        private bool IsArgumentName(string value)
+        public bool IsArgumentName(string value)
         {
             return value.StartsWith('-');
         }
 
-        private bool IsArgumentValue(string value)
-        {
-            return !value.StartsWith('-');
-        }
-
-        private List<string> SplitBySpace(string arguments)
+        public IList<string> SplitBySpace(string arguments)
         {
             arguments = arguments.Trim();
             var result = new List<string>();

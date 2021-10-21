@@ -19,11 +19,16 @@ namespace Scriper.SystemStartUp.Windows
         {
             var shell = new IWshRuntimeLibrary.WshShell();
             var curAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var location = curAssembly.Location;
+            if(Path.GetExtension(location).Equals(".dll"))
+            {
+                location = $"{Path.Combine(Path.GetDirectoryName(location),Path.GetFileNameWithoutExtension(location))}.exe";
+            }
 
             var shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(_shortcutAddress);
             shortcut.Description = "Scriper Application";
             shortcut.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            shortcut.TargetPath = curAssembly.Location;
+            shortcut.TargetPath = location;
             shortcut.IconLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Scriper.ico");
             shortcut.Save();
         }

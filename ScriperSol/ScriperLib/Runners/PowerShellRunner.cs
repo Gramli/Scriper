@@ -23,6 +23,7 @@ namespace ScriperLib.Runners
         public IScriptResult Run(IScript script)
         { 
             using var powerShell = PowerShell.Create();
+
             var content = File.ReadAllText(script.Configuration.Path);
             powerShell.AddScript(content);
 
@@ -35,7 +36,7 @@ namespace ScriperLib.Runners
                     powerShell.AddArgument(argument);
                 }
 
-                foreach(var parameter in argsAndParams.Parameters)
+                foreach (var parameter in argsAndParams.Parameters)
                 {
                     powerShell.AddParameter(parameter.Key, parameter.Value);
                 }

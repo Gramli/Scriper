@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ScriperLib.Arguments
 {
@@ -29,7 +30,8 @@ namespace ScriperLib.Arguments
                         continue;
                     }
 
-                    parameters.Add(nameAndValue[0], nameAndValue[1]);
+                    var value = RemoveQuotationMarks(nameAndValue[1]);
+                    parameters.Add(nameAndValue[0], value);
                     continue;
                 }
 
@@ -37,6 +39,16 @@ namespace ScriperLib.Arguments
             }
 
             return new PowerShellScriptInputs() { Arguments = arguments, Parameters = parameters };
+        }
+
+        private string RemoveQuotationMarks(string value)
+        {
+            if (Regex.IsMatch(value, "^((\\\".+\\\")|(\\\'.+\\\'))$"))
+            {
+                return value[1..^1];
+            }
+
+            return value;
         }
     }
 }

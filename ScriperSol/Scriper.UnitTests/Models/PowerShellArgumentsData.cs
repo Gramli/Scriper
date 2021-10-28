@@ -139,7 +139,6 @@ namespace Scriper.UnitTests.Models
                     }
                 }
             };
-
         }
     }
 }

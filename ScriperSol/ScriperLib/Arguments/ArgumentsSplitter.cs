@@ -66,7 +66,7 @@ namespace ScriperLib.Arguments
             {
                 var character = arguments[i];
 
-                if(character == '"')
+                if(character == '"' || character == '\'')
                 {
                     isEscape = !isEscape;
                     continue;

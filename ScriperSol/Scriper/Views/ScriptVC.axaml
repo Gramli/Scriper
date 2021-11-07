@@ -32,9 +32,9 @@
       <TextBlock Text="Name" Classes="h1"/>
       <TextBox Text="{Binding Name, Mode=TwoWay}" Classes="TextH1" Background="{Binding NameBackground}"/>
     </DockPanel>
-    <DockPanel Background="LightBlue">
+    <DockPanel Background="LightBlue" Height="50">
       <TextBlock Text="Path" Classes="h1"/>
-      <TextBox Text="{Binding ScriptPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ScriptPathBackground}"/>
+      <TextBox Text="{Binding ScriptPath, Mode=TwoWay}" Classes="TextH1" Width="350" Background="{Binding ScriptPathBackground}" TextWrapping="Wrap" AcceptsReturn="True"/>
       <Button Content="..." Command="{Binding OpenFileCmd}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CommandParameter="{x:Static cmdConst:AddEditScriptVM.OpenFileCmdScriptPath}" DockPanel.Dock="Right" ToolTip.Tip="Select Script File"/>
     </DockPanel>
     <DockPanel LastChildFill="True" Height="170">

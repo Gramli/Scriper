@@ -8,6 +8,6 @@
             @$"Scriper was developed by using lot of frameworks and libraries, you can find their list on Github (https://github.com/Gramli/Scriper). All icons are created by Icons8 (https://icons8.com/). If you like Scriper share it :).";
 
         public string ReportText =>
-            "If you find any issue please report it to Github Discussions or create new Issue in Github Issues.";
+            "If you find any issue please report it to Github Discussions or create new Issue in Github Issues. You can also create Discussions about any idea to improve Scriper app.";
     }
 }

@@ -11,6 +11,9 @@
     <AvaloniaResource Include="Assets\**" />
   </ItemGroup>
   <ItemGroup>
+    <AvaloniaResource Remove="Assets\generateGuid.ps1" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\icons8_add_file_96px.png" />
     <None Remove="Assets\icons8_administrative_tools.ico" />
     <None Remove="Assets\icons8_administrative_tools_96px.png" />
@@ -60,6 +63,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ScriperLib\ScriperLib.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\generateGuid.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Update="Config\defaultScriper.config">

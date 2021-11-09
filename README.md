@@ -26,6 +26,8 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1) - on Windows You need to Enable the Linux Bash Shell in Windows 10
 
 ## Download and Install
+### release v1.4
+* [Windows](https://github.com/Gramli/Scriper/releases/download/v1.4/ScriperInstaller.exe)
 ### release v1.3.3
 * [Windows](https://github.com/Gramli/Scriper/releases/download/v1.3.3/ScriperInstaller_v1.3.3.exe)
 ### release v1.2
@@ -46,14 +48,4 @@ Are you tired from everyday searching application and scripts? Using Scriper you
 * [NSIS](https://nsis.sourceforge.io/Download)
 * [Icons8](https://icons8.com)
 * [TaskScheduler](https://github.com/dahall/TaskScheduler)
-
-  
-## Planned to v1.4
-* Custom Icon selection
-* Faster Script Creation
-* Simplier Arguments Add
-* Fix PowerShell Arguments and Parameters using
-* update PowerShell version
-* update Avalonia version
-* Lot of Bug Fixes 
 

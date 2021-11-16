@@ -9,12 +9,12 @@
 ![Scriper Example](/Images/scriper.png)
 
 Are you tired from everyday searching application and scripts? Using Scriper you can manage and run all yours scripts or applications from one place.
-Scriper is capable to run js/python/powershell/windows process scripts or .exe applications. You can for example schedule script/app run through simple UI or hide Scriper into Tray Menu and run script/app from it.    
+Scriper is capable to **run js/python/powershell/windows process scripts or .exe applications**. You can for example schedule script/app run through simple UI or hide Scriper into Tray Menu and run script/app from it.    
 
-When you do something repetitive what can make script, Scriper is totally for you. Write script, add it to Scriper and simply run it from Tray Menu when you need it.
+When you do **something repetitive what can make a script**, Scriper is totally for you. Write script, add it to Scriper and simply run it as you need.
 
 
-As a developer I use Scriper for example to open visual studio solitions as admin, kill all running processes by name, open .exe applications with specified arguments, register libs to GAC etc. and all of it I run from tray menu.
+As a developer I use Scriper for example to open visual studio solutions as admin, kill all running processes by name, open .exe applications with specified arguments, register libs to GAC etc. and **all of it I run from tray menu**.
 
 ## Menu
 * [Features](#features)  

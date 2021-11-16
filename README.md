@@ -13,10 +13,9 @@ Scriper is capable to run js/python/powershell/windows process scripts or .exe a
 
 ## Menu
 * [Features](#features)  
-* [Wiki](https://github.com/Gramli/Scriper/wiki)    
+* [Wiki](https://github.com/Gramli/Scriper/wiki) - All needed information should be there    
 * [Download and Install](#download-and-install)    
 * [Technologies and Tools](#technologies-and-tools-used)  
-* [Planned](#planned)
 
 ## Features
 - **Task Scheduler**  
@@ -28,10 +27,13 @@ Scriper is capable to run js/python/powershell/windows process scripts or .exe a
   * Exe - .exe -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1)
   * Javascript - .js - [Jint](https://github.com/sebastienros/jint)
   * Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1) - on Windows You need to Enable the Linux Bash Shell in Windows 10
+- **Run At Start Up**
+- **Custom Icon for Scripts**
+
 
 ## Download and Install
-* [Download Last Release Installer](https://github.com/Gramli/Scriper/releases/download/v1.4/ScriperInstaller.exe)
-* [Older Versions](https://github.com/Gramli/Scriper/releases)
+* [Download Last Release Installer - 1.4](https://github.com/Gramli/Scriper/releases/download/v1.4/ScriperInstaller.exe)
+* [Older Versions - Releases](https://github.com/Gramli/Scriper/releases)
 
 
 ## Technologies and Tools Used

@@ -1,5 +1,6 @@
 # Scriper
 Are you tired from everyday searching application and scripts? Using Scriper you can manage and run all yours scripts or applications from one place.
+Scriper is capable to run js/python/powershell/windows process scripts or .exe applications. You can for example schedule script/app run through simple UI or hide Scriper into Tray Menu and run script/app from it and much more..
 
 ![Scriper Example](/Images/scriper.png)
 

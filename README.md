@@ -35,6 +35,7 @@ As a developer I use Scriper for example to open visual studio solutions as admi
   * Linux Shell - .sh -  [Proccess](https://docs.microsoft.com/en-gb/dotnet/api/system.diagnostics.process?view=netcore-3.1) - on Windows You need to Enable the Linux Bash Shell in Windows 10
 - **Run At Start Up**
 - **Custom Icon for Scripts**
+- **More Configurations**
 
 
 ## Download and Install

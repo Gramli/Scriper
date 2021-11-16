@@ -17,10 +17,10 @@ When you do **something repetitive what can make a script**, Scriper is totally 
 As a developer I use Scriper for example to open visual studio solutions as admin, kill all running processes by name, open .exe applications with specified arguments, register libs to GAC etc. and **all of it I run from tray menu**.
 
 ## Menu
-* [Features](#features)  
-* [Wiki](https://github.com/Gramli/Scriper/wiki) - All needed information should be there    
-* [Download and Install](#download-and-install)    
-* [Technologies and Tools](#technologies-and-tools-used)  
+* [Features](#features) - what Scriper can do
+* [Wiki](https://github.com/Gramli/Scriper/wiki) - all needed information should be there like configuration, adding/ordering scripts, set arguments, time schedule etc..    
+* [Download and Install](#download-and-install) - fast links to releases   
+* [Technologies and Tools](#technologies-and-tools-used) - links to used frameworks and libraries 
 
 ## Features
 - **Task Scheduler**  

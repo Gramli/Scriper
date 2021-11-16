@@ -36,6 +36,7 @@ As a developer I use Scriper for example to open visual studio solutions as admi
 - **Run At Start Up**
 - **Custom Icon for Scripts**
 - **More Configurations**
+- **Output to Console or File**
 
 
 ## Download and Install

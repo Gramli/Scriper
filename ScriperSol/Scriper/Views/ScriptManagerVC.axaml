@@ -31,7 +31,7 @@
     </Style>
   </UserControl.Styles>
     <DockPanel>
-      <DataGrid CanUserSortColumns="false" CanUserResizeColumns="False"  Items="{Binding Scripts}" BorderThickness="0">
+      <DataGrid CanUserSortColumns="false" CanUserResizeColumns="False"  Items="{Binding Scripts}" BorderThickness="0" SelectedItem="{Binding SelectedScript}">
         <DataGrid.Styles >
           <Style Selector="DataGridColumnHeader">
             <Setter Property="Background" Value="{DynamicResource btnAppBorderBrushColor}"/>
@@ -40,6 +40,11 @@
             <Setter Property="AreSeparatorsVisible" Value="false"/>
           </Style>
         </DataGrid.Styles>
+		<DataGrid.ContextMenu>
+		    <ContextMenu>
+		        <MenuItem Header="CopyFrom" Command="{Binding #mainControl.DataContext.CopyFromCommand}"/>
+		    </ContextMenu>
+		</DataGrid.ContextMenu>
         <DataGrid.Columns>
           <DataGridTemplateColumn>
             <DataGridTemplateColumn.CellTemplate>
@@ -64,7 +69,7 @@
             </DataGridTemplateColumn.Header>
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding ScriptConfiguration.Description}" Margin="15,0,0,0" Classes="LongText"/>
+				  <TextBlock Text="{Binding ScriptConfiguration.Description}" Margin="15,0,0,0" Classes="LongText"/>
               </DataTemplate>
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>

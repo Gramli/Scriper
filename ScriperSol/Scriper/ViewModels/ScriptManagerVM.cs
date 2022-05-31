@@ -15,7 +15,6 @@ using Scriper.Views;
 using ScriperLib;
 using ScriperLib.Clone;
 using ScriperLib.Configuration;
-using ScriperLib.Extensions;
 using System;
 using System.IO;
 using System.Linq;
@@ -30,6 +29,9 @@ namespace Scriper.ViewModels
         public ReactiveCommand<string, Unit> RunScriptCmd { get; }
         public ReactiveCommand<string, Unit> RemoveScriptCmd { get; }
         public ReactiveCommand<string, Unit> EditScriptContentCmd { get; }
+        public ReactiveCommand<Unit, Unit> CopyFromCommand { get; }
+
+        public IScriptVM SelectedScript { get; set; }
 
         private readonly IScriptManager _scriptManager;
         private readonly IScriptRunner _scriptRunner;
@@ -70,6 +72,7 @@ namespace Scriper.ViewModels
             RunScriptCmd = ReactiveCommand.Create<string>(RunScript).CatchError(_logger);
             RemoveScriptCmd = ReactiveCommand.Create<string>(RemoveScript).CatchError(_logger);
             EditScriptContentCmd = ReactiveCommand.Create<string>(EditScriptContent).CatchError(_logger);
+            CopyFromCommand = ReactiveCommand.Create(CopyFrom).CatchError(_logger);
             _systemTrayMenu = systemTrayMenu;
             _schedulerManagerAdapter = schedulerManagerAdapter;
             _openEditorScriptCreator = openEditorScriptCreator;
@@ -110,35 +113,8 @@ namespace Scriper.ViewModels
 
         public void CreateScript()
         {
-            try
-            {
-                var scriptConfiguration = _scriptConfigurationCreator.CreateEmptyScriptConfiguration();
-                var scriptViewModel = _createAddEditScriptVM(scriptConfiguration);
-                var scriptControl = new ScriptVC(scriptViewModel);
-                var dialogWindow = DialogWindowExtensions.CreateAddScriptDialogWindow(scriptControl, _assets);
-
-                scriptViewModel.Close += (sender, args) =>
-                {
-                    if (!args.Cancel)
-                    {
-                        if (Scripts.Any(item => item.ScriptConfiguration.Name == args.Result.Configuration.Name))
-                        {
-                            scriptViewModel.InvalidName("Invalid script name, script name already exists.");
-                            return;
-                        }
-                        CreateScript(args.Result);
-                    }
-
-                    dialogWindow.Close();
-                };
-
-                dialogWindow.ShowDialog(App.Current.GetMainWindow());
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-                MessageBoxExtensions.ShowDialog(ex.Message);
-            }
+            var scriptConfiguration = _scriptConfigurationCreator.CreateEmptyScriptConfiguration();
+            CreateScriptFromConfiguration(scriptConfiguration);
         }
 
         private void CreateScript(IScript script)
@@ -321,6 +297,51 @@ namespace Scriper.ViewModels
         private void TryRemoveFromContextMenu(IScript script)
         {
             _systemTrayMenu?.TryRemoveContextMenuItem(script.Configuration.Name);
+        }
+
+        private void CopyFrom()
+        {
+            var script = this.SelectedScript?.Script;
+
+            if(script is null)
+            {
+                return;
+            }
+
+            var scriptConfiguration = _deepCloneAdapter.DeepClone(script.Configuration);
+            CreateScriptFromConfiguration(scriptConfiguration);
+        }
+
+        private void CreateScriptFromConfiguration(IScriptConfiguration scriptConfiguration)
+        {
+            try
+            {
+                var scriptViewModel = _createAddEditScriptVM(scriptConfiguration);
+                var scriptControl = new ScriptVC(scriptViewModel);
+                var dialogWindow = DialogWindowExtensions.CreateAddScriptDialogWindow(scriptControl, _assets);
+
+                scriptViewModel.Close += (sender, args) =>
+                {
+                    if (!args.Cancel)
+                    {
+                        if (Scripts.Any(item => item.ScriptConfiguration.Name == args.Result.Configuration.Name))
+                        {
+                            scriptViewModel.InvalidName("Invalid script name, script name already exists.");
+                            return;
+                        }
+                        CreateScript(args.Result);
+                    }
+
+                    dialogWindow.Close();
+                };
+
+                dialogWindow.ShowDialog(App.Current.GetMainWindow());
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                MessageBoxExtensions.ShowDialog(ex.Message);
+            }
         }
     }
 }
